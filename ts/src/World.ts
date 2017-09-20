@@ -24,18 +24,26 @@ class World {
     readonly playerLocation: Coord2D;
     readonly facing: Direction;
 
+    readonly goal: Coord2D;
+
     // TODO(junkbot): World grid, etc.
 
-    constructor(rows: number, cols: number, playerAt: Coord2D,
+    constructor(rows: number, cols: number, goal: Coord2D, playerAt: Coord2D,
         playerDir: Direction) {
         this.numRows = rows;
         this.numCols = cols;
         this.playerLocation = playerAt;
         this.facing = playerDir;
+        this.goal = goal;
     }
 
     get playerFacing(): Direction {
         return this.facing;
+    }
+
+    public victory(): boolean {
+        return (this.playerLocation.row == this.goal.row &&
+            this.playerLocation.col == this.goal.col);
     }
 
     public step(move: PlayerAction): World | null {
@@ -64,6 +72,6 @@ class World {
             }
         }
 
-        return new World(this.numRows, this.numCols, newLocation, newDir);
+        return new World(this.numRows, this.numCols, this.goal, newLocation, newDir);
     }
 }
