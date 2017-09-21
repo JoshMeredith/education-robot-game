@@ -1,4 +1,6 @@
-enum Direction {
+namespace World {
+
+export enum Direction {
     // Explicitly numbered for directional purposes.
     Up = 0,
     Left = 1,
@@ -6,18 +8,18 @@ enum Direction {
     Right = 3
 }
 
-enum PlayerAction {
+export enum PlayerAction {
     TurnLeft,
     TurnRight,
     WalkForward
 }
 
-class Coord2D {
+export class Coord2D {
     row: number;
     col: number;
 }
 
-class World {
+export class World {
     readonly numRows: number;
     readonly numCols: number;
 
@@ -78,4 +80,6 @@ class World {
 
         return new World(this.numRows, this.numCols, this.goal, newLocation, newDir);
     }
+}
+
 }
