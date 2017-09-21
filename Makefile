@@ -3,6 +3,8 @@ all: combine
 combine: build/build.js
 
 purescript: purescript/purescript.js
+
+purescript/purescript.js:
 	cd purescript; bower install
 	cd purescript; pulp build
 	cd purescript; purs bundle -o purescript.js -n Purescript output/**/*.js
