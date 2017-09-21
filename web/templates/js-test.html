@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pass JSON test</title>
+    </head>
+    <script>
+var data = {{ dat | tojson | safe }};
+    </script>
+    <script>
+function hello() {
+    alert(data.apple);
+}
+    </script>
+    <body>
+        <p>Hello, world!</p>
+        <button onclick="hello();">Hit me!</button>
+    </body>
+</html>
