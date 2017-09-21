@@ -1,15 +1,11 @@
-all: combine
-
-combine: build/build.js
-
-purescript: purescript/purescript.js
+all: build/build.js
 
 purescript/purescript.js:
 	cd purescript; bower install
 	cd purescript; pulp build
 	cd purescript; purs bundle -o purescript.js -n Purescript output/**/*.js
 
-typescript: ts/tsc.js
+ts/tsc.js:
 	cd ts; bower install
 	cd ts; tsc
 
