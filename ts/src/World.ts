@@ -1,3 +1,6 @@
+import Purescript = require('./Purescript');
+
+
 enum Direction {
     // Explicitly numbered for directional purposes.
     Up = 0,
