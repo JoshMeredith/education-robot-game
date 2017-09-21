@@ -10,7 +10,7 @@ typescript:
 	cd ts; tsc
 
 build/build.js: build purescript/purescript.js typescript
-	./compressjs.sh purescript/purescript.js ts/src/*.js build/build.js
+	uglifyjs purescript/purescript.js ts/src/*.js -o build/build.js
 
 build:
 	mkdir -p build
