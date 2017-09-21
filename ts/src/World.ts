@@ -1,6 +1,3 @@
-import Purescript = require('./Purescript');
-
-
 enum Direction {
     // Explicitly numbered for directional purposes.
     Up = 0,
@@ -47,6 +44,10 @@ class World {
     public victory(): boolean {
         return (this.playerLocation.row == this.goal.row &&
             this.playerLocation.col == this.goal.col);
+    }
+
+    public static test(): number {
+        return Purescript.Interpreter.testNum;
     }
 
     public step(move: PlayerAction): World | null {

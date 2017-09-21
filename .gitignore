@@ -1,4 +1,4 @@
-ts/*.js
+ts/**/*.js
 purescript/*.js
 **/bower_components
 build
