@@ -1,20 +1,41 @@
-module Parser where
+module Parser (
+  parseAST
+) where
 
 
 import Control.Alt ((<|>))
 import Control.Lazy (defer)
 import Data.Array (some, fromFoldable)
+import Data.Either (Either(..))
 import Data.Int (fromString)
+import Data.Map (Map)
 import Data.Maybe (Maybe(..))
 import Data.String (fromCharArray)
-import Prelude((<$>), ($), (*>), (<*), (<>), void, pure, bind, discard)
-import Text.Parsing.Parser(Parser, fail)
+import Prelude ((<$>), ($), (*>), (<*), (<>), void, pure, bind, discard)
+import Text.Parsing.Parser (Parser, fail, runParser)
 import Text.Parsing.Parser.Combinators (try, sepEndBy, between)
 import Text.Parsing.Parser.String (string, skipSpaces, eof)
 import Text.Parsing.Parser.Token (letter, digit)
 
 
-import Types(AST(..), Statement(..), Expression(..))
+import Types(
+  AST(..),
+  Statement(..),
+  Expression(..),
+  LanguageExtras,
+  Definition
+)
+
+
+parseAST
+  :: Array LanguageExtras
+  -> Map String Definition
+  -> String
+  -> {ast :: Maybe AST, messages :: Array String, names :: Array String}
+parseAST lang defs code =
+  case runParser code ast of
+    Left  _ -> {ast: Nothing, messages: [], names: []}
+    Right a -> {ast: Just a , messages: [], names: []}
 
 
 ast :: Parser String AST

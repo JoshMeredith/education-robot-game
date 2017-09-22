@@ -2,7 +2,9 @@ module Types (
     AST(..),
     Statement(..),
     Expression(..),
-    Primitive(..)
+    Primitive(..),
+    LanguageExtras(..),
+    Definition(..)
 ) where
 
 
@@ -26,3 +28,12 @@ data Primitive
    = TurnLeft
    | TurnRight
    | WalkForward
+
+
+data LanguageExtras
+   = TimesLoop
+   | IfBranching
+
+
+data Definition
+   = Procedure (Array Statement)
