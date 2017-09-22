@@ -7,3 +7,10 @@ before_install:
 
 script:
   - make
+
+cache:
+  directories:
+    - "build"
+    - "purescript/bower_components"
+    - "purescript/output"
+  timeout: 3600
