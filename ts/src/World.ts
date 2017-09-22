@@ -17,9 +17,14 @@ export enum PlayerAction {
 export class Coord2D {
     row: number;
     col: number;
+
+    constructor(row: number, col: number) {
+        this.row = row;
+        this.col = col;
+    }
 }
 
-export class World {
+export class Grid {
     readonly numRows: number;
     readonly numCols: number;
 
@@ -52,7 +57,7 @@ export class World {
         return Purescript.Interpreter.testNum;
     }
 
-    public step(move: PlayerAction): World | null {
+    public step(move: PlayerAction): Grid | null {
         // Need to consider order of operations with this:
         // I think the ideal order is move all time varying obstacles one
         // tick, and complete the player move, THEN check for validity.
@@ -78,7 +83,7 @@ export class World {
             }
         }
 
-        return new World(this.numRows, this.numCols, this.goal, newLocation, newDir);
+        return new Grid(this.numRows, this.numCols, this.goal, newLocation, newDir);
     }
 }
 
