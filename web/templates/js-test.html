@@ -3,12 +3,18 @@
     <head>
         <title>Pass JSON test</title>
     </head>
+    <script type="text/javascript" src="static/js/build.js"></script>
     <script>
-var data = {{ dat | tojson | safe }};
+var grid_data = {{ grid | tojson | safe }};
     </script>
     <script>
+var grid = new World.Grid( grid_data.numRows, grid_data.numCols,
+    new World.Coord2D( grid_data.goal.x, grid_data.goal.y ),
+    new World.Coord2D( grid_data.start.x, grid_data.start.y ),
+    World.Direction[ grid_data.startDir ]);
+
 function hello() {
-    alert(data.apple);
+    alert(JSON.stringify(grid));
 }
     </script>
     <body>
