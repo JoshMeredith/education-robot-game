@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "8"
+
+before_install:
+  - "npm install -g purescript typescript pulp bower uglify-js"
+
+script:
+  - make
