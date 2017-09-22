@@ -3,7 +3,7 @@ all: build/build.js
 purescript/purescript.js: $(wildcard purescript/src/**/*.purs)
 	cd purescript; bower install
 	cd purescript; pulp build
-	cd purescript; purs bundle -o purescript.js -n Purescript output/**/*.js
+	cd purescript; purs bundle -o purescript.js -n Purescript output/**/*.js -m Interpreter -m Parser
 
 typescript:
 	cd ts; bower install
