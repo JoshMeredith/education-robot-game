@@ -5,6 +5,7 @@ module Parser (
 
 import Control.Alt ((<|>))
 import Control.Lazy (defer)
+import Data.Argonaut.Core (jNull)
 import Data.Array (some, fromFoldable)
 import Data.Either (Either(..))
 import Data.Int (fromString)
@@ -16,6 +17,7 @@ import Text.Parsing.Parser (Parser, fail, runParser)
 import Text.Parsing.Parser.Combinators (try, sepEndBy, between)
 import Text.Parsing.Parser.String (string, skipSpaces, eof)
 import Text.Parsing.Parser.Token (letter, digit)
+import Unsafe.Coerce (unsafeCoerce)
 
 
 import Types(
@@ -27,15 +29,17 @@ import Types(
 )
 
 
+-- Returns unsafe null to interact with javascript.
 parseAST
   :: Array LanguageExtras
   -> Map String Definition
   -> String
-  -> {ast :: Maybe AST, messages :: Array String, names :: Array String}
+  -> {ast :: AST, messages :: Array String, names :: Array String}
 parseAST lang defs code =
   case runParser code ast of
-    Left  _ -> {ast: Nothing, messages: [], names: []}
-    Right a -> {ast: Just a , messages: [], names: []}
+    Left  _ -> {ast: unsafeCoerce jNull, messages: [], names: []}
+    Right a -> {ast: a                 , messages: [], names: []}
+
 
 
 ast :: Parser String AST
