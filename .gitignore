@@ -3,3 +3,4 @@ purescript/*.js
 **/bower_components
 build
 purescript/output
+*.swp
