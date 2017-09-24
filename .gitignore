@@ -3,4 +3,5 @@ purescript/*.js
 **/bower_components
 build
 purescript/output
+purescript/.psci_modules
 *.swp
