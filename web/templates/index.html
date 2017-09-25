@@ -14,8 +14,10 @@ var grid = new World.Grid( level.numRows, level.numCols,
     new World.Coord2D( level.goal.x, level.goal.y ),
     new World.Coord2D( level.start.x, level.start.y ),
     World.Direction[ level.startDir ]);
-function runGame() {
-    console.log(grid);
+
+function launchGame() {
+    var result = Main.runGame(grid, document.getElementById('code_area').value);
+    console.log(result);
 }
     </script>
 
@@ -26,13 +28,11 @@ function runGame() {
                 <legend> Enter code here </legend>
                 <p>
                     <label> Text Area </label>
-                    <textarea>
-
-                    </textarea>
+                    <textarea id="code_area"></textarea>
                 </p>
             </fieldset>
 
-            <input type="button" value="Run!" onclick="runGame();">
+            <input type="button" value="Run!" onclick="launchGame();">
         </form>
     </body>
 </html>
