@@ -4,8 +4,16 @@ module Types (
     Expression(..),
     Primitive(..),
     LanguageExtras(..),
-    Definition(..)
+    Definition(..),
+    World,
+    Move,
+    Direction
 ) where
+
+
+foreign import data World     :: Type
+foreign import data Move      :: Type
+foreign import data Direction :: Type
 
 
 data AST
