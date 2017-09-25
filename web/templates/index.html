@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <script src="JStuff.js"></script>
+        <title> Codebot </title>
+    </head>
+
+    <script src="static/js/build.js"></script>
+
+    <script type="text/javascript">
+var level = {{ grid | tojson | safe }};
+var grid = new World.Grid( level.numRows, level.numCols,
+    new World.Coord2D( level.goal.x, level.goal.y ),
+    new World.Coord2D( level.start.x, level.start.y ),
+    World.Direction[ level.startDir ]);
+
+function launchGame() {
+    var result = Main.runGame(grid, document.getElementById('code_area').value);
+    console.log(result);
+}
+    </script>
+
+    <body>
+        <h1> Welcome to <strong> Codebot </strong> </h1>
+        <form>
+            <fieldset>
+                <legend> Enter code here </legend>
+                <p>
+                    <label> Text Area </label>
+                    <textarea id="code_area"></textarea>
+                </p>
+            </fieldset>
+
+            <input type="button" value="Run!" onclick="launchGame();">
+        </form>
+    </body>
+</html>
