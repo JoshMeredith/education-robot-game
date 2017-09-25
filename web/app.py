@@ -16,4 +16,4 @@ WORLDS = {
 
 @app.route('/<level>')
 def hello_world(level):
-    return render_template('js-test.html', grid=WORLDS[level])
+    return render_template('index.html', grid=WORLDS[level])
