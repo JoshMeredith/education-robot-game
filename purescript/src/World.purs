@@ -5,7 +5,10 @@ module World (
     facing
 ) where
 
+import Data.Argonaut.Core (jNull)
+import Prelude ((==))
 import Types (World, Move, Direction)
+import Unsafe.Coerce (unsafeCoerce)
 
 foreign import moves ::
   { turnLeft    :: Move
@@ -18,5 +21,13 @@ foreign import directions ::
   , left  :: Direction
   , right :: Direction
   }
-foreign import step :: Move -> World -> World
+foreign import unsafeStep :: Move -> World -> World
 foreign import facing :: World -> Direction
+foreign import isNull :: World -> Boolean
+
+
+step :: Move -> World -> World
+step m w =
+  case unsafeStep m w of
+    w' | isNull w' -> w
+       | true      -> w'
