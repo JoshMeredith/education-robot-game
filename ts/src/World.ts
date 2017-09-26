@@ -44,7 +44,7 @@ export class Grid {
         this.goal = goal;
     }
 
-    get playerFacing(): Direction {
+    public playerFacing(): Direction {
         return this.facing;
     }
 

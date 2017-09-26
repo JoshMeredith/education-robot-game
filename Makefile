@@ -10,7 +10,7 @@ typescript: $(wildcard ts/src/**.ts)
 	cd ts; tsc
 
 build/build.js: build purescript/purescript.js typescript
-	uglifyjs purescript/purescript.js ts/src/*.js -o build/build.js
+	uglifyjs ts/src/*.js purescript/purescript.js -o build/build.js
 
 build:
 	mkdir -p build
@@ -21,6 +21,6 @@ clean:
 	rm -r purescript/output
 	rm -r purescript/purescript.js
 	rm -r purescript/.pulp-cache
-	rm -r ts/tsc.js
+	rm -r ts/src/*.js
 
 .PHONY: all combine typescript clean

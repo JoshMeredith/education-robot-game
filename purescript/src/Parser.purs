@@ -54,17 +54,19 @@ statements
 
 statement :: Parser String Statement
 statement
-  = defer $ \_ -> try (structuredStatement "times" TimesStatement)
-              <|> try (structuredStatement "if"    IfStatement   )
+  = defer $ \_ -> try (structuredStatement "times" TimesStatement positiveInt)
+              <|> try (structuredStatement "if"    IfStatement    trueFalse  )
               <|> try blockStatement
               <|> try commandStatement
 
 
 structuredStatement
-  :: String
-  -> (Expression -> Statement -> Statement)
+  :: forall a.
+     String
+  -> (a -> Statement -> Statement)
+  -> Parser String a
   -> Parser String Statement
-structuredStatement keyword constructor = do
+structuredStatement keyword constructor expression = do
   void $ string keyword
   skipSpaces
   void $ string "("
@@ -90,9 +92,9 @@ commandStatement = do
   pure $ CommandStatement (fromCharArray command)
 
 
-expression :: Parser String Expression
-expression =
-  IntExp <$> positiveInt
+trueFalse :: Parser String Expression
+trueFalse = try (string "true"  *> pure (BoolExp true ))
+        <|>     (string "false" *> pure (BoolExp false))
 
 
 positiveInt :: Parser String Int

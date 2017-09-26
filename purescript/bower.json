@@ -12,7 +12,8 @@
     "purescript-generics-rep": "^5.3.0",
     "purescript-parsing": "^4.3.1",
     "purescript-sets": "^3.0.0",
-    "purescript-argonaut-core": "^3.1.0"
+    "purescript-argonaut-core": "^3.1.0",
+    "purescript-run-streaming": "^0.1.0"
   },
   "devDependencies": {
     "purescript-psci-support": "^3.0.0"

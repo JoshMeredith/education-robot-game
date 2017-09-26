@@ -4,8 +4,27 @@ module Types (
     Expression(..),
     Primitive(..),
     LanguageExtras(..),
-    Definition(..)
+    Definition(..),
+    World,
+    Move,
+    Direction,
+    Interpreter
 ) where
+
+
+import Data.Eq (class Eq, (==))
+import Data.Map (Map)
+import Data.Tuple.Nested (type (/\))
+import Prelude (Unit)
+import Run (Run)
+import Run.Streaming (YIELD)
+import Run.State (STATE)
+import Unsafe.Coerce (unsafeCoerce)
+
+
+foreign import data World     :: Type
+foreign import data Move      :: Type
+foreign import data Direction :: Type
 
 
 data AST
@@ -14,14 +33,14 @@ data AST
 
 data Statement
    = CommandStatement String
-   | TimesStatement Expression Statement
+   | TimesStatement Int        Statement
    | IfStatement    Expression Statement
    | BlockStatement (Array Statement)
    | PrimitiveStatement Primitive
 
 
 data Expression
-   = IntExp Int
+   = BoolExp Boolean
 
 
 data Primitive
@@ -35,5 +54,21 @@ data LanguageExtras
    | IfBranching
 
 
+type Interpreter
+   = Run ( yield :: YIELD World
+         , state :: STATE (Map String Definition /\ World /\ Unit)
+         )
+         Unit
+
+
 data Definition
    = Procedure (Array Statement)
+   | Axiom Interpreter
+
+
+instance eqMove :: Eq Move where
+  eq x y = (unsafeCoerce x :: Int) == (unsafeCoerce y :: Int)
+
+
+instance eqDirection :: Eq Direction where
+  eq x y = (unsafeCoerce x :: Int) == (unsafeCoerce y :: Int)
