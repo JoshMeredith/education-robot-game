@@ -14,7 +14,7 @@ exports.moves = {
 }
 
 exports.facing = function(world) {
-    return world.facing();
+    return world.playerFacing();
 }
 
 exports.step = function(move) {
