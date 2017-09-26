@@ -1,38 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
         <link href="main.css" rel="stylesheet" type="text/css" />
         <script src="JStuff.js"></script>
-        <title> Codebot </title>
+        <title> Codebot | Welcome</title>
+        <link rel="stylesheet" href="./styles.css" />
     </head>
 
     <script src="../../build/build.js"></script>
 
     <script type="text/javascript">
-var level = {{ grid | tojson | safe }};
-var grid = new World.Grid( level.numRows, level.numCols,
-    new World.Coord2D( level.goal.x, level.goal.y ),
-    new World.Coord2D( level.start.x, level.start.y ),
-    World.Direction[ level.startDir ]);
+        var level = {{ grid | tojson | safe }};
+        var grid = new World.Grid( level.numRows, level.numCols,
+            new World.Coord2D( level.goal.x, level.goal.y ),
+            new World.Coord2D( level.start.x, level.start.y ),
+            World.Direction[ level.startDir ]);
 
-function launchGame() {
-    var result = Main.runGame(grid, document.getElementById('code_area').value);
-    console.log(result);
-}
+        function launchGame() {
+            var result = Main.runGame(grid, document.getElementById('code_area').value);
+            console.log(result);
+        }
     </script>
 
     <body>
-        <h1> Welcome to <strong> Codebot </strong> </h1>
-        <form>
-            <fieldset>
-                <legend> Enter code here </legend>
-                <p>
-                    <label> Text Area </label>
-                    <textarea id="code_area"></textarea>
-                </p>
-            </fieldset>
+        <header>
+            <div class="container">
+                <div id="branding">
+                    <!-- If we're going to add a logo or something, this is where -->
+                    <h1> Welcome to Codebot </h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li class="current"><a href="index.html">Home</a></li>
+                        <li><a href="Challenges.html">Challenges</a></li>
+                        <li><a href="myProfile.html">My Profile</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-            <input type="button" value="Run!" onclick="launchGame();">
-        </form>
+        <section id="main">
+            <div class="codeContainer">
+                <form id="codeBox">
+                    <fieldset>
+                        <!-- <legend> Enter code here </legend> -->
+                        <h2> Enter code below:</h2>
+                        <p>
+                            <textarea id="code_area" placeholder="Enter Code"></textarea>
+                        </p>
+                    </fieldset>
+
+                    <input type="button" value="Run!" onclick="launchGame();" />
+                    <input type="button" value="Step Through" onclick="stepThrough();" />
+                    <input type="button" value="Reset" onclick="resetLevel();" />
+                </form>
+
+                <div class="grid">
+                    <img src="../assets/8x8grid.png"/>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>
+                COMP-4960 Project: Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano, Copyright &copy; 2017
+            </p>
+        </footer>
     </body>
 </html>
