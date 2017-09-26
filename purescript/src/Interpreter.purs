@@ -7,20 +7,17 @@ module Interpreter (
 
 import Data.Argonaut.Core (jNull)
 import Data.Functor ((<#>))
-import Data.Map (Map, lookup)
+import Data.Map (lookup, fromFoldable)
 import Data.Maybe (Maybe(..))
-import Data.Set (Set)
-import Data.Set (fromFoldable) as Set
 import Data.Traversable (traverse_)
-import Data.Tuple
-import Data.Tuple.Nested ((/\), type (/\), over2, get1, get2)
+import Data.Tuple (Tuple(..))
+import Data.Tuple.Nested ((/\), over2, get1, get2)
 import Data.Unfoldable (replicateA)
-import Prelude ( Unit, bind, discard, pure, void, ($), unit, when, (<<<)
-               , (<$>), (*>), (<*), (<>), (<), (-), (#), (>>=), const
-               , (==), (||), (&&))
+import Prelude ( Unit, bind, const, discard, pure, unit, when
+               , (#), ($), (&&), (<<<), (==), (>>=), (||))
 import Run (Run, run)
-import Run.Streaming (Resume(..), runYield, yield, YIELD)
-import Run.State (STATE, get, modify, evalState)
+import Run.Streaming (Resume(..), runYield, yield)
+import Run.State (get, modify, evalState)
 import Unsafe.Coerce (unsafeCoerce)
 
 
@@ -36,11 +33,12 @@ testNum = 1
 runInterpreter
   :: World
   -> AST
-  -> Map String Definition
+  -> Array (Tuple String Definition)
   -> Resume () Unit Unit World
 runInterpreter initial (AST ss) baseDefs =
   run <<< runYield $
-    evalState (baseDefs /\ initial /\ unit) $ go (BlockStatement ss)
+    evalState (fromFoldable baseDefs /\ initial /\ unit) $
+      go (BlockStatement ss)
   where
     go :: Statement -> Interpreter
     go (CommandStatement command) = do
