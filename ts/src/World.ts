@@ -15,13 +15,7 @@ export enum PlayerAction {
 }
 
 export class Coord2D {
-    row: number;
-    col: number;
-
-    constructor(row: number, col: number) {
-        this.row = row;
-        this.col = col;
-    }
+    constructor(readonly row: number, readonly col: number) {}
 }
 
 export class Grid {
@@ -66,7 +60,8 @@ export class Grid {
         
         // Adjust the direction the player is facing.
         let newDir = this.facing;
-        let newLocation = this.playerLocation;
+        var newRow = this.playerLocation.row;
+        var newCol = this.playerLocation.col;
         if (move == PlayerAction.TurnLeft) {
             newDir = (this.facing + 1)%4;
         } else if (move == PlayerAction.TurnRight) {
@@ -74,16 +69,21 @@ export class Grid {
         } else if (move == PlayerAction.WalkForward) {
             const dRow = [-1, 0, 1, 0];
             const dCol = [0, -1, 0, 1];
-            newLocation.row += dRow[newDir];
-            newLocation.col += dCol[newDir];
+            newRow += dRow[newDir];
+            newCol += dCol[newDir];
 
-            if (!(newLocation.row >= 0 && newLocation.col >= 0 &&
-                newLocation.row < this.numRows && newLocation.col < this.numCols)) {
+            if (!(newRow >= 0 && newCol >= 0 &&
+                newRow < this.numRows && newCol < this.numCols)) {
                 return null;
             }
         }
 
-        return new Grid(this.numRows, this.numCols, this.goal, newLocation, newDir);
+        return new Grid( this.numRows
+                       , this.numCols
+                       , this.goal
+                       , new Coord2D(newRow, newCol)
+                       , newDir
+                       );
     }
 }
 
