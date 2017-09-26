@@ -21,6 +21,6 @@ clean:
 	rm -r purescript/output
 	rm -r purescript/purescript.js
 	rm -r purescript/.pulp-cache
-	rm -r ts/tsc.js
+	rm -r ts/src/*.js
 
 .PHONY: all combine typescript clean
