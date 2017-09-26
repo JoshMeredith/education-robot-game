@@ -23,7 +23,7 @@ import Unsafe.Coerce (unsafeCoerce)
 
 
 import Types ( AST(..), Statement(..), World, Definition(..), Interpreter
-             , Expression(..), Primitive(..), Direction)
+             , Expression(..), Primitive(..), Direction, Move)
 import World (step, moves, directions, facing)
 
 
@@ -73,6 +73,11 @@ send w = do
   modify (over2 (const w))
 
 
+sendMove :: Move -> Interpreter
+sendMove m = do
+  get <#> get2 <#> step m >>= send
+
+
 nextResume
   :: forall a o. Resume () a Unit o
   -> {value :: o , resume :: Resume () a Unit o}
@@ -118,12 +123,11 @@ environment = {
 walk :: Direction -> Interpreter
 walk dir = do
   adjustFacing
-  get <#> get2 <#> step moves.walkForward >>= send
+  sendMove moves.walkForward
   where
     adjustFacing :: Interpreter
     adjustFacing = do
-      w <- get <#> get2 
-      let f = w # facing
+      f <- get <#> get2 <#> facing
       case unit of
         _ | f == dir ->
             pure unit
@@ -132,9 +136,8 @@ walk dir = do
           || f == directions.down  && dir == directions.left
           || f == directions.left  && dir == directions.up
           || f == directions.right && dir == directions.down ->
-            w # step moves.turnRight # send
+            sendMove moves.turnRight
 
           | true -> do
-            w # step moves.turnLeft # send
-            adjustFacing
+            sendMove moves.turnLeft
     
