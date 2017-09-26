@@ -1,22 +1,16 @@
 namespace Interpreter {
-    class Gen {
-        public value: World.Grid;
-        constructor(private resume: Purescript.Types.Resume) {}
-        public next(): Gen {
-            var g = Purescript.Interpreter.nextResume(this.resume);
-            this.value = g.value;
-            this.resume = g.resume;
-            return this;
-        }
-    }
-
-    export function runInterpreter
+    export function* runInterpreter
       ( world: World.Grid
       , ast: Purescript.Types.AST
       , env: Array<Purescript.Types.Environment>
-      ): Gen
+      ): IterableIterator<World.Grid>
     {
         var res = Purescript.Interpreter.runInterpreter(world)(ast)(env);
-        return new Gen(res);
+        var curr;
+
+        while(curr = Purescript.Interpreter.nextResume(res)) {
+          yield curr.value;
+          res = curr.resume;
+        }
     }
 }
