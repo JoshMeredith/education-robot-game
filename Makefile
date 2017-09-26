@@ -10,7 +10,7 @@ typescript: $(wildcard ts/src/**.ts)
 	cd ts; tsc
 
 build/build.js: build purescript/purescript.js typescript
-	uglifyjs ts/src/*.js purescript/purescript.js -b -o build/build.js
+	uglifyjs ts/src/*.js purescript/purescript.js -o build/build.js
 
 build:
 	mkdir -p build
