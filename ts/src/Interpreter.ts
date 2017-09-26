@@ -2,10 +2,11 @@ namespace Interpreter {
     class Gen {
         public value: World.Grid;
         constructor(private resume: Purescript.Types.Resume) {}
-        public next() {
+        public next(): Gen {
             var g = Purescript.Interpreter.nextResume(this.resume);
             this.value = g.value;
             this.resume = g.resume;
+            return this;
         }
     }
 

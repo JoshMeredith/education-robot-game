@@ -1,7 +1,8 @@
 module Interpreter (
     testNum,
     runInterpreter,
-    environment
+    environment,
+    nextResume
 ) where
 
 
@@ -15,7 +16,7 @@ import Data.Tuple.Nested ((/\), over2, get1, get2)
 import Data.Unfoldable (replicateA)
 import Prelude ( Unit, bind, const, discard, pure, unit, when
                , (#), ($), (&&), (<<<), (==), (>>=), (||))
-import Run (Run, run)
+import Run (run)
 import Run.Streaming (Resume(..), runYield, yield)
 import Run.State (get, modify, evalState)
 import Unsafe.Coerce (unsafeCoerce)
@@ -73,9 +74,9 @@ send w = do
 
 
 nextResume
-  :: forall r a o. Resume r a Unit o
-  -> {value :: o , resume :: Run r (Resume r a Unit o)}
-nextResume (Next o r') = {value: o, resume: r' unit}
+  :: forall a o. Resume () a Unit o
+  -> {value :: o , resume :: Resume () a Unit o}
+nextResume (Next o r') = {value: o, resume: run $ r' unit}
 nextResume (Done _   ) = unsafeCoerce jNull
 
 
