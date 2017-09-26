@@ -15,7 +15,7 @@ import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested ((/\), over2, get1, get2)
 import Data.Unfoldable (replicateA)
 import Prelude ( Unit, bind, const, discard, pure, unit, when
-               , (#), ($), (&&), (<<<), (==), (>>=), (||))
+               , (#), ($), (&&), (<<<), (==), (>>=), (||), (*>))
 import Run (run)
 import Run.Streaming (Resume(..), runYield, yield)
 import Run.State (get, modify, evalState)
@@ -139,5 +139,5 @@ walk dir = do
             sendMove moves.turnRight
 
           | true -> do
-            sendMove moves.turnLeft
+            sendMove moves.turnLeft *> adjustFacing
     
