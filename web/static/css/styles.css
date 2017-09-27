@@ -91,31 +91,24 @@ form#codeBox textarea {
 
 
 /* Grid section */
-.gridContainer {
-    position: relative;
-}
-
-.gridContainer {
+#main .grid {
     float: right;
     text-align: center;
     width: 45%;
     padding: 10px 50px 10px 10px;
 }
 
-.gridContainer img {
+#main .grid img {
     width: 500px;
 }
 
 /** FIX THIS PART, SPRITE ISN'T MOVING RIGHT **/
-div .gridContainer .sprite {
+div .grid #sprite {
     position: absolute;
     width: 30px;
     height: 50px;
 }
 
-
-
-/** Footer **/
 footer {
     padding: 20px;
     margin-top: 20px;
