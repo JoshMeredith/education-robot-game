@@ -12,15 +12,16 @@
     <script src="../../build/build.js"></script>
 
     <script type="text/javascript">
-var level = {{ grid | tojson | safe }};
-var grid = new World.Grid( level.numRows, level.numCols,
-    new World.Coord2D( level.goal.x, level.goal.y ),
-    new World.Coord2D( level.start.x, level.start.y ),
-    World.Direction[ level.startDir ]);
+        var level = {{ grid | tojson | safe }};
+        var grid = new World.Grid( level.numRows, level.numCols,
+            new World.Coord2D( level.goal.x, level.goal.y ),
+            new World.Coord2D( level.start.x, level.start.y ),
+            World.Direction[ level.startDir ]);
 
-function launchGame() {
-    Main.runGame(grid, document.getElementById('code_area').value);
-}
+        function launchGame() {
+            var result = Main.runGame(grid, document.getElementById('code_area').value);
+            console.log(result);
+        }
     </script>
     </head>
 
