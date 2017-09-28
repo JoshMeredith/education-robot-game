@@ -73,6 +73,12 @@ prettyPrint (AST a) = a # map (go 0) # fold
     go n (BlockStatement ss) =
       indentation n <> "{" <> multi n ss <> "}"
 
+    go n (Comment true c) =
+      indentation n <> "//" <> c
+
+    go n (Comment false c) =
+      " //" <> c
+
     go n (PrimitiveStatement TurnLeft) =
       indentation n <> "{[TurnLeft]}"
     go n (PrimitiveStatement TurnRight) =
