@@ -29,8 +29,7 @@ import Types(
   Statement(..),
   Expression(..),
   LanguageExtras,
-  Definition,
-  Primitive(..)
+  Definition
 )
 
 
@@ -76,14 +75,6 @@ prettyPrint (AST a) = a # map (go 0) # fold
 
     go n (Comment false c) =
       " //" <> c
-
-    go n (PrimitiveStatement TurnLeft) =
-      indentation n <> "{[TurnLeft]}"
-    go n (PrimitiveStatement TurnRight) =
-      indentation n <> "{[TurnRight]}"
-    go n (PrimitiveStatement WalkForward) =
-      indentation n <> "{[WalkForward]}"
-
 
 
 ast :: Parser String AST
