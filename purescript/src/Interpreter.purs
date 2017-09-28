@@ -62,6 +62,9 @@ runInterpreter initial (AST ss) baseDefs =
     go (PrimitiveStatement prim) = do
       get <#> get2 <#> step (move prim) >>= send
 
+    go (Comment _ _) =
+      pure unit
+
     move TurnLeft    = moves.turnLeft
     move TurnRight   = moves.turnRight
     move WalkForward = moves.walkForward
