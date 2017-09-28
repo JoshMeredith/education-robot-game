@@ -6,7 +6,7 @@
         <link href="main.css" rel="stylesheet" type="text/css" />
         <script src="JStuff.js"></script>
         <title> Codebot | Welcome</title>
-        <link rel="stylesheet" href="./styles.css" />
+        <link rel="stylesheet" href="../static/css/styles.css" />
     </head>
 
     <script src="../../build/build.js"></script>
@@ -42,12 +42,14 @@
             </div>
         </header>
 
+        <!-- Everything for the code and the game display -->
         <section id="main">
+            <!-- The code Box -->
             <div class="codeContainer">
                 <form id="codeBox">
                     <fieldset>
                         <!-- <legend> Enter code here </legend> -->
-                        <h2> Enter code below:</h2>
+                        <h2> Code:</h2>
                         <p>
                             <textarea id="code_area" placeholder="Enter Code"></textarea>
                         </p>
@@ -58,17 +60,21 @@
                     <input type="button" value="Reset" onclick="resetLevel();" />
                 </form>
 
+                <!-- The game display -->
                 <div class="gridContainer">
-                    <img id="grid" src="../assets/8x8grid.png"/>
-                    <div class="sprite"> <img src="../assets/playerSprite/right.png" /> </div>
+                    <img src="../assets/8x8grid.png" id="grid"/>
+                    <img src="../assets/playerSprite/right.png" id="sprite"/>
                 </div>
             </div>
         </section>
 
         <footer>
-            <p>
-                COMP-4960 Project: Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano, Copyright &copy; 2017
-            </p>
+          <!--  CAN'T GET THIS SHIT TO ALIGN RIGHT
+            <p id="COMP4920"> COMP-4920 Project - Term 2 </p>
+            <p id="Authors">  Authors: </br> Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano </p>
+            <p id="Copyright"> Copyright &copy; 2017 </p>
+          -->
+          <p>COMP-4920 Project ----- Authors: Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano ----- Copyright &copy; 2017</p>
         </footer>
     </body>
 </html>

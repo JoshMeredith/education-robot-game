@@ -92,34 +92,51 @@ form#codeBox textarea {
 
 /* Grid section */
 .gridContainer {
-    position: relative;
-}
-
-.gridContainer {
     float: right;
     text-align: center;
     width: 45%;
     padding: 10px 50px 10px 10px;
 }
 
-.gridContainer img {
+#grid {
+    position: relative;
     width: 500px;
 }
 
-/** FIX THIS PART, SPRITE ISN'T MOVING RIGHT **/
-div .gridContainer .sprite {
+/** TODO: Right, now position of sprite is hardcoded using "top" and "right" attributes **/
+#sprite {
     position: absolute;
-    width: 30px;
+    width: 50px;
     height: 50px;
+    top: 315px;
+    right: 635px;
 }
 
 
 
 /** Footer **/
 footer {
+    font-size: 18px;
+    text-align: center;
     padding: 20px;
     margin-top: 20px;
     color: #ffffff;
     background-color: #35424a;
-    text-align: center;
 }
+
+/* CAN'T GET THIS SHIT TO ALIGN RIGHT
+footer #COMP4920 {
+  font-size: 18px;
+  text-align: left;
+}
+
+footer #Authors {
+  font-size: 18px;
+  text-align: center;
+}
+
+footer #Copyright {
+  font-size: 18px;
+  text-align: right;
+}
+*/
