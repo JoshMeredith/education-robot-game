@@ -1,18 +1,22 @@
 module Parser (
-  parseAST
+  parseAST,
+  prettyPrint
 ) where
 
 
 import Control.Alt ((<|>))
 import Control.Lazy (defer)
 import Data.Argonaut.Core (jNull)
-import Data.Array (some, fromFoldable)
+import Data.Array (some, fromFoldable, replicate)
 import Data.Either (Either(..))
+import Data.Foldable (fold)
 import Data.Int (fromString)
 import Data.Map (Map)
 import Data.Maybe (Maybe(..))
+import Data.Show (show)
 import Data.String (fromCharArray)
-import Prelude ((<$>), ($), (*>), (<*), (<>), void, pure, bind, discard)
+import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#)
+               , void, pure, bind, discard, map )
 import Text.Parsing.Parser (Parser, fail, runParser)
 import Text.Parsing.Parser.Combinators (try, sepEndBy, between)
 import Text.Parsing.Parser.String (string, skipSpaces, eof)
@@ -25,7 +29,8 @@ import Types(
   Statement(..),
   Expression(..),
   LanguageExtras,
-  Definition
+  Definition,
+  Primitive(..)
 )
 
 
@@ -39,6 +44,39 @@ parseAST lang defs code =
   case runParser code ast of
     Left  _ -> {ast: unsafeCoerce jNull, messages: [], names: []}
     Right a -> {ast: a                 , messages: [], names: []}
+
+
+prettyPrint :: AST -> String
+prettyPrint (AST a) = a # map (go 0) # fold
+  where
+    tabWidth = 4
+    indentation n = "\n" <> (fold $ replicate (tabWidth * n) " ")
+    multi n ss = fold (map (go $ n + 1) ss)
+
+    go n (CommandStatement s) =
+      indentation n <> s <> ";"
+
+    go n (TimesStatement t (BlockStatement ss)) =
+      fold [indentation n, "times (", show t, ") {", multi n ss, "}"]
+
+    go n (TimesStatement t s) =
+      indentation n <> "times (" <> show t <> ")" <> go (n + 1) s
+
+    go n (IfStatement p (BlockStatement ss)) =
+      fold [indentation n, "if (", "IMPLEMENT BRANCHING", ") {", multi n ss, "}"]
+
+    go n (IfStatement p s) =
+      indentation n <> "if (" <> "IMPLEMENT BRANCHING" <> ")" <> go (n + 1) s
+
+    go n (BlockStatement ss) =
+      indentation n <> "{" <> multi n ss <> "}"
+
+    go n (PrimitiveStatement TurnLeft) =
+      indentation n <> "{[TurnLeft]}"
+    go n (PrimitiveStatement TurnRight) =
+      indentation n <> "{[TurnRight]}"
+    go n (PrimitiveStatement WalkForward) =
+      indentation n <> "{[WalkForward]}"
 
 
 
