@@ -1,4 +1,4 @@
-all: build/build.js
+all: build/build.js web/static/js/build.js
 
 purescript/purescript.js: $(wildcard purescript/src/**.purs)
 	cd purescript; bower install
@@ -11,6 +11,12 @@ typescript: $(wildcard ts/src/**.ts)
 
 build/build.js: build purescript/purescript.js typescript
 	uglifyjs ts/src/*.js purescript/purescript.js -o build/build.js
+
+web/static/js/build.js: build/build.js web/static/js
+	cp build/build.js web/static/js/build.js
+
+web/static/js:
+	mkdir -p web/static/js
 
 build:
 	mkdir -p build

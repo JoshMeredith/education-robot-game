@@ -5,3 +5,4 @@ build
 purescript/output
 purescript/.psci_modules
 *.swp
+web/static/js/build.js
