@@ -6,9 +6,8 @@ module Parser (
 
 import Control.Alt ((<|>))
 import Control.Lazy (defer)
-import Control.Monad.State.Class (get)
 import Data.Argonaut.Core (jNull)
-import Data.Array (some, fromFoldable, replicate)
+import Data.Array (some, replicate, many)
 import Data.Either (Either(..))
 import Data.Foldable (fold)
 import Data.Int (fromString)
@@ -16,12 +15,11 @@ import Data.Map (Map)
 import Data.Maybe (Maybe(..))
 import Data.Show (show)
 import Data.String (fromCharArray)
-import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#)
-               , void, pure, bind, discard, map, (==))
-import Text.Parsing.Parser (Parser, fail, runParser, ParseState(..))
-import Text.Parsing.Parser.Combinators (try, sepEndBy, between)
-import Text.Parsing.Parser.Pos (Position(..))
-import Text.Parsing.Parser.String (string, skipSpaces, eof, noneOf, char)
+import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
+               , (<<<), void, pure, bind, discard, map)
+import Text.Parsing.Parser (Parser, fail, runParser)
+import Text.Parsing.Parser.Combinators (try, between)
+import Text.Parsing.Parser.String (string, skipSpaces, eof, char, satisfy)
 import Text.Parsing.Parser.Token (letter, digit)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -95,7 +93,8 @@ ast =
 
 statements :: Parser String (Array Statement)
 statements
-  = fromFoldable <$> (skipSpaces *> sepEndBy (defer $ \_ -> statement) skipSpaces)
+  -- = fromFoldable <$> (skipSpaces *> sepEndBy (defer $ \_ -> statement) skipSpaces)
+  = many (defer $ \_ -> statement) <* skipSpaces
 
 
 statement :: Parser String Statement
@@ -114,6 +113,7 @@ structuredStatement
   -> Parser String a
   -> Parser String Statement
 structuredStatement keyword constructor expression = do
+  skipSpaces
   void $ string keyword
   skipSpaces
   void $ string "("
@@ -128,11 +128,13 @@ structuredStatement keyword constructor expression = do
 
 blockStatement :: Parser String Statement
 blockStatement
-  = BlockStatement <$> between (string "{") (string "}") (defer $ \_ -> statements)
+  =  skipSpaces
+  *> (BlockStatement <$> between (string "{") (string "}") (defer $ \_ -> statements))
 
 
 commandStatement :: Parser String Statement
 commandStatement = do
+  skipSpaces
   command <- some letter
   skipSpaces
   void $ string ";"
@@ -152,17 +154,24 @@ positiveInt = do
     Nothing -> fail $ "Could not parse a positive int from: " <> numbers
 
 
-lineStart :: Parser String Boolean
-lineStart = do
-  (ParseState _ (Position {column: col}) _) <- get
-  pure (col == 1)
+newlineWhiteSpace :: Parser String Boolean
+newlineWhiteSpace = try whitespaceWithoutNewline 
+                <|>     whitespaceWithNewline
+  where
+    whitespaceWithoutNewline = do
+      void <<< many $ satisfy \c -> c == ' ' || c == '\t'
+      pure false
+
+    whitespaceWithNewline = do
+      void <<< some $ satisfy \c -> c == '\n' || c == '\r' || c == ' ' || c == '\t'
+      pure true
 
 
 comment :: Parser String Statement
 comment = do
-  ownLine <- lineStart
+  ownLine <- newlineWhiteSpace
   skipSpaces
   void $ string "//"
-  c <- some $ noneOf ['\n']
+  c <- some $ satisfy \c -> c /= '\n'
   void $ char '\n'
   pure $ Comment ownLine ("//" <> fromCharArray c)
