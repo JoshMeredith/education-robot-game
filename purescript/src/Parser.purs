@@ -6,6 +6,7 @@ module Parser (
 
 import Control.Alt ((<|>))
 import Control.Lazy (defer)
+import Control.Monad.State.Class (get)
 import Data.Argonaut.Core (jNull)
 import Data.Array (some, fromFoldable, replicate)
 import Data.Either (Either(..))
@@ -16,10 +17,11 @@ import Data.Maybe (Maybe(..))
 import Data.Show (show)
 import Data.String (fromCharArray)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#)
-               , void, pure, bind, discard, map )
-import Text.Parsing.Parser (Parser, fail, runParser)
+               , void, pure, bind, discard, map, (==))
+import Text.Parsing.Parser (Parser, fail, runParser, ParseState(..))
 import Text.Parsing.Parser.Combinators (try, sepEndBy, between)
-import Text.Parsing.Parser.String (string, skipSpaces, eof)
+import Text.Parsing.Parser.Pos (Position(..))
+import Text.Parsing.Parser.String (string, skipSpaces, eof, noneOf, char)
 import Text.Parsing.Parser.Token (letter, digit)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -96,6 +98,7 @@ statement
               <|> try (structuredStatement "if"    IfStatement    trueFalse  )
               <|> try blockStatement
               <|> try commandStatement
+              <|> try comment
 
 
 structuredStatement
@@ -141,3 +144,19 @@ positiveInt = do
   case fromString numbers of
     Just n  -> pure n
     Nothing -> fail $ "Could not parse a positive int from: " <> numbers
+
+
+lineStart :: Parser String Boolean
+lineStart = do
+  (ParseState _ (Position {column: col}) _) <- get
+  pure (col == 1)
+
+
+comment :: Parser String Statement
+comment = do
+  ownLine <- lineStart
+  skipSpaces
+  void $ string "//"
+  c <- some $ noneOf ['\n']
+  void $ char '\n'
+  pure $ Comment ownLine ("//" <> fromCharArray c)
