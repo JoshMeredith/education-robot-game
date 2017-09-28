@@ -113,7 +113,7 @@ structuredStatement keyword constructor expression = do
   skipSpaces
   void $ string ")"
   skipSpaces
-  subStatement <- statement -- defer $ \_ -> statement
+  subStatement <- blockStatement
   pure $ constructor count subStatement
 
 
