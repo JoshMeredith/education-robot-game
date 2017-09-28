@@ -170,7 +170,6 @@ newlineWhiteSpace = try whitespaceWithoutNewline
 comment :: Parser String Statement
 comment = do
   ownLine <- newlineWhiteSpace
-  skipSpaces
   void $ string "//"
   c <- some $ satisfy \c -> c /= '\n'
   void $ char '\n'
