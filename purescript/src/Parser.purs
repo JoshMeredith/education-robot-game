@@ -11,10 +11,10 @@ import Data.Array (some, replicate, many)
 import Data.Either (Either(..))
 import Data.Foldable (fold)
 import Data.Int (fromString)
-import Data.Map (Map)
 import Data.Maybe (Maybe(..))
 import Data.Show (show)
 import Data.String (fromCharArray)
+import Data.Tuple (Tuple)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
                , (<<<), void, pure, bind, discard, map)
 import Text.Parsing.Parser (Parser, fail, runParser)
@@ -36,7 +36,7 @@ import Types(
 -- Returns unsafe null to interact with javascript.
 parseAST
   :: Array LanguageExtras
-  -> Map String Definition
+  -> Array (Tuple String Definition)
   -> String
   -> {ast :: AST, messages :: Array String, names :: Array String}
 parseAST lang defs code =
