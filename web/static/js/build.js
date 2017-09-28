@@ -1,1 +1,1 @@
-!<symlink>ÿş.
+../../../build/build.js
