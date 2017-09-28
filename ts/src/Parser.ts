@@ -11,4 +11,6 @@ namespace Parser {
     {
         return Purescript.Parser.parseAST(null)(null)(code);
     }
+
+    export var prettyPrint = Purescript.Parser.prettyPrint;
 }

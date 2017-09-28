@@ -1,5 +1,6 @@
 module Parser (
-  parseAST
+  parseAST,
+  prettyPrint
 ) where
 
 

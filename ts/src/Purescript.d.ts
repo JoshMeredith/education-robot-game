@@ -30,6 +30,7 @@ export namespace Parser {
       , names: Array<String>
       };
 
+    export function prettyPrint(a: Types.AST): string;
 }
 
 export namespace Types {
