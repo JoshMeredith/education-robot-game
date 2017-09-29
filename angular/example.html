@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <title>Vue Scribble!</title>
+        <script src="https://unpkg.com/vue"></script>
+        <script src="build/build.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <style>
+            .custom {
+                height: 100%;
+                border-width: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid" id="game">
+            <div class="row">
+
+                <div class="col-4 custom border">
+                    <h1 class="text-center">Code</h1>
+                    <textarea class="form-control" rows="25">Write code here!</textarea>
+                    {{ selectedLevel.tutorial }}
+                </div>
+
+                <div class="col-6 custom border">
+                    <h1 class="text-center">Grid</h1>
+                    <div id="grid" style="background-color: #E0E0E0">
+                        <table>
+                            <tr v-for="row in rows">
+                                <td v-for="col in row">
+                                    {{ col }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-2 custom border">
+                    <h1 class="text-center">Levels</h1>
+                    <div id="levelNames">
+                        <ol>
+                            <li v-for="level in levels">
+                                {{ level.name }}
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script>
+            var game = new Vue({
+                el: "#game",
+                data: {
+                    levels: [
+                        { name: "Level One"   },
+                        { name: "Level Two"   },
+                        { name: "Level Three" },
+                        { name: "Level Four"  }
+                    ],
+                    rows: [
+                        ['_', '_', '_', '_', '_'],
+                        ['_', '_', '_', 'U', '_'],
+                        ['_', '_', '_', '_', '_'],
+                        ['_', '!', '_', '_', '_'],
+                        ['_', '_', '_', '_', '_']
+                    ],
+                    selectedLevel: {
+                        tutorial: "Do stuff on this level, like getting good!"
+                    }
+                }
+            });
+
+            // Update with e.g. `game.selectedLevel = { tutorial: "I forgot to add a run button." };`
+        </script>
+    </body>
+</html>
