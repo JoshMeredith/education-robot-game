@@ -69,6 +69,10 @@ form#codeBox {
     padding: 10px;
 }
 
+#code_area{
+    font-family: monospace;
+}
+
 /*  USELESS FOR NOW since I removed the legend, can add it back later if wanted
 form#codeBox fieldset legend {
     font-size: 20px;
@@ -94,7 +98,7 @@ form#codeBox textarea {
 .gridContainer {
     float: right;
     text-align: center;
-    width: 45%;
+    width: 40%;
     padding: 10px 50px 10px 10px;
 }
 
@@ -104,14 +108,29 @@ form#codeBox textarea {
 }
 
 /** TODO: Right, now position of sprite is hardcoded using "top" and "right" attributes **/
-#sprite {
+/*#sprite {
     position: absolute;
     width: 50px;
     height: 50px;
     top: 315px;
     right: 635px;
+}*/
+
+#cell {
+    width: 100%;
+    height: width;
+    display: block;
 }
 
+table {
+    padding: 0;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td{
+    border-collapse: collapse;
+}
 
 
 /** Footer **/
@@ -129,12 +148,10 @@ footer #COMP4920 {
   font-size: 18px;
   text-align: left;
 }
-
 footer #Authors {
   font-size: 18px;
   text-align: center;
 }
-
 footer #Copyright {
   font-size: 18px;
   text-align: right;

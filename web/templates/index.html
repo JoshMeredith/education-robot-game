@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
-        <link href="main.css" rel="stylesheet" type="text/css" />
         <script src="JStuff.js"></script>
+        <script src="https://unpkg.com/vue"></script>
         <title> Codebot | Welcome</title>
         <link rel="stylesheet" href="../static/css/styles.css" />
     </head>
@@ -62,11 +62,36 @@
 
                 <!-- The game display -->
                 <div class="gridContainer">
-                    <img src="../assets/8x8grid.png" id="grid"/>
-                    <img src="../assets/playerSprite/right.png" id="sprite"/>
+                    <table>
+                        <tr v-for="row in rows">
+                            <td v-for="col in row">
+                                <img v-bind:src="col" id="cell"/>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
+                
             </div>
         </section>
+
+        <!-- Vue object setup -->
+        <script>
+            var grass1 = "../assets/grass/grass1.png";
+            var spriteD = "../assets/playerSprite/down.png";
+            var game = new Vue({
+                el: "#main",
+                data: {
+                    rows: [
+                        [grass1, grass1, grass1, grass1, grass1],
+                        [grass1, grass1, grass1, grass1, grass1],
+                        [spriteD, grass1, grass1, grass1, grass1],
+                        [grass1, grass1, grass1, grass1, grass1],
+                        [grass1, grass1, grass1, grass1, grass1]
+                    ],
+                }
+            });
+
+        </script>
 
         <footer>
           <!--  CAN'T GET THIS SHIT TO ALIGN RIGHT
