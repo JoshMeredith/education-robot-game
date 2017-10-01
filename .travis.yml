@@ -3,10 +3,10 @@ node_js:
   - "8"
 
 before_install:
-  - "npm install -g purescript typescript pulp bower uglify-es"
+  - "npm install"
 
 script:
-  - make
+  - "npm run make"
 
 cache:
   directories:
