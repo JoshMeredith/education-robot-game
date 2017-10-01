@@ -6,3 +6,5 @@ purescript/output
 purescript/.psci_modules
 *.swp
 web/static/js/build.js
+/node_modules/
+/package-lock.json

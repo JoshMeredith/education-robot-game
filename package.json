@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "make": "make"
+  },
+  "name": "education-robot-game",
+  "description": "Learn to code by programming a robot!",
+  "version": "1.0.0",
+  "dependencies": {
+    "bower": "^1.8.2",
+    "pulp": "^12.0.1",
+    "purescript": "^0.11.6",
+    "typescript": "^2.5.3",
+    "uglify-es": "^3.1.2"
+  }
+}
