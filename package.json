@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "make": "make"
+    "make": "make",
+    "test": "mocha -r ts-node/register ts/tests/*.ts"
   },
   "name": "education-robot-game",
   "description": "Learn to code by programming a robot!",
@@ -11,5 +12,12 @@
     "purescript": "^0.11.6",
     "typescript": "^2.5.3",
     "uglify-es": "^3.1.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3",
+    "ts-node": "^3.3.0"
   }
 }
