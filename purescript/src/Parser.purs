@@ -7,7 +7,7 @@ module Parser (
 import Control.Alt ((<|>))
 import Control.Lazy (defer)
 import Data.Argonaut.Core (jNull)
-import Data.Array (some, fromFoldable, replicate)
+import Data.Array (some, replicate, many)
 import Data.Either (Either(..))
 import Data.Foldable (fold)
 import Data.Int (fromString)
@@ -15,11 +15,11 @@ import Data.Map (Map)
 import Data.Maybe (Maybe(..))
 import Data.Show (show)
 import Data.String (fromCharArray)
-import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#)
-               , void, pure, bind, discard, map )
+import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
+               , (<<<), void, pure, bind, discard, map)
 import Text.Parsing.Parser (Parser, fail, runParser)
-import Text.Parsing.Parser.Combinators (try, sepEndBy, between)
-import Text.Parsing.Parser.String (string, skipSpaces, eof)
+import Text.Parsing.Parser.Combinators (try, between)
+import Text.Parsing.Parser.String (string, skipSpaces, eof, char, satisfy)
 import Text.Parsing.Parser.Token (letter, digit)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -71,6 +71,12 @@ prettyPrint (AST a) = a # map (go 0) # fold
     go n (BlockStatement ss) =
       indentation n <> "{" <> multi n ss <> "}"
 
+    go n (Comment true c) =
+      indentation n <> "//" <> c
+
+    go n (Comment false c) =
+      " //" <> c
+
     go n (PrimitiveStatement TurnLeft) =
       indentation n <> "{[TurnLeft]}"
     go n (PrimitiveStatement TurnRight) =
@@ -87,7 +93,8 @@ ast =
 
 statements :: Parser String (Array Statement)
 statements
-  = fromFoldable <$> (skipSpaces *> sepEndBy (defer $ \_ -> statement) skipSpaces)
+  -- = fromFoldable <$> (skipSpaces *> sepEndBy (defer $ \_ -> statement) skipSpaces)
+  = many (defer $ \_ -> statement) <* skipSpaces
 
 
 statement :: Parser String Statement
@@ -96,6 +103,7 @@ statement
               <|> try (structuredStatement "if"    IfStatement    trueFalse  )
               <|> try blockStatement
               <|> try commandStatement
+              <|> try comment
 
 
 structuredStatement
@@ -105,6 +113,7 @@ structuredStatement
   -> Parser String a
   -> Parser String Statement
 structuredStatement keyword constructor expression = do
+  skipSpaces
   void $ string keyword
   skipSpaces
   void $ string "("
@@ -119,11 +128,13 @@ structuredStatement keyword constructor expression = do
 
 blockStatement :: Parser String Statement
 blockStatement
-  = BlockStatement <$> between (string "{") (string "}") (defer $ \_ -> statements)
+  =  skipSpaces
+  *> (BlockStatement <$> between (string "{") (string "}") (defer $ \_ -> statements))
 
 
 commandStatement :: Parser String Statement
 commandStatement = do
+  skipSpaces
   command <- some letter
   skipSpaces
   void $ string ";"
@@ -141,3 +152,25 @@ positiveInt = do
   case fromString numbers of
     Just n  -> pure n
     Nothing -> fail $ "Could not parse a positive int from: " <> numbers
+
+
+newlineWhiteSpace :: Parser String Boolean
+newlineWhiteSpace = try whitespaceWithoutNewline 
+                <|>     whitespaceWithNewline
+  where
+    whitespaceWithoutNewline = do
+      void <<< many $ satisfy \c -> c == ' ' || c == '\t'
+      pure false
+
+    whitespaceWithNewline = do
+      void <<< some $ satisfy \c -> c == '\n' || c == '\r' || c == ' ' || c == '\t'
+      pure true
+
+
+comment :: Parser String Statement
+comment = do
+  ownLine <- newlineWhiteSpace
+  void $ string "//"
+  c <- some $ satisfy \c -> c /= '\n'
+  void $ char '\n'
+  pure $ Comment ownLine ("//" <> fromCharArray c)

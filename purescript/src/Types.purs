@@ -36,6 +36,7 @@ data Statement
    | TimesStatement Int        Statement
    | IfStatement    Expression Statement
    | BlockStatement (Array Statement)
+   | Comment        Boolean String
    | PrimitiveStatement Primitive
 
 
