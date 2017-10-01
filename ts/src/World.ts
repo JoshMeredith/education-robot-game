@@ -85,6 +85,37 @@ export class Grid {
                        , newDir
                        );
     }
+
+    public render(sprites: Sprites): string[][][] {
+        var grid: string[][][] = [];
+
+        for (var y = 0; y < this.numRows; y++) {
+            grid[y] = [];
+            for (var x = 0; x < this.numCols; x++) {
+                grid[y][x] = [];
+                grid[y][x].push(sprites.grass());
+            }
+        }
+
+        grid[this.playerLocation.row]
+            [this.playerLocation.col]
+            .push(sprites.player[Direction[this.facing]]);
+
+        grid[this.goal.row][this.goal.col].push(sprites.goal);
+
+        return grid;
+    }
+}
+
+interface Sprites {
+    grass(): string,
+    player: {
+        Up: string,
+        Down: string,
+        Left: string,
+        Right: string
+    },
+    goal: string
 }
 
 }
