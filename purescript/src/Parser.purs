@@ -11,10 +11,10 @@ import Data.Array (some, replicate, many)
 import Data.Either (Either(..))
 import Data.Foldable (fold)
 import Data.Int (fromString)
-import Data.Map (Map)
 import Data.Maybe (Maybe(..))
 import Data.Show (show)
 import Data.String (fromCharArray)
+import Data.Tuple (Tuple)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
                , (<<<), void, pure, bind, discard, map)
 import Text.Parsing.Parser (Parser, fail, runParser)
@@ -29,15 +29,14 @@ import Types(
   Statement(..),
   Expression(..),
   LanguageExtras,
-  Definition,
-  Primitive(..)
+  Definition
 )
 
 
 -- Returns unsafe null to interact with javascript.
 parseAST
   :: Array LanguageExtras
-  -> Map String Definition
+  -> Array (Tuple String Definition)
   -> String
   -> {ast :: AST, messages :: Array String, names :: Array String}
 parseAST lang defs code =
@@ -62,11 +61,11 @@ prettyPrint (AST a) = a # map (go 0) # fold
     go n (TimesStatement t s) =
       indentation n <> "times (" <> show t <> ")" <> go (n + 1) s
 
-    go n (IfStatement p (BlockStatement ss)) =
-      fold [indentation n, "if (", "IMPLEMENT BRANCHING", ") {", multi n ss, "}"]
+    go n (IfStatement (BoolExp p) (BlockStatement ss)) =
+      fold [indentation n, "if (", show p, ") {", multi n ss, "}"]
 
-    go n (IfStatement p s) =
-      indentation n <> "if (" <> "IMPLEMENT BRANCHING" <> ")" <> go (n + 1) s
+    go n (IfStatement (BoolExp p) s) =
+      indentation n <> "if (" <> show p <> ")" <> go (n + 1) s
 
     go n (BlockStatement ss) =
       indentation n <> "{" <> multi n ss <> "}"
@@ -76,14 +75,6 @@ prettyPrint (AST a) = a # map (go 0) # fold
 
     go n (Comment false c) =
       " //" <> c
-
-    go n (PrimitiveStatement TurnLeft) =
-      indentation n <> "{[TurnLeft]}"
-    go n (PrimitiveStatement TurnRight) =
-      indentation n <> "{[TurnRight]}"
-    go n (PrimitiveStatement WalkForward) =
-      indentation n <> "{[WalkForward]}"
-
 
 
 ast :: Parser String AST
@@ -122,7 +113,7 @@ structuredStatement keyword constructor expression = do
   skipSpaces
   void $ string ")"
   skipSpaces
-  subStatement <- statement -- defer $ \_ -> statement
+  subStatement <- blockStatement
   pure $ constructor count subStatement
 
 

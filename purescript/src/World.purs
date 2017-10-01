@@ -5,10 +5,7 @@ module World (
     facing
 ) where
 
-import Data.Argonaut.Core (jNull)
-import Prelude ((==))
 import Types (World, Move, Direction)
-import Unsafe.Coerce (unsafeCoerce)
 
 foreign import moves ::
   { turnLeft    :: Move
