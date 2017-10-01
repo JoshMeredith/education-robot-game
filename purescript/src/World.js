@@ -17,12 +17,8 @@ exports.facing = function(world) {
     return world.playerFacing();
 }
 
-exports.unsafeStep = function(move) {
+exports.step = function(move) {
     return function(world) {
         return world.step(move);
     }
-}
-
-exports.isNull = function(world) {
-    return world === null;
 }
