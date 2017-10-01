@@ -1,9 +1,9 @@
 # CodeBot
 
 # Build:
-1. Install node
-2. `npm install -g purescript typescript pulp bower uglify-es`
-3. `make`
+1. Install node (version 8.x.x)
+2. `npm install`
+3. `npm run make`
 
 # Running Flask (with virtualenv)
 
