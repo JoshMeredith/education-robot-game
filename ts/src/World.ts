@@ -27,19 +27,26 @@ export class Grid {
 
     readonly goal: Coord2D;
 
-    // TODO(junkbot): World grid, etc.
+    readonly hasFailed: boolean;
+
+    // TODO(junkbot): Actually store Grid (e.g. objects in each cell), etc.
 
     constructor(rows: number, cols: number, goal: Coord2D, playerAt: Coord2D,
-        playerDir: Direction) {
+        playerDir: Direction, hasFailed = false) {
         this.numRows = rows;
         this.numCols = cols;
         this.playerLocation = playerAt;
         this.facing = playerDir;
         this.goal = goal;
+        this.hasFailed = hasFailed;
     }
 
     public playerFacing(): Direction {
         return this.facing;
+    }
+
+    public failed(): boolean {
+        return this.hasFailed;
     }
 
     public victory(): boolean {
@@ -51,39 +58,52 @@ export class Grid {
         return Purescript.Interpreter.testNum;
     }
 
-    public step(move: PlayerAction): Grid | null {
+    public step(move: PlayerAction): Grid {
         // Need to consider order of operations with this:
         // I think the ideal order is move all time varying obstacles one
         // tick, and complete the player move, THEN check for validity.
         // That way, for example, a player would be able to step over a
         // spike pit that toggles on and off for one tick.
         
-        // Adjust the direction the player is facing.
         let newDir = this.facing;
-        var newRow = this.playerLocation.row;
-        var newCol = this.playerLocation.col;
-        if (move == PlayerAction.TurnLeft) {
-            newDir = (this.facing + 1)%4;
-        } else if (move == PlayerAction.TurnRight) {
-            newDir = (this.facing + 3)%4;
-        } else if (move == PlayerAction.WalkForward) {
-            const dRow = [-1, 0, 1, 0];
-            const dCol = [0, -1, 0, 1];
-            newRow += dRow[newDir];
-            newCol += dCol[newDir];
+        let newRow = this.playerLocation.row;
+        let newCol = this.playerLocation.col;
+        let newFailure = this.hasFailed;
 
-            if (!(newRow >= 0 && newCol >= 0 &&
-                newRow < this.numRows && newCol < this.numCols)) {
-                return null;
+        switch (move) {
+            case PlayerAction.TurnLeft: {
+                newDir = (this.facing + 1) % 4;
+                break;
+            }
+            case PlayerAction.TurnRight: {
+                newDir = (this.facing + 3) % 4;
+                break;
+            }
+            case PlayerAction.WalkForward: {
+                const dRow = [-1, 0, 1, 0];
+                const dCol = [0, -1, 0, 1];
+
+                let tmpRow = this.playerLocation.row + dRow[newDir];
+                let tmpCol = this.playerLocation.col + dCol[newDir];
+
+                if (!(newRow >= 0 && newCol >= 0 &&
+                    newRow < this.numRows && newCol < this.numCols)) {
+                    newFailure = true;
+                } else {
+                    newRow = tmpRow;
+                    newCol = tmpCol;
+                }
+                break;
             }
         }
 
-        return new Grid( this.numRows
-                       , this.numCols
-                       , this.goal
-                       , new Coord2D(newRow, newCol)
-                       , newDir
-                       );
+        return new Grid(
+            this.numRows,
+            this.numCols,
+            this.goal,
+            new Coord2D(newRow, newCol),
+            newDir,
+            newFailure);
     }
 
     public render(sprites: Sprites): string[][][] {
