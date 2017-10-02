@@ -113,6 +113,8 @@
                             Purescript.Interpreter.environment.moveUp,
                             Purescript.Interpreter.environment.moveDown]);
 
+                        var self = this;
+
                         //iterate
                         var interval = setInterval( function() {
                             world = gen.next().value;
@@ -120,8 +122,8 @@
                             if (world === undefined) {
                                 clearInterval(interval); //break
                             }else{
-                                this.levelMap=world.render(sprites);
-                                console.log(levelMap);
+                                self.levelMap=world.render(sprites);
+                                console.log(self.levelMap);
 
                                 if (world.victory() || world.failed() || world === undefined) {
                                     clearInterval(interval); //break
