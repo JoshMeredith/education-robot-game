@@ -125,11 +125,7 @@ form#codeBox textarea {
 table {
     padding: 0;
     width: 100%;
-    border-collapse: collapse;
-}
-
-td{
-    border-collapse: collapse;
+    /*border-collapse: collapse;*/
 }
 
 

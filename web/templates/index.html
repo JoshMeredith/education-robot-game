@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
-        <script src="JStuff.js"></script>
+        <!-- <script src="JStuff.js"></script>  -->
         <script src="https://unpkg.com/vue"></script>
         <title> Codebot | Welcome</title>
         <link rel="stylesheet" href="../static/css/styles.css" />
@@ -13,16 +13,8 @@
 
     <script type="text/javascript">
         var level = {{ grid | tojson | safe }};
-        var grid = new World.Grid( level.numRows, level.numCols,
-            new World.Coord2D( level.goal.x, level.goal.y ),
-            new World.Coord2D( level.start.x, level.start.y ),
-            World.Direction[ level.startDir ]);
-
-        function launchGame() {
-            var result = Main.runGame(grid, document.getElementById('code_area').value);
-            console.log(result);
-        }
     </script>
+
     </head>
 
     <body>
@@ -55,7 +47,7 @@
                         </p>
                     </fieldset>
 
-                    <input type="button" value="Run!" onclick="launchGame();" />
+                    <input type="button" value="Run!" v-on:click="uiRunGame" />
                     <input type="button" value="Step Through" onclick="stepThrough();" />
                     <input type="button" value="Reset" onclick="resetLevel();" />
                 </form>
@@ -63,9 +55,9 @@
                 <!-- The game display -->
                 <div class="gridContainer">
                     <table>
-                        <tr v-for="row in rows">
+                        <tr v-for="row in levelMap">
                             <td v-for="col in row">
-                                <img v-bind:src="col" id="cell"/>
+                                <img v-for="sprite in col" v-bind:src="sprite" id="cell" />
                             </td>
                         </tr>
                     </table>
@@ -76,18 +68,67 @@
 
         <!-- Vue object setup -->
         <script>
-            var grass1 = "../assets/grass/grass1.png";
-            var spriteD = "../assets/playerSprite/down.png";
+            // initialise
+            var grid = new World.Grid( level.numRows, level.numCols,
+                new World.Coord2D( level.goal.x, level.goal.y ),
+                new World.Coord2D( level.start.x, level.start.y ),
+                World.Direction[ level.startDir ]);
+            var sprites = {
+                grass: function(){
+                    return "../static/assets/grass/grass1.png";
+                },
+                player: {
+                    Up: "../static/assets/playerSprite/up.png",
+                    Down: "../static/assets/playerSprite/down.png",
+                    Left: "../static/assets/playerSprite/left.png",
+                    Right: "../static/assets/playerSprite/right.png"
+                },
+                goal: "../static/assets/goal.png"
+            };
+
+            //vue
             var game = new Vue({
                 el: "#main",
                 data: {
-                    rows: [
-                        [grass1, grass1, grass1, grass1, grass1],
-                        [grass1, grass1, grass1, grass1, grass1],
-                        [spriteD, grass1, grass1, grass1, grass1],
-                        [grass1, grass1, grass1, grass1, grass1],
-                        [grass1, grass1, grass1, grass1, grass1]
-                    ],
+                    levelMap: grid.render(sprites)
+                        // [grass1, grass1, grass1, grass1, grass1],
+                        // [grass1, grass1, grass1, grass1, grass1],
+                        // [spriteD, grass1, grass1, grass1, grass1],
+                        // [grass1, grass1, grass1, grass1, grass1],
+                        // [grass1, grass1, grass1, grass1, grass1]
+                    //],
+                },
+                methods: {
+                    uiRunGame: function() {
+
+                        //setup inputs
+                        var code = document.getElementById('code_area').value;
+
+                        //Replace later when main.ts is done
+                        var ast = Parser.parseAST([], [], code).ast;
+                        var gen = Interpreter.runInterpreter(grid, ast, 
+                            //level command set goes in this array
+                            [Purescript.Interpreter.environment.moveLeft,
+                            Purescript.Interpreter.environment.moveRight,
+                            Purescript.Interpreter.environment.moveUp,
+                            Purescript.Interpreter.environment.moveDown]);
+
+                        //iterate
+                        var interval = setInterval( function() {
+                            world = gen.next().value;
+
+                            if (world === undefined) {
+                                clearInterval(interval); //break
+                            }else{
+                                this.levelMap=world.render(sprites);
+                                console.log(levelMap);
+
+                                if (world.victory() || world.failed() || world === undefined) {
+                                    clearInterval(interval); //break
+                                }
+                            }
+                        }, 500);
+                    }
                 }
             });
 
