@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    //"outFile": "tsc-test.js",
     "module": "commonjs",
     "types": [ "mocha", "chai" ]
   },
   "include": [
       "src/*.ts",
-      "tests/test-world.ts"
+      "tests/*.ts"
   ],
   "files": [
       "src/Purescript.d.ts"
