@@ -19,27 +19,11 @@ export class Coord2D {
 }
 
 export class Grid {
-    readonly numRows: number;
-    readonly numCols: number;
-
-    readonly playerLocation: Coord2D;
-    readonly facing: Direction;
-
-    readonly goal: Coord2D;
-
-    readonly hasFailed: boolean;
-
     // TODO(junkbot): Actually store Grid (e.g. objects in each cell), etc.
 
-    constructor(rows: number, cols: number, goal: Coord2D, playerAt: Coord2D,
-        playerDir: Direction, hasFailed = false) {
-        this.numRows = rows;
-        this.numCols = cols;
-        this.playerLocation = playerAt;
-        this.facing = playerDir;
-        this.goal = goal;
-        this.hasFailed = hasFailed;
-    }
+    constructor(readonly rows: number, readonly cols: number, readonly goal: Coord2D,
+        readonly playerLocation: Coord2D, readonly facing: Direction,
+        readonly hasFailed = false) {}
 
     public playerFacing(): Direction {
         return this.facing;
@@ -87,7 +71,7 @@ export class Grid {
                 let tmpCol = this.playerLocation.col + dCol[newDir];
 
                 if (!(newRow >= 0 && newCol >= 0 &&
-                    newRow < this.numRows && newCol < this.numCols)) {
+                    newRow < this.rows && newCol < this.cols)) {
                     newFailure = true;
                 } else {
                     newRow = tmpRow;
@@ -98,8 +82,8 @@ export class Grid {
         }
 
         return new Grid(
-            this.numRows,
-            this.numCols,
+            this.rows,
+            this.cols,
             this.goal,
             new Coord2D(newRow, newCol),
             newDir,
@@ -109,9 +93,9 @@ export class Grid {
     public render(sprites: Sprites): string[][][] {
         var grid: string[][][] = [];
 
-        for (var y = 0; y < this.numRows; y++) {
+        for (var y = 0; y < this.rows; y++) {
             grid[y] = [];
-            for (var x = 0; x < this.numCols; x++) {
+            for (var x = 0; x < this.cols; x++) {
                 grid[y][x] = [];
                 grid[y][x].push(sprites.grass());
             }
