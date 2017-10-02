@@ -1,7 +1,7 @@
 {
   "scripts": {
     "make": "make",
-    "test": "mocha -r ts-node/register ts/tests/*.ts"
+    "test": "make test"
   },
   "name": "education-robot-game",
   "description": "Learn to code by programming a robot!",

@@ -5,7 +5,7 @@ purescript/purescript.js: $(wildcard purescript/src/**.purs)
 	cd purescript; pulp build
 	cd purescript; purs bundle -o purescript.js -n Purescript output/**/*.js -m Interpreter -m Parser
 
-typescript: $(wildcard ts/src/**.ts)
+typescript: ts/tsconfig.json $(wildcard ts/src/**.ts)
 	cd ts; bower install
 	cd ts; tsc
 
@@ -20,6 +20,13 @@ web/static/js:
 
 build:
 	mkdir -p build
+
+build/test.js: build/build.js ts/tsconfig-test.json
+	tsc -p ts/tsconfig-test.json
+	uglifyjs $< ts/tests/*.js -o $@
+
+test: build/test.js
+	mocha $<
 
 clean:
 	rm -r build
