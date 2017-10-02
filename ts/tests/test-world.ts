@@ -86,3 +86,55 @@ describe('Victory and failure conditions', () => {
         }
     });
 });
+
+describe('Grid rendering', () => {
+    const sprites = {
+        grass: function(): string {
+            return 'grass';
+        },
+        player: {
+            Up: 'Up',
+            Down: 'Down',
+            Left: 'Left',
+            Right: 'Right'
+        },
+        goal: 'GOAL'
+    };
+
+    it('Grass everywhere', () => {
+        let numRows = 8;
+        let numCols = 9;
+        let w = new World.Grid(numRows, numCols, new World.Coord2D(2, 3),
+            new World.Coord2D(3, 4), World.Direction.Up);
+        let render = w.render(sprites);
+        for (let row of render) {
+            for (let cell of row) {
+                expect(cell).to.contain('grass');
+            }
+        }
+    });
+
+    it('Goal only at corresponding location', () => {
+        let w = new World.Grid(8, 9, new World.Coord2D(2, 3),
+            new World.Coord2D(3, 4), World.Direction.Up);
+        let render = w.render(sprites);
+        expect(render[2][3]).to.contain('GOAL');
+        expect(render[0][0]).not.to.contain('GOAL');
+        expect(render[3][4]).not.to.contain('GOAL');
+    });
+
+    it('Robot at correct location with correct orientation', () => {
+        let directions = [World.Direction.Up,
+            World.Direction.Left,
+            World.Direction.Down,
+            World.Direction.Right];
+        let dirSprites = ['Up', 'Left', 'Down', 'Right'];
+
+        for (let i in directions) {
+            let w = new World.Grid(8, 9, new World.Coord2D(2, 3),
+                new World.Coord2D(3, 4), directions[i]);
+            let render = w.render(sprites);
+            expect(render[3][4]).to.contain(dirSprites[i]);
+        }
+    });
+});
