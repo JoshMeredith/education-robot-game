@@ -24,7 +24,6 @@ export class Grid {
     constructor(readonly rows: number, readonly cols: number, readonly goal: Coord2D,
         readonly playerLocation: Coord2D, readonly facing: Direction,
         readonly hasFailed = false) {}
-
     public playerFacing(): Direction {
         return this.facing;
     }
@@ -70,8 +69,8 @@ export class Grid {
                 let tmpRow = this.playerLocation.row + dRow[newDir];
                 let tmpCol = this.playerLocation.col + dCol[newDir];
 
-                if (!(newRow >= 0 && newCol >= 0 &&
-                    newRow < this.rows && newCol < this.cols)) {
+                if (!(tmpRow >= 0 && tmpCol >= 0 &&
+                    tmpRow < this.rows && tmpCol < this.cols)) {
                     newFailure = true;
                 } else {
                     newRow = tmpRow;
