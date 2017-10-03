@@ -43,7 +43,7 @@
                         <!-- <legend> Enter code here </legend> -->
                         <h2> Code:</h2>
                         <p>
-                            <textarea id="code_area" placeholder="Enter Code"></textarea>
+                            <textarea v-model="codeBox" id="code_area" placeholder="Enter Code"></textarea>
                         </p>
                     </fieldset>
 
@@ -90,22 +90,27 @@
             var game = new Vue({
                 el: "#main",
                 data: {
-                    levelMap: grid.render(sprites)
+                    levelMap: grid.render(sprites),
                         // [grass1, grass1, grass1, grass1, grass1],
                         // [grass1, grass1, grass1, grass1, grass1],
                         // [spriteD, grass1, grass1, grass1, grass1],
                         // [grass1, grass1, grass1, grass1, grass1],
                         // [grass1, grass1, grass1, grass1, grass1]
                     //],
+                  codebox: "// Write some code!" // Replace with level starter code
                 },
                 methods: {
                     uiRunGame: function() {
 
                         //setup inputs
-                        var code = document.getElementById('code_area').value;
+                        // var code = document.getElementById('code_area').value;
+                        var code = this.codeBox;
 
                         //Replace later when main.ts is done
                         var ast = Parser.parseAST([], [], code).ast;
+
+                        this.codeBox = Parser.prettyPrint(ast);
+
                         var gen = Interpreter.runInterpreter(grid, ast, 
                             //level command set goes in this array
                             [Purescript.Interpreter.environment.moveLeft,

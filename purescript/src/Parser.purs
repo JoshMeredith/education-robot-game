@@ -13,7 +13,7 @@ import Data.Foldable (fold)
 import Data.Int (fromString)
 import Data.Maybe (Maybe(..))
 import Data.Show (show)
-import Data.String (fromCharArray)
+import Data.String (fromCharArray, trim)
 import Data.Tuple (Tuple)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
                , (<<<), void, pure, bind, discard, map)
@@ -46,7 +46,7 @@ parseAST lang defs code =
 
 
 prettyPrint :: AST -> String
-prettyPrint (AST a) = a # map (go 0) # fold
+prettyPrint (AST a) = a # map (go 0) # fold # trim
   where
     tabWidth = 4
     indentation n = "\n" <> (fold $ replicate (tabWidth * n) " ")
@@ -56,19 +56,19 @@ prettyPrint (AST a) = a # map (go 0) # fold
       indentation n <> s <> ";"
 
     go n (TimesStatement t (BlockStatement ss)) =
-      fold [indentation n, "times (", show t, ") {", multi n ss, "}"]
+      fold [indentation n, "times (", show t, ") {", multi n ss, indentation n, "}"]
 
     go n (TimesStatement t s) =
       indentation n <> "times (" <> show t <> ")" <> go (n + 1) s
 
     go n (IfStatement (BoolExp p) (BlockStatement ss)) =
-      fold [indentation n, "if (", show p, ") {", multi n ss, "}"]
+      fold [indentation n, "if (", show p, ") {", multi n ss, indentation n, "}"]
 
     go n (IfStatement (BoolExp p) s) =
       indentation n <> "if (" <> show p <> ")" <> go (n + 1) s
 
     go n (BlockStatement ss) =
-      indentation n <> "{" <> multi n ss <> "}"
+      indentation n <> "{" <> multi n ss <> indentation n <> "}"
 
     go n (Comment true c) =
       indentation n <> "//" <> c
