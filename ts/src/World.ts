@@ -38,7 +38,7 @@ export class Grid {
     }
 
     public static test(): number {
-        return Purescript.Interpreter.testNum;
+        return PS.Interpreter.testNum;
     }
 
     public step(move: PlayerAction): Grid {
