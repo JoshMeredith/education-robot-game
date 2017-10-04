@@ -100,11 +100,11 @@ export class Grid {
             }
         }
 
+        grid[this.goal.row][this.goal.col].push(sprites.goal);
+
         grid[this.playerLocation.row]
             [this.playerLocation.col]
             .push(sprites.player[Direction[this.facing]]);
-
-        grid[this.goal.row][this.goal.col].push(sprites.goal);
 
         return grid;
     }
