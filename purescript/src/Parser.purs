@@ -9,14 +9,14 @@ import Control.Lazy (defer)
 import Data.Argonaut.Core (jNull)
 import Data.Array (some, replicate, many)
 import Data.Either (Either(..))
-import Data.Foldable (fold)
+import Data.Foldable (fold, any)
 import Data.Int (fromString)
 import Data.Maybe (Maybe(..))
 import Data.Show (show)
 import Data.String (fromCharArray, trim)
 import Data.Tuple (Tuple)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
-               , (<<<), void, pure, bind, discard, map)
+               , void, pure, bind, discard, map)
 import Text.Parsing.Parser (Parser, fail, runParser)
 import Text.Parsing.Parser.Combinators (try, between)
 import Text.Parsing.Parser.String (string, skipSpaces, eof, char, satisfy)
@@ -146,16 +146,9 @@ positiveInt = do
 
 
 newlineWhiteSpace :: Parser String Boolean
-newlineWhiteSpace = try whitespaceWithoutNewline 
-                <|>     whitespaceWithNewline
-  where
-    whitespaceWithoutNewline = do
-      void <<< many $ satisfy \c -> c == ' ' || c == '\t'
-      pure false
-
-    whitespaceWithNewline = do
-      void <<< some $ satisfy \c -> c == '\n' || c == '\r' || c == ' ' || c == '\t'
-      pure true
+newlineWhiteSpace = do
+  ws <- many $ satisfy \c -> c == '\n' || c == '\r' || c == ' ' || c == '\t'
+  pure $ any (\c -> c == '\n' || c == '\r') ws
 
 
 comment :: Parser String Statement
@@ -163,5 +156,4 @@ comment = do
   ownLine <- newlineWhiteSpace
   void $ string "//"
   c <- some $ satisfy \c -> c /= '\n'
-  void $ char '\n'
-  pure $ Comment ownLine ("//" <> fromCharArray c)
+  pure $ Comment ownLine (fromCharArray c)
