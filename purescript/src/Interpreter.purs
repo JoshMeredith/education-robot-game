@@ -37,7 +37,8 @@ runInterpreter
   -> Array (Tuple String Definition)
   -> Resume () Unit Unit World
 runInterpreter initial (AST ss) baseDefs =
-  run <<< runYield $
+  run <<< runYield $ do
+    yield initial
     evalState (fromFoldable baseDefs /\ initial /\ unit) $
       go (BlockStatement ss)
   where
