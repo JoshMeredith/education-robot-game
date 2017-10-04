@@ -57,7 +57,10 @@
                     <table>
                         <tr v-for="row in levelMap">
                             <td v-for="col in row">
-                                <img v-for="sprite in col" v-bind:src="sprite" id="cell" />
+                                <div style="position: relative;">
+                                    <img src="../static/assets/grass/grass3.png" id="cell">
+                                    <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -97,7 +100,7 @@
                         // [grass1, grass1, grass1, grass1, grass1],
                         // [grass1, grass1, grass1, grass1, grass1]
                     //],
-                  codebox: "// Write some code!" // Replace with level starter code
+                  codeBox: "// Write some code!" // Replace with level starter code
                 },
                 methods: {
                     uiRunGame: function() {
