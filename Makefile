@@ -2,7 +2,7 @@ all: build/build.js web/static/js/build.js
 
 purescript/purescript.js: $(wildcard purescript/src/**.purs)
 	cd purescript; bower install
-	cd purescript; pulp build --skip-entry-point -m Interpreter -m Parser --to purescript.js
+	cd purescript; pulp build --skip-entry-point -m Interpreter --modules Parser --to purescript.js
 
 typescript: ts/tsconfig.json $(wildcard ts/src/**.ts)
 	cd ts; bower install
