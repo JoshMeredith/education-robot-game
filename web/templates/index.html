@@ -26,9 +26,9 @@
                 </div>
                 <nav>
                     <ul>
-                        <li class="current"><a href="index.html">Home</a></li>
-                        <li><a href="Challenges.html">Challenges</a></li>
-                        <li><a href="myProfile.html">My Profile</a></li>
+                        <li class="current"><a href="index">Home</a></li>
+                        <li><a href="challenges">Challenges</a></li>
+                        <li><a href="myProfile">My Profile</a></li>
                     </ul>
                 </nav>
             </div>
@@ -65,7 +65,7 @@
                         </tr>
                     </table>
                 </div>
-                
+
             </div>
         </section>
 
@@ -114,7 +114,7 @@
 
                         this.codeBox = Parser.prettyPrint(ast);
 
-                        var gen = Interpreter.runInterpreter(grid, ast, 
+                        var gen = Interpreter.runInterpreter(grid, ast,
                             //level command set goes in this array
                             [PS.Interpreter.environment.moveLeft,
                             PS.Interpreter.environment.moveRight,
@@ -145,7 +145,7 @@
         </script>
 
         <footer>
-          <!--  CAN'T GET THIS SHIT TO ALIGN RIGHT
+          <!--
             <p id="COMP4920"> COMP-4920 Project - Term 2 </p>
             <p id="Authors">  Authors: </br> Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano </p>
             <p id="Copyright"> Copyright &copy; 2017 </p>

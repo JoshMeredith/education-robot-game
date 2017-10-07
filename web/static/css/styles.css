@@ -129,6 +129,22 @@ table {
 }
 
 
+/** For the Challenges Page **/
+#pictureBox {
+  padding: 25px;
+  /* height: 100%; */
+  width: 17%;
+  float: left;
+}
+
+#pictureBox div {
+  padding: 0px 0px 0px 10px;
+}
+
+#pictureBox p {
+  text-align: center;
+}
+
 /** Footer **/
 footer {
     font-size: 18px;
@@ -137,9 +153,11 @@ footer {
     margin-top: 20px;
     color: #ffffff;
     background-color: #35424a;
+    float: left;
+    width: 98%;
 }
 
-/* CAN'T GET THIS SHIT TO ALIGN RIGHT
+/*
 footer #COMP4920 {
   font-size: 18px;
   text-align: left;

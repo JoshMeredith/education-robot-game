@@ -17,3 +17,7 @@ WORLDS = {
 @app.route('/<level>')
 def hello_world(level):
     return render_template('index.html', grid=WORLDS[level])
+
+@app.route('/challenges')
+def hello_world_2():
+    return render_template('challenges.html')
