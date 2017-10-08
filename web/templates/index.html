@@ -24,15 +24,13 @@
                     <img id="favicon" src="../static/assets/favicon.png" />
                     <h1> Welcome to <span>Codebot!</span></h1>
                 </div>
-                <div id="otherPages">
-                  <nav>
-                      <ul>
-                          <li class="current"><a href="index">Home</a></li>
-                          <li><a href="challenges">Challenges</a></li>
-                          <li><a href="myProfile">Profile</a></li>
-                      </ul>
-                  </nav>
-                </div>
+                <nav>
+                    <ul>
+                        <li class="current"><a href="level0">Home</a></li>
+                        <li><a href="challenges">Challenges</a></li>
+                        <li><a href="myProfile">My Profile</a></li>
+                    </ul>
+                </nav>
             </div>
         </header>
 
@@ -43,15 +41,15 @@
                 <form id="codeBox">
                     <fieldset>
                         <!-- <legend> Enter code here </legend> -->
-                        <h2> Code:</h2>
+                        <h2> Code </h2>
                         <p>
                             <textarea v-model="codeBox" id="code_area" placeholder="Enter Code"></textarea>
                         </p>
                     </fieldset>
 
-                    <input type="button" value="Run!" v-on:click="uiRunGame" />
-                    <input type="button" value="Step Through" onclick="stepThrough();" />
-                    <input type="button" value="Reset" onclick="resetLevel();" />
+                    <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
+                    <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" />
+                    <input id="button_1" type="button" value="Reset" onclick="resetLevel();" />
                 </form>
 
                 <!-- The game display -->
