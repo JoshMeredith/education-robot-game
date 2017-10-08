@@ -40,7 +40,7 @@
             <div class="codeContainer">
                 <form id="codeBox">
                     <fieldset>
-                        <!-- <legend> Enter code here </legend> -->
+                        <legend> Level 0 </legend> <!-- TODO: Hardcoded, fix! -->
                         <h2> Code </h2>
                         <p>
                             <textarea v-model="codeBox" id="code_area" placeholder="Enter Code"></textarea>
@@ -50,6 +50,7 @@
                     <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
                     <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" />
                     <input id="button_1" type="button" value="Reset" onclick="resetLevel();" />
+                    <input id="button_1" type="button" value="Next Challenge" onclick="nextChallenge" />
                 </form>
 
                 <!-- The game display -->
@@ -88,6 +89,8 @@
                 },
                 goal: "../static/assets/goal.png"
             };
+
+
 
             //vue
             var game = new Vue({
@@ -135,6 +138,7 @@
 
                                 if (world.victory() || world.failed() || world === undefined) {
                                     clearInterval(interval); //break
+                                    console.log("OMG IT WORKED THIS IS AMAZING");
                                 }
                             }
                         }, 500);

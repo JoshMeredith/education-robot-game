@@ -12,6 +12,13 @@ WORLDS = {
         'startDir': 'Down',
         'goal': {'x': 6, 'y': 1},
     },
+    'challenge2': {
+        'numRows': 5,
+        'numCols': 5,
+        'start': {'x': 1, 'y': 1},
+        'startDir': 'Down',
+        'goal': {'x': 5, 'y': 5},
+    },
 }
 
 @app.route('/<level>')

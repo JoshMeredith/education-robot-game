@@ -93,16 +93,16 @@ form#codeBox {
     font-family: monospace;
 }
 
-/*  USELESS FOR NOW since I removed the legend, can add it back later if wanted
+
 form#codeBox fieldset legend {
     font-size: 20px;
     text-align: center;
 }
-*/
+
 
 form#codeBox fieldset {
     /* Takes care of settings INSIDE the form */
-    height: 700px;
+    height: 100%;
     padding: 0 25px 0 15px;
     margin-bottom: 15px;
     background: #e6e6e6;
@@ -118,6 +118,11 @@ form #button_1 {
   width: 200px;
 }
 
+form #button_2 {
+  height: 30px;
+  width: 200px;
+  background-color: #00BFFF;
+}
 
 /** --------------------------- GRID SECTION ------------------------------- **/
 .gridContainer {
@@ -211,4 +216,20 @@ footer div {
       float:none;
       text-align: center;
     }
+
+    footer, footer div {
+      float:none;
+      text-align-last: center;
+      width: 100%;
+    }
+}
+
+@media(max-width: 1200px) {
+  #main {
+    text-align: center;
+  }
+
+  #pictureBox {
+    float: none;
+  }
 }
