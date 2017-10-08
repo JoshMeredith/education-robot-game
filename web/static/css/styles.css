@@ -25,7 +25,7 @@ ul {
     padding: 0;
 }
 
-/** Header **/
+/** --------------------------------- HEADER ------------------------------- **/
 header {
     background: #35424a;
     color: #ffffff;
@@ -34,9 +34,22 @@ header {
     border-bottom: #00BFFF 5px solid;
 }
 
-/* MAY NOT BE NECESSARY - TEST */
 header #branding {
     float: left;
+    vertical-align: middle;
+    /* text-align: center; */
+    width: 45%;
+    margin-bottom: 20px;
+}
+
+header #branding span {
+  color: #00BFFF;
+}
+
+header #favicon {
+  vertical-align: middle;
+  height: 80px;
+  float: left;
 }
 
 header nav {
@@ -57,11 +70,7 @@ header a {
     font-size: 16px;
 }
 
-header #branding {
-    float: left;
-}
-
-/* Code section */
+/** --------------------------- CODE SECTION ------------------------------- **/
 form#codeBox {
     /* Takes care of the form itself, padding with exterior, etc. */
     float: left;
@@ -84,7 +93,7 @@ form#codeBox fieldset {
     /* Takes care of settings INSIDE the form */
     height: 500px;
     padding: 0 25px 0 15px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     background: #e6e6e6;
 }
 
@@ -94,7 +103,7 @@ form#codeBox textarea {
 }
 
 
-/* Grid section */
+/** --------------------------- GRID SECTION ------------------------------- **/
 .gridContainer {
     float: right;
     text-align: center;
@@ -129,45 +138,57 @@ table {
 }
 
 
-/** For the Challenges Page **/
+/** ------------------------- CHALLENGES PAGE ------------------------------ **/
 #pictureBox {
   padding: 25px;
   /* height: 100%; */
   width: 17%;
   float: left;
+  text-align: center;
 }
 
-#pictureBox div {
-  padding: 0px 0px 0px 10px;
+#pictureBox img {
+  padding: 0px;
+  height: 250px;
 }
 
 #pictureBox p {
   text-align: center;
+  font-size: 18px;
 }
 
-/** Footer **/
+/** --------------------------------- FOOTER ------------------------------- **/
 footer {
     font-size: 18px;
     text-align: center;
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
     color: #ffffff;
     background-color: #35424a;
     float: left;
     width: 98%;
+    /* TODO: Rright now width: 100% gives a horizontal scroll bar at 100%zoom on chrome
+             I think I can fix this by implementing responsiveness elements.. at some point...
+             */
 }
 
-/*
-footer #COMP4920 {
-  font-size: 18px;
-  text-align: left;
+footer div {
+  width: 33%;
+  float: left;
 }
-footer #Authors {
-  font-size: 18px;
-  text-align: center;
+
+/** -------------------- MEDIA QUERIES (for responsinveness) ----------------**/
+@media(max-width: 768px){
+    header #branding,
+    header nav,
+    header li {
+      float: none;
+      text-align: center;
+      width: 100%;
+    }
+
+    header #favicon {
+      float:none;
+      text-align: center;
+    }
 }
-footer #Copyright {
-  font-size: 18px;
-  text-align: right;
-}
-*/
