@@ -53,8 +53,8 @@
                 </form>
 
                 <!-- The game display -->
-                <div class="gridContainer">
-                    <table>
+                <div  class="gridContainer">
+                    <table v-if="!gameOver">
                         <tr v-for="row in levelMap">
                             <td v-for="col in row">
                                 <div style="position: relative;">
@@ -64,7 +64,26 @@
                             </td>
                         </tr>
                     </table>
+
+                    <div v-else-if="gameOver && victory" class="winMessage">
+                        <p style="font-size:50px; margin: 0;">Congratulations!</p>
+                        <p>You beat the level.</p>
+                        <input type="button" value="Next Level" v-on:click="nextLevel" />   
+                    </div>
+
+                    <div v-else-if="gameOver && !victory" class="lossMessage">
+                        <p style="font-size:50px; margin: 0;">Oh no!</p>
+                        <p>Codebot didn't reach the goal.</p>
+                        <p>Try Again!</p>  
+                        <div>
+                            <input type="button" value="View Map" v-on:click="viewMap" />
+                            <input type="button" value="Reset" onclick="resetLevel();" />
+                        </div>
+                    </div>
+
                 </div>
+                
+
                 
             </div>
         </section>
@@ -94,24 +113,20 @@
                 el: "#main",
                 data: {
                     levelMap: grid.render(sprites),
-                        // [grass1, grass1, grass1, grass1, grass1],
-                        // [grass1, grass1, grass1, grass1, grass1],
-                        // [spriteD, grass1, grass1, grass1, grass1],
-                        // [grass1, grass1, grass1, grass1, grass1],
-                        // [grass1, grass1, grass1, grass1, grass1]
-                    //],
-                  codeBox: "// Write some code!" // Replace with level starter code
+                    codeBox: "// Write some code!", // Replace with level starter code
+                    gameOver: false,
+                    victory: false
                 },
                 methods: {
+                    viewMap: function(){
+                        self.gameOver=false;
+                        console.log(self.gameOver);
+                    },
                     uiRunGame: function() {
 
                         //setup inputs
-                        // var code = document.getElementById('code_area').value;
                         var code = this.codeBox;
-
-                        //Replace later when main.ts is done
                         var ast = Parser.parseAST([], [], code).ast;
-
                         this.codeBox = Parser.prettyPrint(ast);
 
                         var gen = Interpreter.runInterpreter(grid, ast, 
@@ -128,16 +143,20 @@
                             world = gen.next().value;
 
                             if (world === undefined) {
+                                self.gameOver=true;
                                 clearInterval(interval); //break
                             }else{
                                 self.levelMap=world.render(sprites);
-                                console.log(self.levelMap);
 
-                                if (world.victory() || world.failed() || world === undefined) {
+                                if ( world.victory() || world.failed() ) {
+                                    self.gameOver=true;
+                                    if ( world.victory() ) { self.victory=true; }
+
                                     clearInterval(interval); //break
                                 }
                             }
-                        }, 500);
+                        }, 100);
+
                     }
                 }
             });
