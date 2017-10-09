@@ -49,7 +49,7 @@
 
                     <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
                     <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" />
-                    <input id="button_1" type="button" value="Reset" onclick="resetLevel();" />
+                    <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
                     <input id="button_1" type="button" value="Next Challenge" onclick="nextChallenge" />
                 </form>
 
@@ -78,7 +78,7 @@
                         <p>Try Again!</p>  
                         <div>
                             <input type="button" value="View Map" v-on:click="viewMap" />
-                            <input type="button" value="Reset" onclick="resetLevel();" />
+                            <input type="button" value="Reset" v-on:click="resetLevel" />
                         </div>
                     </div>
 
@@ -115,13 +115,22 @@
                 data: {
                     levelMap: grid.render(sprites),
                     codeBox: "// Write some code!", // Replace with level starter code
-                    gameOver: false,
-                    victory: false
+                    gameOver: false, 
+                    victory: false,
+                    stepThroughMode: false,
                 },
                 methods: {
                     viewMap: function(){
+                        var self = this;
                         self.gameOver=false;
-                        console.log(self.gameOver);
+                    },
+                    resetLevel: function() {
+                        var self = this;
+                        self.gameOver=false;
+                        self.levelMap= grid.render(sprites);
+                    },
+                    stepThrough: function() {
+                        
                     },
                     uiRunGame: function() {
 
@@ -154,10 +163,9 @@
                                     if ( world.victory() ) { self.victory=true; }
 
                                     clearInterval(interval); //break
-                                    console.log("OMG IT WORKED THIS IS AMAZING");
                                 }
                             }
-                        }, 100);
+                        }, 500);
 
                     }
                 }
