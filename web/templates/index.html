@@ -21,14 +21,14 @@
         <header>
             <div class="container">
                 <div id="branding">
-                    <!-- If we're going to add a logo or something, this is where -->
-                    <h1> Welcome to Codebot </h1>
+                    <img id="favicon" src="../static/assets/favicon.png" />
+                    <h1> Welcome to <span>Codebot!</span></h1>
                 </div>
                 <nav>
                     <ul>
-                        <li class="current"><a href="index.html">Home</a></li>
-                        <li><a href="Challenges.html">Challenges</a></li>
-                        <li><a href="myProfile.html">My Profile</a></li>
+                        <li class="current"><a href="level0">Home</a></li>
+                        <li><a href="challenges">Challenges</a></li>
+                        <li><a href="myProfile">My Profile</a></li>
                     </ul>
                 </nav>
             </div>
@@ -40,16 +40,17 @@
             <div class="codeContainer">
                 <form id="codeBox">
                     <fieldset>
-                        <!-- <legend> Enter code here </legend> -->
-                        <h2> Code:</h2>
+                        <legend> Level 0 </legend> <!-- TODO: Hardcoded, fix! -->
+                        <h2> Code </h2>
                         <p>
                             <textarea v-model="codeBox" id="code_area" placeholder="Enter Code"></textarea>
                         </p>
                     </fieldset>
 
-                    <input type="button" value="Run!" v-on:click="uiRunGame" />
-                    <input type="button" value="Step Through" onclick="stepThrough();" />
-                    <input type="button" value="Reset" onclick="resetLevel();" />
+                    <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
+                    <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" />
+                    <input id="button_1" type="button" value="Reset" onclick="resetLevel();" />
+                    <input id="button_1" type="button" value="Next Challenge" onclick="nextChallenge" />
                 </form>
 
                 <!-- The game display -->
@@ -82,9 +83,13 @@
                     </div>
 
                 </div>
+<<<<<<< HEAD
                 
 
                 
+=======
+
+>>>>>>> 58f1168b7c5b2e53fe0ff57f75d884a36cfaaaeb
             </div>
         </section>
 
@@ -108,6 +113,8 @@
                 goal: "../static/assets/goal.png"
             };
 
+
+
             //vue
             var game = new Vue({
                 el: "#main",
@@ -129,7 +136,7 @@
                         var ast = Parser.parseAST([], [], code).ast;
                         this.codeBox = Parser.prettyPrint(ast);
 
-                        var gen = Interpreter.runInterpreter(grid, ast, 
+                        var gen = Interpreter.runInterpreter(grid, ast,
                             //level command set goes in this array
                             [PS.Interpreter.environment.moveLeft,
                             PS.Interpreter.environment.moveRight,
@@ -153,6 +160,7 @@
                                     if ( world.victory() ) { self.victory=true; }
 
                                     clearInterval(interval); //break
+                                    console.log("OMG IT WORKED THIS IS AMAZING");
                                 }
                             }
                         }, 100);
@@ -164,12 +172,9 @@
         </script>
 
         <footer>
-          <!--  CAN'T GET THIS SHIT TO ALIGN RIGHT
-            <p id="COMP4920"> COMP-4920 Project - Term 2 </p>
-            <p id="Authors">  Authors: </br> Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano </p>
-            <p id="Copyright"> Copyright &copy; 2017 </p>
-          -->
-          <p>COMP-4920 Project ----- Authors: Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano ----- Copyright &copy; 2017</p>
+            <div><p> <strong>COMP-4920</strong> Project - Term 2, 2017 </p></div>
+            <div><p>  <strong>Authors</strong> </br> Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano </p></div>
+            <div><p> Copyright &copy; 2017 </p></div>
         </footer>
     </body>
 </html>
