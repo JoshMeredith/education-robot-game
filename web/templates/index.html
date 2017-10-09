@@ -72,28 +72,39 @@
         <!-- Vue object setup -->
         <script>
             // initialise
-            var grid = new World.Grid( level.numRows, level.numCols,
-                new World.Coord2D( level.goal.x, level.goal.y ),
-                new World.Coord2D( level.start.x, level.start.y ),
-                World.Direction[ level.startDir ]);
             var sprites = {
-                grass: function(){
-                    return "../static/assets/grass/grass1.png";
-                },
+                ground: "../static/assets/grass/grass3.png",
+                grass: "../static/assets/grass/grass1.png",
                 player: {
                     Up: "../static/assets/playerSprite/up.png",
                     Down: "../static/assets/playerSprite/down.png",
                     Left: "../static/assets/playerSprite/left.png",
                     Right: "../static/assets/playerSprite/right.png"
                 },
-                goal: "../static/assets/goal.png"
+                goal: "../static/assets/goal.png",
+                wall: {
+                    horizontal: "../static/assets/wall/horizontal.png",
+                    vertical: "../static/assets/wall/vertical.png",
+                    topLeft: "../static/assets/wall/corner_top_left.png",
+                    topRight: "../static/assets/wall/corner_top_right.png",
+                    bottomLeft: "../static/assets/wall/corner_bottom_left.png",
+                    bottomRight: "../static/assets/wall/corner_bottom_right.png"
+                }
             };
+            var grid = new World.Grid(
+                           level.numRows,
+                           level.numCols,
+                           sprites,
+                           new World.Coord2D( level.goal.x, level.goal.y ),
+                           new World.Coord2D( level.start.x, level.start.y ),
+                           World.Direction[ level.startDir ]
+                       );
 
             //vue
             var game = new Vue({
                 el: "#main",
                 data: {
-                    levelMap: grid.render(sprites),
+                    levelMap: grid.render(),
                         // [grass1, grass1, grass1, grass1, grass1],
                         // [grass1, grass1, grass1, grass1, grass1],
                         // [spriteD, grass1, grass1, grass1, grass1],
@@ -130,7 +141,7 @@
                             if (world === undefined) {
                                 clearInterval(interval); //break
                             }else{
-                                self.levelMap=world.render(sprites);
+                                self.levelMap=world.render();
                                 console.log(self.levelMap);
 
                                 if (world.victory() || world.failed() || world === undefined) {
