@@ -29,19 +29,63 @@ export class Coord2D {
     constructor(readonly row: number, readonly col: number) {}
 }
 
+export function shorthandGrid(grid: string[][], sprites: Sprites): Obstacle[][] {
+    var out: Obstacle[][] = [];
+
+    for (var y = 0; y < grid.length; y++) {
+        out[y] = [];
+        for (var x = 0; x < grid[y].length; x++) {
+            out[y][x] = obstacleFromShorthand(grid[y][x], sprites);
+        }
+    }
+
+    return out;
+}
+
+function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
+    switch (sh) {
+        case '_': {
+            return new Obstacle(Ground.Clear, [sprites.grass]);
+        }
+        case 'V': {
+            return new Obstacle(Ground.Wall, [sprites.wall.vertical]);
+        }
+        case 'H': {
+            return new Obstacle(Ground.Wall, [sprites.wall.horizontal]);
+        }
+        case 'TL': {
+            return new Obstacle(Ground.Wall, [sprites.wall.topLeft]);
+        }
+        case 'TR': {
+            return new Obstacle(Ground.Wall, [sprites.wall.topRight]);
+        }
+        case 'BL': {
+            return new Obstacle(Ground.Wall, [sprites.wall.bottomLeft]);
+        }
+        case 'BR': {
+            return new Obstacle(Ground.Wall, [sprites.wall.bottomRight]);
+        }
+    }
+}
+
 export class Grid {
+    private world: Obstacle[][] = [];
+
     constructor(readonly rows: number, readonly cols: number,
         readonly sprites: Sprites, readonly goal: Coord2D,
         readonly playerLocation: Coord2D, readonly facing: Direction,
-        private world: Obstacle[][] = [], readonly hasFailed = false) {
+        private grid: Obstacle[][] = [], readonly hasFailed = false) {
 
-        // Assume the grid is always initialised properly, if it is.
-        if (world.length != rows) {
-            for (var y = 0; y < this.rows; y++) {
-                this.world[y] = [];
-                for (var x = 0; x < this.cols; x++) {
-                    this.world[y][x] = new Obstacle(Ground.Clear, [this.sprites.grass]);
-                }
+        for (var y = 0; y < this.rows; y++) {
+            this.world[y] = [];
+            for (var x = 0; x < this.rows; x++) {
+                this.world[y][x] = new Obstacle(Ground.Clear, [this.sprites.grass]);
+            }
+        }
+
+        for (var y = 0; y < grid.length; y++) {
+            for (var x = 0; x < grid[y].length; x++) {
+                this.world[y][x] = grid[y][x];
             }
         }
     }
