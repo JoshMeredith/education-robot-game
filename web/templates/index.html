@@ -59,11 +59,11 @@
                     <div v-if="!gameOver" class="defaultStatus">
                         <p>Click the run button when you're ready <br>for codebot to execute your code.</p>
                     </div>
-                    <div v-else-if="gameOver && victory" class="winStatus">
+                    <div v-else-if="gameOver && victory" class="winStatus" v-cloak>
                         <p>Congratulations! <br>You beat the level.</p>
                     </div>
 
-                    <div v-else-if="gameOver && !victory" class="lossStatus">
+                    <div v-else-if="gameOver && !victory" class="lossStatus" v-cloak>
                         <p>Oh no! Codebot didn't reach the goal. <br>Click the reset button to try again.</p>
                     </div>
 
