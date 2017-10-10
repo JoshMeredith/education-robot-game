@@ -74,7 +74,7 @@ export class Grid {
     constructor(readonly rows: number, readonly cols: number,
         readonly sprites: Sprites, readonly goal: Coord2D,
         readonly playerLocation: Coord2D, readonly facing: Direction,
-        private grid: Obstacle[][] = [], readonly hasFailed = false) {
+        grid: Obstacle[][] = [], readonly hasFailed = false) {
 
         for (var y = 0; y < this.rows; y++) {
             this.world[y] = [];
@@ -169,6 +169,8 @@ export class Grid {
 
     public render(): string[][][] {
         var grid: string[][][] = [];
+
+        console.log(this.sprites);
 
         let render_rows = this.rows + 2;
         let render_cols = this.cols + 2;

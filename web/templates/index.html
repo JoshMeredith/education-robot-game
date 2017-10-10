@@ -112,8 +112,8 @@
                            sprites,
                            new World.Coord2D( level.goal.x, level.goal.y ),
                            new World.Coord2D( level.start.x, level.start.y ),
-                           World.shorthandGrid(level.grid, sprites),
-                           World.Direction[ level.startDir ]
+                           World.Direction[ level.startDir ],
+                           World.shorthandGrid(level.grid, sprites)
                        );
 
 
@@ -127,19 +127,19 @@
                     gameOver: false, 
                     victory: false,
                     interval: null
-
                 },
                 methods: {
                     resetLevel: function() {
                         var self = this;
                         self.gameOver=false;
-                        self.levelMap= grid.render(sprites);
+                        self.levelMap= grid.render();
                         self.victory=false;
                         self.stop();
                     },
                     stop: function() {
                         if (this.interval !== null) {
                             clearInterval(this.interval);
+                            this.interval = null;
                         }
                     },
 
