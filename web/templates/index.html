@@ -21,14 +21,14 @@
         <header>
             <div class="container">
                 <div id="branding">
-                    <!-- If we're going to add a logo or something, this is where -->
-                    <h1> Welcome to Codebot </h1>
+                    <img id="favicon" src="../static/assets/favicon.png" />
+                    <h1> Welcome to <span>Codebot!</span></h1>
                 </div>
                 <nav>
                     <ul>
-                        <li class="current"><a href="index.html">Home</a></li>
-                        <li><a href="Challenges.html">Challenges</a></li>
-                        <li><a href="myProfile.html">My Profile</a></li>
+                        <li class="current"><a href="level0">Home</a></li>
+                        <li><a href="challenges">Challenges</a></li>
+                        <li><a href="myProfile">My Profile</a></li>
                     </ul>
                 </nav>
             </div>
@@ -40,20 +40,34 @@
             <div class="codeContainer">
                 <form id="codeBox">
                     <fieldset>
-                        <!-- <legend> Enter code here </legend> -->
-                        <h2> Code:</h2>
+                        <legend> Level 0 </legend> <!-- TODO: Hardcoded, fix! -->
+                        <h2> Code </h2>
                         <p>
                             <textarea v-model="codeBox" id="code_area" placeholder="Enter Code"></textarea>
                         </p>
                     </fieldset>
 
-                    <input type="button" value="Run!" v-on:click="uiRunGame" />
-                    <input type="button" value="Step Through" onclick="stepThrough();" />
-                    <input type="button" value="Reset" onclick="resetLevel();" />
+                    <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
+                    <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" />
+                    <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
+                    <input id="button_1" type="button" value="Next Challenge" onclick="nextChallenge" />
                 </form>
 
                 <!-- The game display -->
-                <div class="gridContainer">
+                <div  class="gridContainer">
+                    <!-- Status Bar -->
+                    <div v-if="!gameOver" class="defaultStatus">
+                        <p>Click the run button when you're ready for codebot to execute your code.</p>
+                    </div>
+                    <div v-else-if="gameOver && victory" class="winStatus">
+                        <p>Congratulations! <br>You beat the level.</p>
+                    </div>
+
+                    <div v-else-if="gameOver && !victory" class="lossStatus">
+                        <p>Oh no! Codebot didn't reach the goal. Click the reset button to try again.</p>
+                    </div>
+
+                    <!-- Grid Rendering -->
                     <table>
                         <tr v-for="row in levelMap">
                             <td v-for="col in row">
@@ -64,8 +78,9 @@
                             </td>
                         </tr>
                     </table>
+
                 </div>
-                
+
             </div>
         </section>
 
@@ -101,32 +116,41 @@
                            World.Direction[ level.startDir ]
                        );
 
+
+
             //vue
             var game = new Vue({
                 el: "#main",
                 data: {
                     levelMap: grid.render(),
-                        // [grass1, grass1, grass1, grass1, grass1],
-                        // [grass1, grass1, grass1, grass1, grass1],
-                        // [spriteD, grass1, grass1, grass1, grass1],
-                        // [grass1, grass1, grass1, grass1, grass1],
-                        // [grass1, grass1, grass1, grass1, grass1]
-                    //],
-                  codeBox: "// Write some code!" // Replace with level starter code
+                    codeBox: "// Write some code!", // Replace with level starter code
+                    gameOver: false, 
+                    victory: false,
+                    interval: null
+
                 },
                 methods: {
+                    resetLevel: function() {
+                        var self = this;
+                        self.gameOver=false;
+                        self.levelMap= grid.render(sprites);
+                        self.victory=false;
+                        self.stop();
+                    },
+                    stop: function() {
+                        if (this.interval !== null) {
+                            clearInterval(this.interval);
+                        }
+                    },
+
                     uiRunGame: function() {
-
+                        this.stop();
                         //setup inputs
-                        // var code = document.getElementById('code_area').value;
                         var code = this.codeBox;
-
-                        //Replace later when main.ts is done
                         var ast = Parser.parseAST([], [], code).ast;
-
                         this.codeBox = Parser.prettyPrint(ast);
 
-                        var gen = Interpreter.runInterpreter(grid, ast, 
+                        var gen = Interpreter.runInterpreter(grid, ast,
                             //level command set goes in this array
                             [PS.Interpreter.environment.moveLeft,
                             PS.Interpreter.environment.moveRight,
@@ -136,20 +160,24 @@
                         var self = this;
 
                         //iterate
-                        var interval = setInterval( function() {
+                        self.interval = setInterval( function() {
                             world = gen.next().value;
 
                             if (world === undefined) {
-                                clearInterval(interval); //break
+                                self.gameOver=true;
+                                self.stop(); //break
                             }else{
                                 self.levelMap=world.render();
-                                console.log(self.levelMap);
 
-                                if (world.victory() || world.failed() || world === undefined) {
-                                    clearInterval(interval); //break
+                                if ( world.victory() || world.failed() ) {
+                                    self.gameOver=true;
+                                    if ( world.victory() ) { self.victory=true; }
+
+                                    self.stop(); //break
                                 }
                             }
                         }, 500);
+
                     }
                 }
             });
@@ -157,12 +185,9 @@
         </script>
 
         <footer>
-          <!--  CAN'T GET THIS SHIT TO ALIGN RIGHT
-            <p id="COMP4920"> COMP-4920 Project - Term 2 </p>
-            <p id="Authors">  Authors: </br> Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano </p>
-            <p id="Copyright"> Copyright &copy; 2017 </p>
-          -->
-          <p>COMP-4920 Project ----- Authors: Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano ----- Copyright &copy; 2017</p>
+            <div><p> <strong>COMP-4920</strong> Project - Term 2, 2017 </p></div>
+            <div><p>  <strong>Authors</strong> </br> Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano </p></div>
+            <div><p> Copyright &copy; 2017 </p></div>
         </footer>
     </body>
 </html>
