@@ -11,16 +11,20 @@
 
     <script src="static/js/build.js"></script>
 
+    <script type="text/javascript">
+        var levels = {{ levels | tojson | safe }};
+    </script>
+
     <body>
         <header>
           <div class="container">
               <div id="branding">
-                  <a href="challenges"><img id="favicon" src="../static/assets/favicon.png" /> </a>
+                  <a href="/"><img id="favicon" src="../static/assets/favicon.png" /> </a>
                   <h2> Welcome to <span>Codebot!</span></h2>
               </div>
               <nav>
                   <ul>
-                      <li class="current"><a href="level0">Home</a></li>
+                      <li class="current"><a href="/">Home</a></li>
                       <!-- TODO: Send back to level player was doing instead of level0 -->
                   </ul>
               </nav>
@@ -29,18 +33,19 @@
 
         <section id="main">
                 <div id="challengesList">
-                  <a href="..."><img src="../static/assets/grass/grass1.png" />
-                    <div class="text-wrapper"><h3>Level 1</h3></div></a>
-                  <a href="..."><img src="../static/assets/grass/grass2.png" />
-                    <div class="text-wrapper"><h3>Level 2</h3></div></a>
-                  <a href="..."><img src="../static/assets/grass/grass4.png" />
-                    <div class="text-wrapper"><h3>Level 3</h3></div></a>
-                  <a href="..."><img src="../static/assets/grass/grass1.png" />
-                    <div class="text-wrapper"><h3>Level 4</h3></div></a>
-                  <a href="..."><img src="../static/assets/grass/grass2.png" />
-                    <div class="text-wrapper"><h3>Level 5</h3></div></a>
+                  <a v-for="level in levels" v-bind:href="'/' + level.tag"><img src="../static/assets/grass/grass3.png" />
+                    <div class="text-wrapper"><h3>{% raw %}{{level.name}}{% endraw %}</h3></div></a>
                 </div>
         </section>
+
+        <script>
+          var game = new Vue({
+            el: "#main",
+            data: {
+              levels: levels
+            }
+          });
+        </script>
 
         <!--
         <footer>

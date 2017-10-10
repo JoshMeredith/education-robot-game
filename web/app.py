@@ -25,6 +25,8 @@ WORLDS = {
 def hello_world(level):
     return render_template('index.html', grid=WORLDS[level])
 
-@app.route('/challenges')
+@app.route('/levels')
+@app.route('/')
 def hello_world_2():
-    return render_template('challenges.html')
+    return render_template('challenges.html',
+                           levels=[{'tag': k, 'name': 'Level #'} for k in WORLDS])
