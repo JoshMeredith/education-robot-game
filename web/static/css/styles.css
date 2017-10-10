@@ -130,7 +130,6 @@ form #button_2 {
     text-align: center;
     width: 40%;
     padding: 10px 50px 10px 10px;
-    display: flex;
     justify-content: center;
     align-items: center; 
 }
@@ -140,31 +139,23 @@ form #button_2 {
     width: 500px;
 }
 
-.winMessage {
-    float: right;
-    text-align: center;
-    width: 100%;
-    height: 69vh;
-    padding: 10px;
-    background-color: #abf7ab;
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
-    align-items: center; 
+.defaultStatus {
+  background-color: #c4c4c4;
+  border-radius: 10px; 
+  font-family: monospace;
+
 }
 
-.lossMessage {
-    float: right;
-    text-align: center;
-    width: 100%;
-    height: 69vh;
-    padding: 10px;
-    background-color: #ff816b;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
+.winStatus {
+    background-color: #abf7ab;
+    border-radius: 10px; 
+    font-family: monospace;
+}
 
+.lossStatus {
+    background-color: #ff816b;
+    border-radius: 10px; 
+    font-family: monospace;
 }
 
 /** TODO: Right, now position of sprite is hardcoded using "top" and "right" attributes **/
