@@ -6,6 +6,7 @@ app = Flask(__name__, static_url_path='/static')
 # FIXME: Hardcoded worlds.
 WORLDS = {
     'level1': {
+        'name': 'Level 1',
         'numRows': 1,
         'numCols': 2,
         'start': {'x': 0, 'y': 0},
@@ -16,6 +17,7 @@ WORLDS = {
         ]
     },
     'level2': {
+        'name': 'Level 2',
         'numRows': 5,
         'numCols': 5,
         'start': {'x': 3, 'y': 1},
@@ -30,6 +32,7 @@ WORLDS = {
         ]
     },
     'level3': {
+        'name': 'Level 3',
         'numRows': 1,
         'numCols': 11,
         'start': {'x': 0, 'y': 0},
@@ -40,6 +43,7 @@ WORLDS = {
         ]
     },
     'level4': {
+        'name': 'Level 4',
         'numRows': 5,
         'numCols': 5,
         'start': {'x': 2, 'y': 1},
@@ -59,6 +63,8 @@ WORLDS = {
 def hello_world(level):
     return render_template('index.html', grid=WORLDS[level])
 
-@app.route('/challenges')
+@app.route('/levels')
+@app.route('/')
 def hello_world_2():
-    return render_template('challenges.html')
+    return render_template('challenges.html',
+                           levels=[{'tag': k, 'name': WORLDS[k]["name"]} for k in WORLDS.keys()])

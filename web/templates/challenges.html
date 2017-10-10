@@ -11,62 +11,46 @@
 
     <script src="static/js/build.js"></script>
 
+    <script type="text/javascript">
+        var levels = {{ levels | tojson | safe }};
+    </script>
+
     <body>
         <header>
-            <div class="container">
-                <div id="branding">
-                    <img id="favicon" src="../static/assets/favicon.png" />
-                    <h1> Welcome to <span>Codebot!</span></h1>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="level0">Home</a></li>
-                        <li class="current"><a href="challenges">Challenges</a></li>
-                        <li><a href="myProfile">My Profile</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
+          <div class="container">
+              <div id="branding">
+                  <a href="/"><img id="favicon" src="../static/assets/favicon.png" /> </a>
+                  <h2> Welcome to <span>Codebot!</span></h2>
+              </div>
+              <nav>
+                  <ul>
+                      <li class="current"><a href="/">Home</a></li>
+                      <!-- TODO: Send back to level player was doing instead of level0 -->
+                  </ul>
+              </nav>
+          </div>
+      </header>
 
-        <!-- Everything for the code and the game display -->
         <section id="main">
-          <!-- TODO: Remember to wrap the images in an <a> tag with href if you wanted
-                     the images to reference a link to a challenge
-               TODO: There's probably a better way to have all these images than all
-                     the divs below. This is pretty much hardcoded so if we add challenges
-                     we'll need to add more tags... hmmmm
-          -->
-          <div id="pictureBox">
-            <img src="../static/assets/challenges/challenge1.png" />
-            <p> <strong>Topic:</strong> Comments</p>
-          </div>
-
-          <div id="pictureBox">
-            <img src="../static/assets/challenges/challenge2.png" />
-            <p> <strong>Topic:</strong> Comments, Objects, Functions</p>
-          </div>
-
-          <div id="pictureBox">
-            <img src="../static/assets/challenges/challenge3.png" />
-            <p> <strong>Topic:</strong> Functions</p>
-          </div>
-
-          <div id="pictureBox">
-            <img src="../static/assets/challenges/challenge4.png" />
-            <p> <strong>Topic:</strong> TBD</p>
-          </div>
-
-          <div id="pictureBox">
-            <img src="../static/assets/challenges/challenge5.png" />
-            <p> <strong>Topic:</strong> TBD</p>
-          </div>
-
+                <div id="challengesList">
+                  <a v-for="level in levels" v-bind:href="'/' + level.tag"><img src="../static/assets/grass/grass3.png" />
+                    <div class="text-wrapper"><h3>{% raw %}{{level.name}}{% endraw %}</h3></div></a>
+                </div>
         </section>
 
+        <script>
+          var game = new Vue({
+            el: "#main",
+            data: {
+              levels: levels
+            }
+          });
+        </script>
+
+        <!--
         <footer>
-            <div><p> <strong>COMP-4920</strong> Project - Term 2, 2017 </p></div>
-            <div><p>  <strong>Authors</strong> </br> Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano </p></div>
-            <div><p> Copyright &copy; 2017 </p></div>
         </footer>
+        -->
+
     </body>
 </html>

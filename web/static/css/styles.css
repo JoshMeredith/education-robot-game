@@ -31,9 +31,14 @@ ul {
 header {
     background: #35424a;
     color: #ffffff;
-    padding-top: 20px;
-    min-height: 70px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    min-height: 40px;
     border-bottom: #00BFFF 5px solid;
+}
+
+.current {
+  padding-right: 0;
 }
 
 header #branding {
@@ -41,7 +46,7 @@ header #branding {
     vertical-align: middle;
     /* text-align: center; */
     width: 45%;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
 header #branding span {
@@ -50,7 +55,7 @@ header #branding span {
 
 header #favicon {
   vertical-align: middle;
-  height: 80px;
+  height: 60px;
   float: left;
 }
 
@@ -91,16 +96,14 @@ form#codeBox {
     text-align: center;
 }
 
+form#codeBox fieldset {
+  text-align: left;
+}
+
 #code_area{
     font-family: monospace;
+    margin-bottom: 10px;
 }
-
-
-form#codeBox fieldset legend {
-    font-size: 20px;
-    text-align: center;
-}
-
 
 form#codeBox fieldset {
     /* Takes care of settings INSIDE the form */
@@ -108,6 +111,11 @@ form#codeBox fieldset {
     padding: 0 25px 0 15px;
     margin-bottom: 15px;
     background: #e6e6e6;
+}
+
+form#codeBox fieldset legend {
+    font-size: 20px;
+    text-align: center;
 }
 
 form#codeBox textarea {
@@ -133,7 +141,7 @@ form #button_2 {
     width: 40%;
     padding: 10px 50px 10px 10px;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
 }
 
 #grid {
@@ -160,15 +168,6 @@ form #button_2 {
     font-family: monospace;
 }
 
-/** TODO: Right, now position of sprite is hardcoded using "top" and "right" attributes **/
-/*#sprite {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    top: 315px;
-    right: 635px;
-}*/
-
 #cell {
     width: 100%;
     height: width;
@@ -183,22 +182,66 @@ table {
 
 
 /** ------------------------- CHALLENGES PAGE ------------------------------ **/
-#pictureBox {
-  padding: 25px;
-  /* height: 100%; */
-  width: 17%;
-  float: left;
-  text-align: center;
+
+#wrapperDiv {
+    margin-top: 10px;
+    margin-left: 10px;
+    /* TODO: Fix it so it's always 10px from right side too */
+  }
+
+
+
+#challengesList {
+    /*
+    background: url("../assets/calm.jpg");
+    background-size: 100%;
+    */
+    height: 803px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+    font-size: 0;
+    margin: auto;
+    text-align: center;
 }
 
-#pictureBox img {
-  padding: 0px;
-  height: 250px;
+#challengesList a {
+  text-decoration: none;
+  width: 12%;
+  margin: 10px;
+  border: 4px solid #35424a;
+  display: inline-block;
+  -webkit-border-radius: 10px;  /* For compatibility with older browsers */
+  border-radius: 10px;
+  opacity: 1;
+
+  /* Works fine but weird
+  -webkit-transition: all .2s ease-in;
+  transition: all .2s ease-in;
+  */
 }
 
-#pictureBox p {
-  text-align: center;
-  font-size: 18px;
+#challengesList a:hover {
+    border-color: #00BFFF;
+    opacity: 0.8;
+}
+
+#challengesList img { /* Edits to this are within (relative to) the border of each image it seems */
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    width: 100%;
+}
+
+.text-wrapper {
+    width: 100%;
+    position: relative;
+    margin-top: -88%;
+}
+
+.text-wrapper h3 {
+    text-align: center;
+    color: #00008B;
+    font-size: 3vw;
 }
 
 /** --------------------------------- FOOTER ------------------------------- **/
@@ -224,7 +267,7 @@ footer div {
 /** -------------------- MEDIA QUERIES (for responsinveness) ----------------**/
 @media(max-width: 1000px){
     header {
-        padding-bottom: 20px;
+        padding-bottom: 5px;
     }
 
     header #branding,

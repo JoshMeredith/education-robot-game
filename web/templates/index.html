@@ -21,14 +21,12 @@
         <header>
             <div class="container">
                 <div id="branding">
-                    <img id="favicon" src="../static/assets/favicon.png" />
-                    <h1> Welcome to <span>Codebot!</span></h1>
+                    <a href="challenges"><img id="favicon" src="../static/assets/favicon.png" /> </a>
+                    <h2> Welcome to <span>Codebot!</span></h2>
                 </div>
                 <nav>
                     <ul>
-                        <li class="current"><a href="level0">Home</a></li>
-                        <li><a href="challenges">Challenges</a></li>
-                        <li><a href="myProfile">My Profile</a></li>
+                        <li class="current"><a href="challenges">Levels</a></li>
                     </ul>
                 </nav>
             </div>
@@ -40,17 +38,18 @@
             <div class="codeContainer">
                 <form id="codeBox">
                     <fieldset>
-                        <legend> Level 0 </legend> <!-- TODO: Hardcoded, fix! -->
-                        <h2> Code </h2>
-                        <p>
-                            <textarea v-model="codeBox" id="code_area" placeholder="Enter Code"></textarea>
-                        </p>
+                        <!-- Temporarily removing for spring release
+                        <legend> Level 0 </legend>
+
+                        <!-- TODO: Hardcoded, fix! -->
+                        <p><strong>Instructions: </strong> ... dynamically replace with correct level instructions... </p>
+                        <textarea v-model="codeBox" id="code_area" placeholder="Enter Code"></textarea>
                     </fieldset>
 
                     <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
-                    <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" />
+                    <!-- <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" /> -->
                     <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
-                    <input id="button_1" type="button" value="Next Challenge" onclick="nextChallenge" />
+                    <!-- <input id="button_1" type="button" value="Next Challenge" onclick="nextChallenge" /> -->
                 </form>
 
                 <!-- The game display -->
@@ -124,7 +123,7 @@
                 data: {
                     levelMap: grid.render(),
                     codeBox: "// Write some code!", // Replace with level starter code
-                    gameOver: false, 
+                    gameOver: false,
                     victory: false,
                     interval: null
                 },
@@ -184,10 +183,10 @@
 
         </script>
 
+        <!--
         <footer>
-            <div><p> <strong>COMP-4920</strong> Project - Term 2, 2017 </p></div>
-            <div><p>  <strong>Authors</strong> </br> Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano </p></div>
-            <div><p> Copyright &copy; 2017 </p></div>
         </footer>
+        -->
+
     </body>
 </html>
