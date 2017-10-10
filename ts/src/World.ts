@@ -177,10 +177,12 @@ export class Grid {
             grid[y] = [];
             for (var x = 0; x < render_cols; x++) {
                 grid[y][x] = [this.sprites.ground];
-                if (y >= 1 && x >= 1 &&
-                    y < render_rows - 1 && x < render_cols - 1) {
-                    grid[y][x] = [...grid[y][x], ...this.world[y - 1][x - 1].sprites];
-                }
+            }
+        }
+
+        for (var y = 0; y < this.world.length; y++) {
+            for (var x = 0; x < this.world[y].length; x++) {
+                grid[y+1][x+1] = [...grid[y+1][x+1], ...this.world[y][x].sprites];
             }
         }
 
