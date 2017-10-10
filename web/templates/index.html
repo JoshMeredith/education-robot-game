@@ -87,22 +87,33 @@
         <!-- Vue object setup -->
         <script>
             // initialise
-            var grid = new World.Grid( level.numRows, level.numCols,
-                new World.Coord2D( level.goal.x, level.goal.y ),
-                new World.Coord2D( level.start.x, level.start.y ),
-                World.Direction[ level.startDir ]);
             var sprites = {
-                grass: function(){
-                    return "../static/assets/grass/grass1.png";
-                },
+                ground: "../static/assets/grass/grass3.png",
+                grass: "../static/assets/grass/grass1.png",
                 player: {
                     Up: "../static/assets/playerSprite/up.png",
                     Down: "../static/assets/playerSprite/down.png",
                     Left: "../static/assets/playerSprite/left.png",
                     Right: "../static/assets/playerSprite/right.png"
                 },
-                goal: "../static/assets/goal.png"
+                goal: "../static/assets/goal.png",
+                wall: {
+                    horizontal: "../static/assets/wall/horizontal.png",
+                    vertical: "../static/assets/wall/vertical.png",
+                    topLeft: "../static/assets/wall/corner_top_left.png",
+                    topRight: "../static/assets/wall/corner_top_right.png",
+                    bottomLeft: "../static/assets/wall/corner_bottom_left.png",
+                    bottomRight: "../static/assets/wall/corner_bottom_right.png"
+                }
             };
+            var grid = new World.Grid(
+                           level.numRows,
+                           level.numCols,
+                           sprites,
+                           new World.Coord2D( level.goal.x, level.goal.y ),
+                           new World.Coord2D( level.start.x, level.start.y ),
+                           World.Direction[ level.startDir ]
+                       );
 
 
 
@@ -110,10 +121,12 @@
             var game = new Vue({
                 el: "#main",
                 data: {
-                    levelMap: grid.render(sprites),
+                    levelMap: grid.render(),
                     codeBox: "// Write some code!", // Replace with level starter code
                     gameOver: false, 
                     victory: false,
+                    interval: null
+
                 },
                 methods: {
                     resetLevel: function() {
@@ -121,9 +134,16 @@
                         self.gameOver=false;
                         self.levelMap= grid.render(sprites);
                         self.victory=false;
+                        self.stop();
                     },
-                    uiRunGame: function() {
+                    stop: function() {
+                        if (this.interval !== null) {
+                            clearInterval(this.interval);
+                        }
+                    },
 
+                    uiRunGame: function() {
+                        this.stop();
                         //setup inputs
                         var code = this.codeBox;
                         var ast = Parser.parseAST([], [], code).ast;
@@ -139,20 +159,20 @@
                         var self = this;
 
                         //iterate
-                        var interval = setInterval( function() {
+                        self.interval = setInterval( function() {
                             world = gen.next().value;
 
                             if (world === undefined) {
                                 self.gameOver=true;
-                                clearInterval(interval); //break
+                                self.stop(); //break
                             }else{
-                                self.levelMap=world.render(sprites);
+                                self.levelMap=world.render();
 
                                 if ( world.victory() || world.failed() ) {
                                     self.gameOver=true;
                                     if ( world.victory() ) { self.victory=true; }
 
-                                    clearInterval(interval); //break
+                                    self.stop(); //break
                                 }
                             }
                         }, 500);
