@@ -33,7 +33,7 @@ export class Grid {
     constructor(readonly rows: number, readonly cols: number,
         readonly sprites: Sprites, readonly goal: Coord2D,
         readonly playerLocation: Coord2D, readonly facing: Direction,
-        readonly hasFailed = false, private world: Obstacle[][] = []) {
+        private world: Obstacle[][] = [], readonly hasFailed = false) {
 
         // Assume the grid is always initialised properly, if it is.
         if (world.length != rows) {
@@ -118,8 +118,8 @@ export class Grid {
             this.goal,
             new Coord2D(newRow, newCol),
             newDir,
-            newFailure,
-            this.world
+            this.world,
+            newFailure
         );
     }
 
@@ -143,15 +143,15 @@ export class Grid {
         // Add walls.
         for (var x = 1; x < render_cols - 1; x++) {
             grid[0          ][x].push(this.sprites.wall.horizontal);
-            grid[this.rows-1][x].push(this.sprites.wall.horizontal);
+            grid[this.rows+1][x].push(this.sprites.wall.horizontal);
         }
         for (var y = 1; y < render_rows - 1; y++) {
             grid[y][0          ].push(this.sprites.wall.vertical);
-            grid[y][this.cols-1].push(this.sprites.wall.vertical);
+            grid[y][this.cols+1].push(this.sprites.wall.vertical);
         }
-        grid[0          ][0          ].push(this.sprites.wall.topLeft);
-        grid[0          ][render_cols - 1].push(this.sprites.wall.topRight);
-        grid[render_rows - 1][0          ].push(this.sprites.wall.bottomLeft);
+        grid[0              ][0              ].push(this.sprites.wall.topLeft);
+        grid[0              ][render_cols - 1].push(this.sprites.wall.topRight);
+        grid[render_rows - 1][0              ].push(this.sprites.wall.bottomLeft);
         grid[render_rows - 1][render_cols - 1].push(this.sprites.wall.bottomRight);
 
         grid[this.goal.row + 1][this.goal.col + 1].push(this.sprites.goal);
