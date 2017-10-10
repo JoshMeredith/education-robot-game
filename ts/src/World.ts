@@ -30,37 +30,20 @@ export class Coord2D {
 }
 
 export class Grid {
-    private world: Obstacle[][] = [];
-    readonly rows: number;
-    readonly cols: number;
-
-    constructor(interior_height: number, interior_width: number,
+    constructor(readonly rows: number, readonly cols: number,
         readonly sprites: Sprites, readonly goal: Coord2D,
         readonly playerLocation: Coord2D, readonly facing: Direction,
-        readonly hasFailed = false)
-    {
-        this.rows = interior_height + 2;
-        this.cols = interior_width  + 2;
-        this.world[0] = [];
-        this.world[this.rows-1] = [];
-        for (var y = 1; y < this.rows - 1; y++) {
-            this.world[y] = [];
-            for (var x = 1; x < this.cols - 1; x++) {
-                this.world[y][x] = new Obstacle(Ground.Clear, [this.sprites.grass]);
+        readonly hasFailed = false, private world: Obstacle[][] = []) {
+
+        // Assume the grid is always initialised properly, if it is.
+        if (world.length != rows) {
+            for (var y = 0; y < this.rows; y++) {
+                this.world[y] = [];
+                for (var x = 0; x < this.cols; x++) {
+                    this.world[y][x] = new Obstacle(Ground.Clear, [this.sprites.grass]);
+                }
             }
         }
-        for (var x = 1; x < this.cols - 1; x++) {
-            this.world[0          ][x] = new Obstacle(Ground.Wall, [this.sprites.wall.horizontal]);
-            this.world[this.rows-1][x] = new Obstacle(Ground.Wall, [this.sprites.wall.horizontal]);
-        }
-        for (var y = 1; y < this.rows - 1; y++) {
-            this.world[y][0          ] = new Obstacle(Ground.Wall, [this.sprites.wall.vertical]);
-            this.world[y][this.cols-1] = new Obstacle(Ground.Wall, [this.sprites.wall.vertical]);
-        }
-        this.world[0          ][0          ] = new Obstacle(Ground.Wall, [this.sprites.wall.topLeft]);
-        this.world[0          ][this.cols-1] = new Obstacle(Ground.Wall, [this.sprites.wall.topRight]);
-        this.world[this.rows-1][0          ] = new Obstacle(Ground.Wall, [this.sprites.wall.bottomLeft]);
-        this.world[this.rows-1][this.cols-1] = new Obstacle(Ground.Wall, [this.sprites.wall.bottomRight]);
     }
 
     public playerFacing(): Direction {
@@ -108,7 +91,13 @@ export class Grid {
                 let tmpRow = this.playerLocation.row + dRow[newDir];
                 let tmpCol = this.playerLocation.col + dCol[newDir];
 
-                switch (this.world[tmpRow][tmpCol].type) {
+                let nextBlock = Ground.Wall;
+                if (tmpRow >= 0 && tmpCol >= 0 &&
+                    tmpRow < this.rows && tmpCol < this.cols) {
+                    nextBlock = this.world[tmpRow][tmpCol].type;
+                }
+
+                switch (nextBlock) {
                     case (Ground.Clear): {
                         newRow = tmpRow;
                         newCol = tmpCol;
@@ -123,30 +112,52 @@ export class Grid {
         }
 
         return new Grid(
-            this.rows - 2,
-            this.cols - 2,
+            this.rows,
+            this.cols,
             this.sprites,
             this.goal,
             new Coord2D(newRow, newCol),
             newDir,
-            newFailure);
+            newFailure,
+            this.world
+        );
     }
 
     public render(): string[][][] {
         var grid: string[][][] = [];
 
-        for (var y = 0; y < this.rows; y++) {
+        let render_rows = this.rows + 2;
+        let render_cols = this.cols + 2;
+
+        for (var y = 0; y < render_rows; y++) {
             grid[y] = [];
-            for (var x = 0; x < this.cols; x++) {
+            for (var x = 0; x < render_cols; x++) {
                 grid[y][x] = [this.sprites.ground];
-                Array.prototype.push.apply(grid[y][x], this.world[y][x].sprites);
+                if (y >= 1 && x >= 1 &&
+                    y < render_rows - 1 && x < render_cols - 1) {
+                    grid[y][x] = [...grid[y][x], ...this.world[y - 1][x - 1].sprites];
+                }
             }
         }
 
-        grid[this.goal.row][this.goal.col].push(this.sprites.goal);
+        // Add walls.
+        for (var x = 1; x < render_cols - 1; x++) {
+            grid[0          ][x].push(this.sprites.wall.horizontal);
+            grid[this.rows-1][x].push(this.sprites.wall.horizontal);
+        }
+        for (var y = 1; y < render_rows - 1; y++) {
+            grid[y][0          ].push(this.sprites.wall.vertical);
+            grid[y][this.cols-1].push(this.sprites.wall.vertical);
+        }
+        grid[0          ][0          ].push(this.sprites.wall.topLeft);
+        grid[0          ][render_cols - 1].push(this.sprites.wall.topRight);
+        grid[render_rows - 1][0          ].push(this.sprites.wall.bottomLeft);
+        grid[render_rows - 1][render_cols - 1].push(this.sprites.wall.bottomRight);
 
-        grid[this.playerLocation.row]
-            [this.playerLocation.col]
+        grid[this.goal.row + 1][this.goal.col + 1].push(this.sprites.goal);
+
+        grid[this.playerLocation.row + 1]
+            [this.playerLocation.col + 1]
             .push(this.sprites.player[Direction[this.facing]]);
 
         return grid;
