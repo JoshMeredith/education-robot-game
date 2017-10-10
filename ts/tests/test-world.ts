@@ -126,9 +126,9 @@ describe('Grid rendering', () => {
         let w = new World.Grid(8, 9, sprites, new World.Coord2D(2, 3),
             new World.Coord2D(3, 4), World.Direction.Up);
         let render = w.render();
-        expect(render[2][3]).to.contain('GOAL');
-        expect(render[0][0]).not.to.contain('GOAL');
-        expect(render[3][4]).not.to.contain('GOAL');
+        expect(render[2 + 1][3 + 1]).to.contain('GOAL');
+        expect(render[0 + 1][0 + 1]).not.to.contain('GOAL');
+        expect(render[3 + 1][4 + 1]).not.to.contain('GOAL');
     });
 
     it('Robot at correct location with correct orientation', () => {
@@ -142,7 +142,7 @@ describe('Grid rendering', () => {
             let w = new World.Grid(8, 9, sprites, new World.Coord2D(2, 3),
                 new World.Coord2D(3, 4), directions[i]);
             let render = w.render();
-            expect(render[3][4]).to.contain(dirSprites[i]);
+            expect(render[3 + 1][4 + 1]).to.contain(dirSprites[i]);
         }
     });
 });
