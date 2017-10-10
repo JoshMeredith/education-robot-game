@@ -129,6 +129,7 @@
                     gameOver: false, 
                     victory: false,
                     stepThroughMode: false,
+                    interval: null
                 },
                 methods: {
                     viewMap: function(){
@@ -139,12 +140,18 @@
                         var self = this;
                         self.gameOver=false;
                         self.levelMap= grid.render(sprites);
+                        self.stop();
+                    },
+                    stop: function() {
+                        if (this.interval !== null) {
+                            clearInterval(this.interval);
+                        }
                     },
                     stepThrough: function() {
                         
                     },
                     uiRunGame: function() {
-
+                        this.stop();
                         //setup inputs
                         var code = this.codeBox;
                         var ast = Parser.parseAST([], [], code).ast;
@@ -160,12 +167,12 @@
                         var self = this;
 
                         //iterate
-                        var interval = setInterval( function() {
+                        self.interval = setInterval( function() {
                             world = gen.next().value;
 
                             if (world === undefined) {
                                 self.gameOver=true;
-                                clearInterval(interval); //break
+                                self.stop(); //break
                             }else{
                                 self.levelMap=world.render();
 
@@ -173,7 +180,7 @@
                                     self.gameOver=true;
                                     if ( world.victory() ) { self.victory=true; }
 
-                                    clearInterval(interval); //break
+                                    self.stop(); //break
                                 }
                             }
                         }, 500);
