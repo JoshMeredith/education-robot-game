@@ -25,7 +25,7 @@ ul {
     padding: 0;
 }
 
-/** Header **/
+/** --------------------------------- HEADER ------------------------------- **/
 header {
     background: #35424a;
     color: #ffffff;
@@ -34,9 +34,22 @@ header {
     border-bottom: #00BFFF 5px solid;
 }
 
-/* MAY NOT BE NECESSARY - TEST */
 header #branding {
     float: left;
+    vertical-align: middle;
+    /* text-align: center; */
+    width: 45%;
+    margin-bottom: 20px;
+}
+
+header #branding span {
+  color: #00BFFF;
+}
+
+header #favicon {
+  vertical-align: middle;
+  height: 80px;
+  float: left;
 }
 
 header nav {
@@ -47,7 +60,7 @@ header nav {
 header li {
     float: left;
     display: inline;
-    padding: 0 40px 0 40px;
+    padding: 0 40px 20px 40px;
 }
 
 header a {
@@ -57,54 +70,101 @@ header a {
     font-size: 16px;
 }
 
-header #branding {
-    float: left;
+header .current a {
+  color: #00BFFF;
+  font-weight: bold;
 }
 
-/* Code section */
+header a:hover {
+    color:#cccccc;
+    font-weight: bold;
+}
+
+/** --------------------------- CODE SECTION ------------------------------- **/
 form#codeBox {
     /* Takes care of the form itself, padding with exterior, etc. */
     float: left;
     width: 45%;
-    padding: 10px;
+    padding: 20px;
+    text-align: center;
 }
 
 #code_area{
     font-family: monospace;
 }
 
-/*  USELESS FOR NOW since I removed the legend, can add it back later if wanted
+
 form#codeBox fieldset legend {
     font-size: 20px;
     text-align: center;
 }
-*/
+
 
 form#codeBox fieldset {
     /* Takes care of settings INSIDE the form */
-    height: 500px;
+    height: 100%;
     padding: 0 25px 0 15px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     background: #e6e6e6;
 }
 
 form#codeBox textarea {
     width: 100%;
-    height: 400px;
+    height: 50vh;
 }
 
+form #button_1 {
+  height: 30px;
+  width: 200px;
+}
 
-/* Grid section */
+form #button_2 {
+  height: 30px;
+  width: 200px;
+  background-color: #00BFFF;
+}
+
+/** --------------------------- GRID SECTION ------------------------------- **/
 .gridContainer {
     float: right;
     text-align: center;
     width: 40%;
     padding: 10px 50px 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
 }
 
 #grid {
     position: relative;
     width: 500px;
+}
+
+.winMessage {
+    float: right;
+    text-align: center;
+    width: 100%;
+    height: 69vh;
+    padding: 10px;
+    background-color: #abf7ab;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center; 
+}
+
+.lossMessage {
+    float: right;
+    text-align: center;
+    width: 100%;
+    height: 69vh;
+    padding: 10px;
+    background-color: #ff816b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+
 }
 
 /** TODO: Right, now position of sprite is hardcoded using "top" and "right" attributes **/
@@ -129,27 +189,77 @@ table {
 }
 
 
-/** Footer **/
+/** ------------------------- CHALLENGES PAGE ------------------------------ **/
+#pictureBox {
+  padding: 25px;
+  /* height: 100%; */
+  width: 17%;
+  float: left;
+  text-align: center;
+}
+
+#pictureBox img {
+  padding: 0px;
+  height: 250px;
+}
+
+#pictureBox p {
+  text-align: center;
+  font-size: 18px;
+}
+
+/** --------------------------------- FOOTER ------------------------------- **/
 footer {
     font-size: 18px;
     text-align: center;
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
     color: #ffffff;
     background-color: #35424a;
+    float: left;
+    width: 98%;
+    /* TODO: Rright now width: 100% gives a horizontal scroll bar at 100%zoom on chrome
+             I think I can fix this by implementing responsiveness elements.. at some point...
+             */
 }
 
-/* CAN'T GET THIS SHIT TO ALIGN RIGHT
-footer #COMP4920 {
-  font-size: 18px;
-  text-align: left;
+footer div {
+  width: 33%;
+  float: left;
 }
-footer #Authors {
-  font-size: 18px;
-  text-align: center;
+
+/** -------------------- MEDIA QUERIES (for responsinveness) ----------------**/
+@media(max-width: 1000px){
+    header {
+        padding-bottom: 20px;
+    }
+
+    header #branding,
+    header nav,
+    header li {
+      float: none;
+      text-align: center;
+      width: 100%;
+    }
+
+    header #favicon {
+      float:none;
+      text-align: center;
+    }
+
+    footer, footer div {
+      float:none;
+      text-align-last: center;
+      width: 100%;
+    }
 }
-footer #Copyright {
-  font-size: 18px;
-  text-align: right;
+
+@media(max-width: 1200px) {
+  #main {
+    text-align: center;
+  }
+
+  #pictureBox {
+    float: none;
+  }
 }
-*/
