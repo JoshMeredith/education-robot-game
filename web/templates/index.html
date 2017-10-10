@@ -57,14 +57,14 @@
                 <div  class="gridContainer">
                     <!-- Status Bar -->
                     <div v-if="!gameOver" class="defaultStatus">
-                        <p>Click the run button when you're ready for codebot to execute your code.</p>
+                        <p>Click the run button when you're ready <br>for codebot to execute your code.</p>
                     </div>
                     <div v-else-if="gameOver && victory" class="winStatus">
                         <p>Congratulations! <br>You beat the level.</p>
                     </div>
 
                     <div v-else-if="gameOver && !victory" class="lossStatus">
-                        <p>Oh no! Codebot didn't reach the goal. Click the reset button to try again.</p>
+                        <p>Oh no! Codebot didn't reach the goal. <br>Click the reset button to try again.</p>
                     </div>
 
                     <!-- Grid Rendering -->
