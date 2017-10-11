@@ -109,8 +109,8 @@
                            level.numRows,
                            level.numCols,
                            sprites,
-                           new World.Coord2D( level.goal.x, level.goal.y ),
-                           new World.Coord2D( level.start.x, level.start.y ),
+                           new World.Coord2D( level.goal.row, level.goal.col ),
+                           new World.Coord2D( level.start.row, level.start.col ),
                            World.Direction[ level.startDir ],
                            World.shorthandGrid(level.grid, sprites)
                        );
