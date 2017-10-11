@@ -42,8 +42,9 @@
                         <legend> Level 0 </legend>
 
                         <!-- TODO: Hardcoded, fix! -->
-                        <p><strong>Instructions: </strong> ... dynamically replace with correct level instructions... </p>
-                        <textarea v-model="codeBox" id="code_area" placeholder="Enter Code"></textarea>
+                        <p><strong>Instructions </strong> </p>
+                        <pre>{% raw %}{{instructions}}{% endraw %}</pre>
+                        <textarea v-model="codeBox" id="code_area" ></textarea>
                     </fieldset>
 
                     <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
@@ -122,10 +123,12 @@
                 el: "#main",
                 data: {
                     levelMap: grid.render(),
-                    codeBox: "// Write some code!", // Replace with level starter code
+                    codeBox: level.startCode, // Replace with level starter code
                     gameOver: false,
                     victory: false,
-                    interval: null
+                    interval: null,
+                    instructions: level.instructions,
+                    startCode: level.startCode
                 },
                 methods: {
                     resetLevel: function() {
