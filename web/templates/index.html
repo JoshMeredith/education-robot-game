@@ -117,14 +117,11 @@
                            World.shorthandGrid(level.grid, sprites)
                        );
 
-
-
-            //vue
             var game = new Vue({
                 el: "#main",
                 data: {
                     levelMap: grid.render(),
-                    codeBox: level.startCode, // Replace with level starter code
+                    codeBox: level.startCode,
                     gameOver: false,
                     victory: false,
                     interval: null,
