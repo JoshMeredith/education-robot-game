@@ -21,12 +21,12 @@
         <header>
             <div class="container">
                 <div id="branding">
-                    <a href="challenges"><img id="favicon" src="../static/assets/favicon.png" /> </a>
+                    <a href="/"><img id="favicon" src="../static/assets/favicon.png" /> </a>
                     <h2> Welcome to <span>Codebot!</span></h2>
                 </div>
                 <nav>
                     <ul>
-                        <li class="current"><a href="challenges">Levels</a></li>
+                        <li class="current"><a href="/">Levels</a></li>
                     </ul>
                 </nav>
             </div>
@@ -56,7 +56,7 @@
                 <div  class="gridContainer">
                     <!-- Status Bar -->
                     <div v-if="!gameOver" class="defaultStatus">
-                        <p>Click the run button when you're ready <br>for codebot to execute your code.</p>
+                        <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
                     </div>
                     <div v-else-if="gameOver && victory" class="winStatus" v-cloak>
                         <p>Congratulations! <br>You beat the level.</p>
@@ -109,8 +109,8 @@
                            level.numRows,
                            level.numCols,
                            sprites,
-                           new World.Coord2D( level.goal.x, level.goal.y ),
-                           new World.Coord2D( level.start.x, level.start.y ),
+                           new World.Coord2D( level.goal.row, level.goal.col ),
+                           new World.Coord2D( level.start.row, level.start.col ),
                            World.Direction[ level.startDir ],
                            World.shorthandGrid(level.grid, sprites)
                        );
