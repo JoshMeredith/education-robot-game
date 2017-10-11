@@ -1,10 +1,11 @@
-ts/**/*.js
-purescript/*.js
+/ts/**/*.js
+/purescript/*.js
 **/bower_components
-build
-purescript/output
-purescript/.psci_modules
+/build
+/purescript/output
+/purescript/.psci_modules
 *.swp
-web/static/js/build.js
+*.pyc
+/web/static/js/build.js
 /node_modules/
 /package-lock.json
