@@ -92,4 +92,4 @@ def hello_world(level):
 @app.route('/')
 def hello_world_2():
     return render_template('challenges.html',
-                           levels=[{'tag': k, 'name': WORLDS[k]["name"]} for k in WORLDS.keys()])
+                           levels=[{'tag': k, 'name': WORLDS[k]["name"]} for k in sorted(list(WORLDS.keys()))])
