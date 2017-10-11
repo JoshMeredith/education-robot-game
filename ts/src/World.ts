@@ -48,22 +48,22 @@ function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
             return new Obstacle(Ground.Clear, [sprites.grass]);
         }
         case 'V': {
-            return new Obstacle(Ground.Wall, [sprites.wall.vertical]);
+            return new Obstacle(Ground.Wall, [sprites.wall.full]);
         }
         case 'H': {
-            return new Obstacle(Ground.Wall, [sprites.wall.horizontal]);
+            return new Obstacle(Ground.Wall, [sprites.wall.full]);
         }
         case 'TL': {
-            return new Obstacle(Ground.Wall, [sprites.wall.topLeft]);
+            return new Obstacle(Ground.Wall, [sprites.wall.full]);
         }
         case 'TR': {
-            return new Obstacle(Ground.Wall, [sprites.wall.topRight]);
+            return new Obstacle(Ground.Wall, [sprites.wall.full]);
         }
         case 'BL': {
-            return new Obstacle(Ground.Wall, [sprites.wall.bottomLeft]);
+            return new Obstacle(Ground.Wall, [sprites.wall.full]);
         }
         case 'BR': {
-            return new Obstacle(Ground.Wall, [sprites.wall.bottomRight]);
+            return new Obstacle(Ground.Wall, [sprites.wall.full]);
         }
     }
 }
@@ -190,17 +190,17 @@ export class Grid {
 
         // Add walls.
         for (var x = 1; x < render_cols - 1; x++) {
-            grid[0          ][x].push(this.sprites.wall.horizontal);
-            grid[this.rows+1][x].push(this.sprites.wall.horizontal);
+            grid[0          ][x].push(this.sprites.wall.full);
+            grid[this.rows+1][x].push(this.sprites.wall.full);
         }
         for (var y = 1; y < render_rows - 1; y++) {
-            grid[y][0          ].push(this.sprites.wall.vertical);
-            grid[y][this.cols+1].push(this.sprites.wall.vertical);
+            grid[y][0          ].push(this.sprites.wall.full);
+            grid[y][this.cols+1].push(this.sprites.wall.full);
         }
-        grid[0              ][0              ].push(this.sprites.wall.topLeft);
-        grid[0              ][render_cols - 1].push(this.sprites.wall.topRight);
-        grid[render_rows - 1][0              ].push(this.sprites.wall.bottomLeft);
-        grid[render_rows - 1][render_cols - 1].push(this.sprites.wall.bottomRight);
+        grid[0              ][0              ].push(this.sprites.wall.full);
+        grid[0              ][render_cols - 1].push(this.sprites.wall.full);
+        grid[render_rows - 1][0              ].push(this.sprites.wall.full);
+        grid[render_rows - 1][render_cols - 1].push(this.sprites.wall.full);
 
         grid[this.goal.row + 1][this.goal.col + 1].push(this.sprites.goal);
 
@@ -223,6 +223,7 @@ interface Sprites {
     },
     goal: string,
     wall: {
+        full: string,
         horizontal: string,
         vertical: string,
         topLeft: string,
