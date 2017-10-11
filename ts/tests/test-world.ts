@@ -12,6 +12,7 @@ const sprites = {
     },
     goal: 'GOAL',
     wall: {
+        full: 'F',
         horizontal: 'H',
         vertical: 'V',
         topLeft: 'TL',
