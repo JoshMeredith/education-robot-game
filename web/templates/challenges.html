@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <!-- <script src="JStuff.js"></script>  -->
+        <script src="https://unpkg.com/vue"></script>
+        <title> Codebot | Challenges</title>
+        <link rel="stylesheet" href="../static/css/styles.css" />
+    </head>
+
+    <script src="static/js/build.js"></script>
+
+    <script type="text/javascript">
+        var levels = {{ levels | tojson | safe }};
+    </script>
+
+    <body>
+        <header>
+          <div class="container">
+              <div id="branding">
+                  <a href="/"><img id="favicon" src="../static/assets/favicon.png" /> </a>
+                  <h2> Welcome to <span>Codebot!</span></h2>
+              </div>
+              <nav>
+                  <ul>
+                      <li class="current"><a href="/">Home</a></li>
+                      <!-- TODO: Send back to level player was doing instead of level0 -->
+                  </ul>
+              </nav>
+          </div>
+      </header>
+
+        <section id="main">
+                <div id="challengesList">
+                  <a v-for="level in levels" v-bind:href="'/' + level.tag"><img src="../static/assets/grass/grass3.png" />
+                    <div class="text-wrapper"><h3>{% raw %}{{level.name}}{% endraw %}</h3></div></a>
+                </div>
+        </section>
+
+        <script>
+          var game = new Vue({
+            el: "#main",
+            data: {
+              levels: levels
+            }
+          });
+        </script>
+
+        <!--
+        <footer>
+        </footer>
+        -->
+
+    </body>
+</html>

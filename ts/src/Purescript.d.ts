@@ -1,4 +1,4 @@
-export as namespace Purescript;
+export as namespace PS;
 
 export namespace Interpreter {
     export var testNum: number;

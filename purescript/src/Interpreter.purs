@@ -23,7 +23,7 @@ import Unsafe.Coerce (unsafeCoerce)
 
 
 import Types ( AST(..), Statement(..), World, Definition(..), Interpreter
-             , Expression(..), Primitive(..), Direction, Move)
+             , Expression(..), Direction, Move)
 import World (step, moves, directions, facing)
 
 
@@ -37,7 +37,8 @@ runInterpreter
   -> Array (Tuple String Definition)
   -> Resume () Unit Unit World
 runInterpreter initial (AST ss) baseDefs =
-  run <<< runYield $
+  run <<< runYield $ do
+    yield initial
     evalState (fromFoldable baseDefs /\ initial /\ unit) $
       go (BlockStatement ss)
   where
@@ -59,12 +60,8 @@ runInterpreter initial (AST ss) baseDefs =
     go (BlockStatement childStatements) =
       childStatements # traverse_ go
 
-    go (PrimitiveStatement prim) = do
-      get <#> get2 <#> step (move prim) >>= send
-
-    move TurnLeft    = moves.turnLeft
-    move TurnRight   = moves.turnRight
-    move WalkForward = moves.walkForward
+    go (Comment _ _) =
+      pure unit
 
 
 send :: World -> Interpreter
@@ -97,13 +94,13 @@ environment ::
 environment = {
 
     turnLeft: Tuple "turnLeft" $
-      Procedure [PrimitiveStatement TurnLeft],
+      Axiom (sendMove moves.turnLeft),
 
     turnRight: Tuple "turnRight" $
-      Procedure [PrimitiveStatement TurnRight],
+      Axiom (sendMove moves.turnRight),
 
     walkForward: Tuple "walkForward" $
-      Procedure [PrimitiveStatement WalkForward],
+      Axiom (sendMove moves.walkForward),
 
     moveLeft: Tuple "moveLeft" $
       Axiom (walk directions.left),

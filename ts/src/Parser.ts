@@ -1,18 +1,18 @@
 namespace Parser {
     export function parseAST
-      ( features: Array<Purescript.Types.LanguageExtras>
-      , environment: Array<Purescript.Types.Environment>
+      ( features: Array<PS.Types.LanguageExtras>
+      , environment: Array<PS.Types.Environment>
       , code: String
       ):
-      { ast: Purescript.Types.AST | null
+      { ast: PS.Types.AST | null
       , messages: Array<String>
       , names: Array<String>
       }
     {
-        return Purescript.Parser.parseAST(null)(null)(code);
+        return PS.Parser.parseAST(null)(null)(code);
     }
 
-    export function prettyPrint(a: Purescript.Types.AST): string {
-        return Purescript.Parser.prettyPrint(a);
+    export function prettyPrint(a: PS.Types.AST): string {
+        return PS.Parser.prettyPrint(a);
     }
 }

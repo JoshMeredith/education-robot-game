@@ -2,7 +2,6 @@ module Types (
     AST(..),
     Statement(..),
     Expression(..),
-    Primitive(..),
     LanguageExtras(..),
     Definition(..),
     World,
@@ -36,17 +35,11 @@ data Statement
    | TimesStatement Int        Statement
    | IfStatement    Expression Statement
    | BlockStatement (Array Statement)
-   | PrimitiveStatement Primitive
+   | Comment        Boolean String
 
 
 data Expression
    = BoolExp Boolean
-
-
-data Primitive
-   = TurnLeft
-   | TurnRight
-   | WalkForward
 
 
 data LanguageExtras

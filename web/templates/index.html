@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
-        <link href="main.css" rel="stylesheet" type="text/css" />
-        <script src="JStuff.js"></script>
+        <!-- <script src="JStuff.js"></script>  -->
+        <script src="https://unpkg.com/vue"></script>
         <title> Codebot | Welcome</title>
         <link rel="stylesheet" href="../static/css/styles.css" />
     </head>
@@ -13,30 +13,20 @@
 
     <script type="text/javascript">
         var level = {{ grid | tojson | safe }};
-        var grid = new World.Grid( level.numRows, level.numCols,
-            new World.Coord2D( level.goal.x, level.goal.y ),
-            new World.Coord2D( level.start.x, level.start.y ),
-            World.Direction[ level.startDir ]);
-
-        function launchGame() {
-            var result = Main.runGame(grid, document.getElementById('code_area').value);
-            console.log(result);
-        }
     </script>
+
     </head>
 
     <body>
         <header>
             <div class="container">
                 <div id="branding">
-                    <!-- If we're going to add a logo or something, this is where -->
-                    <h1> Welcome to Codebot </h1>
+                    <a href="/"><img id="favicon" src="../static/assets/favicon.png" /> </a>
+                    <h2> Welcome to <span>Codebot!</span></h2>
                 </div>
                 <nav>
                     <ul>
-                        <li class="current"><a href="index.html">Home</a></li>
-                        <li><a href="Challenges.html">Challenges</a></li>
-                        <li><a href="myProfile.html">My Profile</a></li>
+                        <li class="current"><a href="/">Levels</a></li>
                     </ul>
                 </nav>
             </div>
@@ -48,33 +38,156 @@
             <div class="codeContainer">
                 <form id="codeBox">
                     <fieldset>
-                        <!-- <legend> Enter code here </legend> -->
-                        <h2> Code:</h2>
-                        <p>
-                            <textarea id="code_area" placeholder="Enter Code"></textarea>
-                        </p>
+                        <!-- Temporarily removing for spring release
+                        <legend> Level 0 </legend>
+
+                        <!-- TODO: Hardcoded, fix! -->
+                        <p><strong>Instructions </strong> </p>
+                        <pre>{% raw %}{{instructions}}{% endraw %}</pre>
+                        <textarea v-model="codeBox" id="code_area" ></textarea>
                     </fieldset>
 
-                    <input type="button" value="Run!" onclick="launchGame();" />
-                    <input type="button" value="Step Through" onclick="stepThrough();" />
-                    <input type="button" value="Reset" onclick="resetLevel();" />
+                    <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
+                    <!-- <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" /> -->
+                    <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
+                    <!-- <input id="button_1" type="button" value="Next Challenge" onclick="nextChallenge" /> -->
                 </form>
 
                 <!-- The game display -->
-                <div class="gridContainer">
-                    <img src="../assets/8x8grid.png" id="grid"/>
-                    <img src="../assets/playerSprite/right.png" id="sprite"/>
+                <div  class="gridContainer">
+                    <!-- Status Bar -->
+                    <div v-if="!gameOver" class="defaultStatus">
+                        <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
+                    </div>
+                    <div v-else-if="gameOver && victory" class="winStatus" v-cloak>
+                        <p>Congratulations! <br>You beat the level.</p>
+                    </div>
+
+                    <div v-else-if="gameOver && !victory" class="lossStatus" v-cloak>
+                        <p>Oh no! Codebot didn't reach the goal. <br>Click the reset button to try again.</p>
+                    </div>
+
+                    <!-- Grid Rendering -->
+                    <table>
+                        <tr v-for="row in levelMap">
+                            <td v-for="col in row">
+                                <div style="position: relative;">
+                                    <img src="../static/assets/grass/grass3.png" id="cell">
+                                    <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
                 </div>
+
             </div>
         </section>
 
+        <!-- Vue object setup -->
+        <script>
+            // initialise
+            var sprites = {
+                ground: "../static/assets/grass/grass3.png",
+                grass: "../static/assets/grass/grass1.png",
+                player: {
+                    Up: "../static/assets/playerSprite/up.png",
+                    Down: "../static/assets/playerSprite/down.png",
+                    Left: "../static/assets/playerSprite/left.png",
+                    Right: "../static/assets/playerSprite/right.png"
+                },
+                goal: "../static/assets/goal.png",
+                wall: {
+                    full: "../static/assets/wall/fullWall.png",
+                    horizontal: "../static/assets/wall/horizontal.png",
+                    vertical: "../static/assets/wall/vertical.png",
+                    topLeft: "../static/assets/wall/corner_top_left.png",
+                    topRight: "../static/assets/wall/corner_top_right.png",
+                    bottomLeft: "../static/assets/wall/corner_bottom_left.png",
+                    bottomRight: "../static/assets/wall/corner_bottom_right.png"
+                }
+            };
+            var grid = new World.Grid(
+                           level.numRows,
+                           level.numCols,
+                           sprites,
+                           new World.Coord2D( level.goal.row, level.goal.col ),
+                           new World.Coord2D( level.start.row, level.start.col ),
+                           World.Direction[ level.startDir ],
+                           World.shorthandGrid(level.grid, sprites)
+                       );
+
+            var game = new Vue({
+                el: "#main",
+                data: {
+                    levelMap: grid.render(),
+                    codeBox: level.startCode,
+                    gameOver: false,
+                    victory: false,
+                    interval: null,
+                    instructions: level.instructions,
+                    startCode: level.startCode
+                },
+                methods: {
+                    resetLevel: function() {
+                        var self = this;
+                        self.gameOver=false;
+                        self.levelMap= grid.render();
+                        self.victory=false;
+                        self.stop();
+                    },
+                    stop: function() {
+                        if (this.interval !== null) {
+                            clearInterval(this.interval);
+                            this.interval = null;
+                        }
+                    },
+
+                    uiRunGame: function() {
+                        this.stop();
+                        //setup inputs
+                        var code = this.codeBox;
+                        var ast = Parser.parseAST([], [], code).ast;
+                        this.codeBox = Parser.prettyPrint(ast);
+
+                        var gen = Interpreter.runInterpreter(grid, ast,
+                            //level command set goes in this array
+                            [PS.Interpreter.environment.moveLeft,
+                            PS.Interpreter.environment.moveRight,
+                            PS.Interpreter.environment.moveUp,
+                            PS.Interpreter.environment.moveDown]);
+
+                        var self = this;
+
+                        //iterate
+                        self.interval = setInterval( function() {
+                            world = gen.next().value;
+
+                            if (world === undefined) {
+                                self.gameOver=true;
+                                self.stop(); //break
+                            }else{
+                                self.levelMap=world.render();
+
+                                if ( world.victory() || world.failed() ) {
+                                    self.gameOver=true;
+                                    if ( world.victory() ) { self.victory=true; }
+
+                                    self.stop(); //break
+                                }
+                            }
+                        }, 500);
+
+                    }
+                }
+            });
+
+        </script>
+
+        <!--
         <footer>
-          <!--  CAN'T GET THIS SHIT TO ALIGN RIGHT
-            <p id="COMP4920"> COMP-4920 Project - Term 2 </p>
-            <p id="Authors">  Authors: </br> Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano </p>
-            <p id="Copyright"> Copyright &copy; 2017 </p>
-          -->
-          <p>COMP-4920 Project ----- Authors: Joshua Lau, Macka Baran, Josh Meredith, Matthieu Capuano ----- Copyright &copy; 2017</p>
         </footer>
+        -->
+
     </body>
 </html>

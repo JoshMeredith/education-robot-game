@@ -5,7 +5,7 @@ export function runGame(grid: World.Grid, code: String) {
     console.log(ast);
     console.log(grid);
     let interpreterGen = Interpreter.runInterpreter(grid, ast, [
-        Purescript.Interpreter.environment.moveLeft]);
+        PS.Interpreter.environment.moveLeft]);
     for (let curGrid of interpreterGen) {
         console.log(curGrid.playerFacing());
         console.log(curGrid.playerLocation);
