@@ -170,8 +170,6 @@ export class Grid {
     public render(): string[][][] {
         var grid: string[][][] = [];
 
-        console.log(this.sprites);
-
         let render_rows = this.rows + 2;
         let render_cols = this.cols + 2;
 
