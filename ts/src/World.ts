@@ -14,6 +14,10 @@ export enum PlayerAction {
     WalkForward
 }
 
+export enum RobotPredicate {
+    ClearInFront
+}
+
 export enum Ground {
     Clear,
     Wall
