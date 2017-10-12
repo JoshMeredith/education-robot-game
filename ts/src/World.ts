@@ -215,38 +215,20 @@ export class Grid {
     public render(): string[][][] {
         var grid: string[][][] = [];
 
-        let render_rows = this.rows + 2;
-        let render_cols = this.cols + 2;
-
-        for (var y = 0; y < render_rows; y++) {
+        // Fill with ground and obstacle sprites
+        for (var y = 0; y < this.rows + 2; y++) {
             grid[y] = [];
-            for (var x = 0; x < render_cols; x++) {
-                grid[y][x] = [this.sprites.ground];
+            for (var x = 0; x < this.cols + 2; x++) {
+                grid[y][x] = [this.sprites.ground, ...this.world[y][x].sprites];
             }
         }
 
-        for (var y = 0; y < this.world.length; y++) {
-            for (var x = 0; x < this.world[y].length; x++) {
-                grid[y+1][x+1] = [...grid[y+1][x+1], ...this.world[y][x].sprites];
-            }
-        }
+        // Add goal sprite, offsetting the coordinates to account for wall padding
+        grid[this.goal.row + 1]
+            [this.goal.col + 1]
+            .push(this.sprites.goal);
 
-        // Add walls.
-        for (var x = 1; x < render_cols - 1; x++) {
-            grid[0          ][x].push(this.sprites.wall.full);
-            grid[this.rows+1][x].push(this.sprites.wall.full);
-        }
-        for (var y = 1; y < render_rows - 1; y++) {
-            grid[y][0          ].push(this.sprites.wall.full);
-            grid[y][this.cols+1].push(this.sprites.wall.full);
-        }
-        grid[0              ][0              ].push(this.sprites.wall.full);
-        grid[0              ][render_cols - 1].push(this.sprites.wall.full);
-        grid[render_rows - 1][0              ].push(this.sprites.wall.full);
-        grid[render_rows - 1][render_cols - 1].push(this.sprites.wall.full);
-
-        grid[this.goal.row + 1][this.goal.col + 1].push(this.sprites.goal);
-
+        // Add player sprite, offsetting the coordinates to account for wall padding
         grid[this.playerLocation.row + 1]
             [this.playerLocation.col + 1]
             .push(this.sprites.player[Direction[this.facing]]);
