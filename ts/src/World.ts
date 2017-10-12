@@ -100,9 +100,9 @@ export class Grid {
         }
 
         // Replace the interior with the given level
-        for (var y = 1; y < obstacles.length; y++) {
-            for (var x = 1; x < obstacles[y].length; x++) {
-                grid[y][x] = obstacles[y][x];
+        for (var y = 0; y < obstacles.length; y++) {
+            for (var x = 0; x < obstacles[y].length; x++) {
+                grid[y+1][x+1] = obstacles[y][x];
             }
         }
 
@@ -113,7 +113,7 @@ export class Grid {
         }
 
         // Replace the left and right, excluding corners, with walls
-        for (var y = 1; y < cols + 1; y++) {
+        for (var y = 1; y < rows + 1; y++) {
             grid[y][     0] = new Obstacle(Ground.Wall, [sprites.wall.full]);
             grid[y][cols+1] = new Obstacle(Ground.Wall, [sprites.wall.full]);
         }
