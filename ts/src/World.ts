@@ -80,26 +80,60 @@ function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
 }
 
 export class Grid {
-    private world: Obstacle[][] = [];
+    public static init(
+        rows: number,
+        cols: number,
+        sprites: Sprites,
+        goal: Coord2D,
+        player: Coord2D,
+        facing: Direction,
+        obstacles: Obstacle[][]
+    ): Grid {
+        var grid: Obstacle[][] = [];
 
-    constructor(readonly rows: number, readonly cols: number,
+        // Add ground cover everywhere
+        for (var y = 0; y < rows + 2; y++) {
+            grid[y] = [];
+            for (var x = 0; x < cols + 2; x++) {
+                grid[y][x] = new Obstacle(Ground.Clear, [sprites.grass]);
+            }
+        }
+
+        // Replace the interior with the given level
+        for (var y = 1; y < obstacles.length; y++) {
+            for (var x = 1; x < obstacles[y].length; x++) {
+                grid[y][x] = obstacles[y][x];
+            }
+        }
+
+        // Replace the top and bottom, including corners, with walls
+        for (var x = 0; x < cols + 2; x++) {
+            grid[     0][x] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+            grid[rows+1][x] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+        }
+
+        // Replace the left and right, excluding corners, with walls
+        for (var y = 1; y < cols + 1; y++) {
+            grid[y][     0] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+            grid[y][cols+1] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+        }
+
+        return new Grid(
+            rows,
+            cols,
+            sprites,
+            goal,
+            player,
+            facing,
+            grid,
+            false
+        );
+    }
+
+    private constructor(readonly rows: number, readonly cols: number,
         readonly sprites: Sprites, readonly goal: Coord2D,
         readonly playerLocation: Coord2D, readonly facing: Direction,
-        grid: Obstacle[][] = [], readonly hasFailed = false) {
-
-        for (var y = 0; y < this.rows; y++) {
-            this.world[y] = [];
-            for (var x = 0; x < this.rows; x++) {
-                this.world[y][x] = new Obstacle(Ground.Clear, [this.sprites.grass]);
-            }
-        }
-
-        for (var y = 0; y < grid.length; y++) {
-            for (var x = 0; x < grid[y].length; x++) {
-                this.world[y][x] = grid[y][x];
-            }
-        }
-    }
+        private world: Obstacle[][], readonly hasFailed) {}
 
     public playerFacing(): Direction {
         return this.facing;
