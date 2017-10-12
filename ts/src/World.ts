@@ -176,13 +176,7 @@ export class Grid {
             case PlayerAction.WalkForward: {
                 let tempLoc = this.playerLocation.nextLocation(this.facing);
 
-                let nextBlock = Ground.Wall;
-                if (tempLoc.row >= 0 && tempLoc.col >= 0 &&
-                    tempLoc.row < this.rows && tempLoc.col < this.cols) {
-                    nextBlock = this.world[tempLoc.row][tempLoc.col].type;
-                }
-
-                switch (nextBlock) {
+                switch (this.world[tempLoc.row][tempLoc.col].type) {
                     case (Ground.Clear): {
                         newRow = tempLoc.row;
                         newCol = tempLoc.col;
