@@ -202,6 +202,16 @@ export class Grid {
         );
     }
 
+    public inspect(pred: RobotPredicate): boolean {
+        switch (pred) {
+            case RobotPredicate.ClearInFront: {
+                var next = this.playerLocation.nextLocation(this.facing);
+
+                return this.world[next.row][next.col].type == Ground.Clear;
+            }
+        }
+    }
+
     public render(): string[][][] {
         var grid: string[][][] = [];
 
