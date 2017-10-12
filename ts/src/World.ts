@@ -223,14 +223,14 @@ export class Grid {
             }
         }
 
-        // Add goal sprite, offsetting the coordinates to account for wall padding
-        grid[this.goal.row + 1]
-            [this.goal.col + 1]
+        // Add goal sprite
+        grid[this.goal.row]
+            [this.goal.col]
             .push(this.sprites.goal);
 
-        // Add player sprite, offsetting the coordinates to account for wall padding
-        grid[this.playerLocation.row + 1]
-            [this.playerLocation.col + 1]
+        // Add player sprite
+        grid[this.playerLocation.row]
+            [this.playerLocation.col]
             .push(this.sprites.player[Direction[this.facing]]);
 
         return grid;
