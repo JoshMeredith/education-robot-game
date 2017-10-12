@@ -87,7 +87,7 @@ export class Grid {
         goal: Coord2D,
         player: Coord2D,
         facing: Direction,
-        obstacles: Obstacle[][]
+        obstacles: Obstacle[][] = []
     ): Grid {
         var grid: Obstacle[][] = [];
 
