@@ -27,6 +27,13 @@ export class Obstacle {
 
 export class Coord2D {
     constructor(readonly row: number, readonly col: number) {}
+
+    public nextLocation(dir: Direction): Coord2D {
+        const dRow = [-1, 0, 1, 0];
+        const dCol = [0, -1, 0, 1];
+
+        return new Coord2D(this.row + dRow[dir], this.col + dCol[dir])
+    }
 }
 
 export function shorthandGrid(grid: string[][], sprites: Sprites): Obstacle[][] {
@@ -129,22 +136,18 @@ export class Grid {
                 break;
             }
             case PlayerAction.WalkForward: {
-                const dRow = [-1, 0, 1, 0];
-                const dCol = [0, -1, 0, 1];
-
-                let tmpRow = this.playerLocation.row + dRow[newDir];
-                let tmpCol = this.playerLocation.col + dCol[newDir];
+                let tempLoc = this.playerLocation.nextLocation(this.facing);
 
                 let nextBlock = Ground.Wall;
-                if (tmpRow >= 0 && tmpCol >= 0 &&
-                    tmpRow < this.rows && tmpCol < this.cols) {
-                    nextBlock = this.world[tmpRow][tmpCol].type;
+                if (tempLoc.row >= 0 && tempLoc.col >= 0 &&
+                    tempLoc.row < this.rows && tempLoc.col < this.cols) {
+                    nextBlock = this.world[tempLoc.row][tempLoc.col].type;
                 }
 
                 switch (nextBlock) {
                     case (Ground.Clear): {
-                        newRow = tmpRow;
-                        newCol = tmpCol;
+                        newRow = tempLoc.row;
+                        newCol = tempLoc.col;
                         break;
                     }
                     case (Ground.Wall): { // Do nothing.
