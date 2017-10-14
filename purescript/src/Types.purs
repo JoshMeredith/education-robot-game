@@ -8,7 +8,8 @@ module Types (
     Move,
     Direction,
     Interpreter,
-    RobotPredicate
+    RobotPredicate,
+    Questions(..)
 ) where
 
 
@@ -42,6 +43,11 @@ data Statement
 
 data Expression
    = BoolExp Boolean
+   | Question Questions
+
+
+data Questions
+   = ClearInFront
 
 
 data LanguageExtras
@@ -53,12 +59,11 @@ type Interpreter
    = Run ( yield :: YIELD World
          , state :: STATE (Map String Definition /\ World /\ Unit)
          )
-         Unit
 
 
 data Definition
    = Procedure (Array Statement)
-   | Axiom Interpreter
+   | Axiom (Interpreter Unit)
 
 
 instance eqMove :: Eq Move where
@@ -66,4 +71,8 @@ instance eqMove :: Eq Move where
 
 
 instance eqDirection :: Eq Direction where
+  eq x y = (unsafeCoerce x :: Int) == (unsafeCoerce y :: Int)
+
+
+instance eqRobotPredicate :: Eq RobotPredicate where
   eq x y = (unsafeCoerce x :: Int) == (unsafeCoerce y :: Int)

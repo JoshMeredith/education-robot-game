@@ -29,7 +29,8 @@ import Types(
   Statement(..),
   Expression(..),
   LanguageExtras,
-  Definition
+  Definition,
+  Questions(..)
 )
 
 
@@ -61,11 +62,11 @@ prettyPrint (AST a) = a # map (go 0) # fold # trim
     go n (TimesStatement t s) =
       indentation n <> "times (" <> show t <> ")" <> go (n + 1) s
 
-    go n (IfStatement (BoolExp p) (BlockStatement ss)) =
-      fold [indentation n, "if (", show p, ") {", multi n ss, indentation n, "}"]
+    go n (IfStatement p (BlockStatement ss)) =
+      fold [indentation n, "if (", showExp p, ") {", multi n ss, indentation n, "}"]
 
-    go n (IfStatement (BoolExp p) s) =
-      indentation n <> "if (" <> show p <> ")" <> go (n + 1) s
+    go n (IfStatement p s) =
+      indentation n <> "if (" <> showExp p <> ")" <> go (n + 1) s
 
     go n (BlockStatement ss) =
       indentation n <> "{" <> multi n ss <> indentation n <> "}"
@@ -75,6 +76,9 @@ prettyPrint (AST a) = a # map (go 0) # fold # trim
 
     go n (Comment false c) =
       " //" <> c
+
+    showExp (BoolExp b) = show b
+    showExp (Question ClearInFront) = "clearInFront?"
 
 
 ast :: Parser String AST

@@ -2,7 +2,9 @@ module World (
     moves,
     directions,
     step,
-    facing
+    facing,
+    predicates,
+    inspect
 ) where
 
 import Types (World, Move, Direction, RobotPredicate)
