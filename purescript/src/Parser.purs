@@ -95,7 +95,7 @@ statements
 statement :: Parser String Statement
 statement
   = defer $ \_ -> try (structuredStatement "times" TimesStatement positiveInt)
-              <|> try (structuredStatement "if"    IfStatement    trueFalse  )
+              <|> try (structuredStatement "if"    IfStatement    predicate  )
               <|> try blockStatement
               <|> try commandStatement
               <|> try comment
@@ -136,9 +136,10 @@ commandStatement = do
   pure $ CommandStatement (fromCharArray command)
 
 
-trueFalse :: Parser String Expression
-trueFalse = try (string "true"  *> pure (BoolExp true ))
-        <|>     (string "false" *> pure (BoolExp false))
+predicate :: Parser String Expression
+predicate = try (string "true"          *> pure (BoolExp  true        ))
+        <|> try (string "false"         *> pure (BoolExp  false       ))
+        <|>     (string "clearInFront?" *> pure (Question ClearInFront))
 
 
 positiveInt :: Parser String Int
