@@ -7,7 +7,8 @@ module Types (
     World,
     Move,
     Direction,
-    Interpreter
+    Interpreter,
+    RobotPredicate
 ) where
 
 
@@ -21,9 +22,10 @@ import Run.State (STATE)
 import Unsafe.Coerce (unsafeCoerce)
 
 
-foreign import data World     :: Type
-foreign import data Move      :: Type
-foreign import data Direction :: Type
+foreign import data World          :: Type
+foreign import data Move           :: Type
+foreign import data Direction      :: Type
+foreign import data RobotPredicate :: Type
 
 
 data AST

@@ -19,7 +19,7 @@ import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
                , void, pure, bind, discard, map)
 import Text.Parsing.Parser (Parser, fail, runParser)
 import Text.Parsing.Parser.Combinators (try, between)
-import Text.Parsing.Parser.String (string, skipSpaces, eof, char, satisfy)
+import Text.Parsing.Parser.String (string, skipSpaces, eof, satisfy)
 import Text.Parsing.Parser.Token (letter, digit)
 import Unsafe.Coerce (unsafeCoerce)
 

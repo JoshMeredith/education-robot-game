@@ -5,7 +5,7 @@ module World (
     facing
 ) where
 
-import Types (World, Move, Direction)
+import Types (World, Move, Direction, RobotPredicate)
 
 foreign import moves ::
   { turnLeft    :: Move
@@ -18,5 +18,9 @@ foreign import directions ::
   , left  :: Direction
   , right :: Direction
   }
+foreign import predicates ::
+  { clearInFront :: RobotPredicate
+  }
 foreign import step :: Move -> World -> World
 foreign import facing :: World -> Direction
+foreign import inspect :: RobotPredicate -> World -> Boolean
