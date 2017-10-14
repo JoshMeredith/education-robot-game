@@ -14,6 +14,10 @@ export enum PlayerAction {
     WalkForward
 }
 
+export enum RobotPredicate {
+    ClearInFront
+}
+
 export enum Ground {
     Clear,
     Wall
@@ -27,6 +31,13 @@ export class Obstacle {
 
 export class Coord2D {
     constructor(readonly row: number, readonly col: number) {}
+
+    public nextLocation(dir: Direction): Coord2D {
+        const dRow = [-1, 0, 1, 0];
+        const dCol = [0, -1, 0, 1];
+
+        return new Coord2D(this.row + dRow[dir], this.col + dCol[dir])
+    }
 }
 
 export function shorthandGrid(grid: string[][], sprites: Sprites): Obstacle[][] {
@@ -69,26 +80,60 @@ function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
 }
 
 export class Grid {
-    private world: Obstacle[][] = [];
+    public static init(
+        rows: number,
+        cols: number,
+        sprites: Sprites,
+        goal: Coord2D,
+        player: Coord2D,
+        facing: Direction,
+        obstacles: Obstacle[][] = []
+    ): Grid {
+        var grid: Obstacle[][] = [];
 
-    constructor(readonly rows: number, readonly cols: number,
+        // Add ground cover everywhere
+        for (var y = 0; y < rows + 2; y++) {
+            grid[y] = [];
+            for (var x = 0; x < cols + 2; x++) {
+                grid[y][x] = new Obstacle(Ground.Clear, [sprites.grass]);
+            }
+        }
+
+        // Replace the interior with the given level
+        for (var y = 0; y < obstacles.length; y++) {
+            for (var x = 0; x < obstacles[y].length; x++) {
+                grid[y+1][x+1] = obstacles[y][x];
+            }
+        }
+
+        // Replace the top and bottom, including corners, with walls
+        for (var x = 0; x < cols + 2; x++) {
+            grid[     0][x] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+            grid[rows+1][x] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+        }
+
+        // Replace the left and right, excluding corners, with walls
+        for (var y = 1; y < rows + 1; y++) {
+            grid[y][     0] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+            grid[y][cols+1] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+        }
+
+        return new Grid(
+            rows,
+            cols,
+            sprites,
+            goal,
+            player,
+            facing,
+            grid,
+            false
+        );
+    }
+
+    private constructor(readonly rows: number, readonly cols: number,
         readonly sprites: Sprites, readonly goal: Coord2D,
         readonly playerLocation: Coord2D, readonly facing: Direction,
-        grid: Obstacle[][] = [], readonly hasFailed = false) {
-
-        for (var y = 0; y < this.rows; y++) {
-            this.world[y] = [];
-            for (var x = 0; x < this.rows; x++) {
-                this.world[y][x] = new Obstacle(Ground.Clear, [this.sprites.grass]);
-            }
-        }
-
-        for (var y = 0; y < grid.length; y++) {
-            for (var x = 0; x < grid[y].length; x++) {
-                this.world[y][x] = grid[y][x];
-            }
-        }
-    }
+        private world: Obstacle[][], readonly hasFailed) {}
 
     public playerFacing(): Direction {
         return this.facing;
@@ -129,22 +174,12 @@ export class Grid {
                 break;
             }
             case PlayerAction.WalkForward: {
-                const dRow = [-1, 0, 1, 0];
-                const dCol = [0, -1, 0, 1];
+                let tempLoc = this.playerLocation.nextLocation(this.facing);
 
-                let tmpRow = this.playerLocation.row + dRow[newDir];
-                let tmpCol = this.playerLocation.col + dCol[newDir];
-
-                let nextBlock = Ground.Wall;
-                if (tmpRow >= 0 && tmpCol >= 0 &&
-                    tmpRow < this.rows && tmpCol < this.cols) {
-                    nextBlock = this.world[tmpRow][tmpCol].type;
-                }
-
-                switch (nextBlock) {
+                switch (this.world[tempLoc.row][tempLoc.col].type) {
                     case (Ground.Clear): {
-                        newRow = tmpRow;
-                        newCol = tmpCol;
+                        newRow = tempLoc.row;
+                        newCol = tempLoc.col;
                         break;
                     }
                     case (Ground.Wall): { // Do nothing.
@@ -167,43 +202,35 @@ export class Grid {
         );
     }
 
+    public inspect(pred: RobotPredicate): boolean {
+        switch (pred) {
+            case RobotPredicate.ClearInFront: {
+                var next = this.playerLocation.nextLocation(this.facing);
+
+                return this.world[next.row][next.col].type == Ground.Clear;
+            }
+        }
+    }
+
     public render(): string[][][] {
         var grid: string[][][] = [];
 
-        let render_rows = this.rows + 2;
-        let render_cols = this.cols + 2;
-
-        for (var y = 0; y < render_rows; y++) {
+        // Fill with ground and obstacle sprites
+        for (var y = 0; y < this.rows + 2; y++) {
             grid[y] = [];
-            for (var x = 0; x < render_cols; x++) {
-                grid[y][x] = [this.sprites.ground];
+            for (var x = 0; x < this.cols + 2; x++) {
+                grid[y][x] = [this.sprites.ground, ...this.world[y][x].sprites];
             }
         }
 
-        for (var y = 0; y < this.world.length; y++) {
-            for (var x = 0; x < this.world[y].length; x++) {
-                grid[y+1][x+1] = [...grid[y+1][x+1], ...this.world[y][x].sprites];
-            }
-        }
+        // Add goal sprite
+        grid[this.goal.row]
+            [this.goal.col]
+            .push(this.sprites.goal);
 
-        // Add walls.
-        for (var x = 1; x < render_cols - 1; x++) {
-            grid[0          ][x].push(this.sprites.wall.full);
-            grid[this.rows+1][x].push(this.sprites.wall.full);
-        }
-        for (var y = 1; y < render_rows - 1; y++) {
-            grid[y][0          ].push(this.sprites.wall.full);
-            grid[y][this.cols+1].push(this.sprites.wall.full);
-        }
-        grid[0              ][0              ].push(this.sprites.wall.full);
-        grid[0              ][render_cols - 1].push(this.sprites.wall.full);
-        grid[render_rows - 1][0              ].push(this.sprites.wall.full);
-        grid[render_rows - 1][render_cols - 1].push(this.sprites.wall.full);
-
-        grid[this.goal.row + 1][this.goal.col + 1].push(this.sprites.goal);
-
-        grid[this.playerLocation.row + 1]
-            [this.playerLocation.col + 1]
+        // Add player sprite
+        grid[this.playerLocation.row]
+            [this.playerLocation.col]
             .push(this.sprites.player[Direction[this.facing]]);
 
         return grid;
