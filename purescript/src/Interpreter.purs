@@ -54,9 +54,13 @@ runInterpreter initial (AST ss) baseDefs =
       _ :: Array Unit <- replicateA n $ go child
       pure unit
 
-    go (IfStatement p child) = do
+    go (IfStatement p ifs elses) = do
       b <- evalPredicate p
-      when b $ go child
+      case (b /\ elses) of
+        (true  /\  _       ) -> go ifs
+        (false /\ (Just es)) -> go es
+        (false /\  Nothing ) -> pure unit
+
 
     go (BlockStatement childStatements) =
       childStatements # traverse_ go

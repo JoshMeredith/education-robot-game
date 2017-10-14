@@ -62,11 +62,19 @@ prettyPrint (AST a) = a # map (go 0) # fold # trim
     go n (TimesStatement t s) =
       indentation n <> "times (" <> show t <> ")" <> go (n + 1) s
 
-    go n (IfStatement p (BlockStatement ss)) =
-      fold [indentation n, "if (", showExp p, ") {", multi n ss, indentation n, "}"]
+    go n (IfStatement p (BlockStatement ifs) Nothing) =
+      fold [indentation n, "if (", showExp p, ") {", multi n ifs  , indentation n, "}"]
 
-    go n (IfStatement p s) =
+    go n (IfStatement p (BlockStatement ifs) (Just (BlockStatement elses))) =
+      fold [indentation n, "if (", showExp p, ") {", multi n ifs  , indentation n,
+                                         "} else {", multi n elses, indentation n, "}"]
+
+    go n (IfStatement p s Nothing) =
       indentation n <> "if (" <> showExp p <> ")" <> go (n + 1) s
+
+    go n (IfStatement p s (Just elses)) =
+      indentation n <> "if (" <> showExp p <> ")" <> go (n + 1) s <> indentation n
+                    <> "else {" <> go (n + 1) elses <> indentation n <> "}"
 
     go n (BlockStatement ss) =
       indentation n <> "{" <> multi n ss <> indentation n <> "}"
@@ -100,7 +108,8 @@ statement
               <|> try (keyword "if" *>
                         (IfStatement
                          <$> parens predicate
-                         <*> blockStatement))
+                         <*> blockStatement
+                         <*> optionMaybe (try $ keyword "else" *> blockStatement)))
               <|> try blockStatement
               <|> try commandStatement
               <|> try comment

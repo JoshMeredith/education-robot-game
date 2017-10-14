@@ -15,6 +15,7 @@ module Types (
 
 import Data.Eq (class Eq, (==))
 import Data.Map (Map)
+import Data.Maybe (Maybe)
 import Data.Tuple.Nested (type (/\))
 import Prelude (Unit)
 import Run (Run)
@@ -36,7 +37,7 @@ data AST
 data Statement
    = CommandStatement String
    | TimesStatement Int        Statement
-   | IfStatement    Expression Statement
+   | IfStatement    Expression Statement (Maybe Statement)
    | BlockStatement (Array Statement)
    | Comment        Boolean String
 
