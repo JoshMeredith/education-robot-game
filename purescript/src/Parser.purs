@@ -16,9 +16,9 @@ import Data.Show (show)
 import Data.String (fromCharArray, trim)
 import Data.Tuple (Tuple)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
-               , void, pure, bind, discard, map)
+               , (<*>), void, pure, bind, discard, map)
 import Text.Parsing.Parser (Parser, fail, runParser)
-import Text.Parsing.Parser.Combinators (try, between)
+import Text.Parsing.Parser.Combinators (try, between, optionMaybe)
 import Text.Parsing.Parser.String (string, skipSpaces, eof, satisfy)
 import Text.Parsing.Parser.Token (letter, digit)
 import Unsafe.Coerce (unsafeCoerce)
@@ -88,37 +88,32 @@ ast =
 
 statements :: Parser String (Array Statement)
 statements
-  -- = fromFoldable <$> (skipSpaces *> sepEndBy (defer $ \_ -> statement) skipSpaces)
   = many (defer $ \_ -> statement) <* skipSpaces
 
 
 statement :: Parser String Statement
 statement
-  = defer $ \_ -> try (structuredStatement "times" TimesStatement positiveInt)
-              <|> try (structuredStatement "if"    IfStatement    predicate  )
+  = defer $ \_ -> try (keyword "times" *>
+                        (TimesStatement
+                         <$> parens positiveInt
+                         <*> blockStatement))
+              <|> try (keyword "if" *>
+                        (IfStatement
+                         <$> parens predicate
+                         <*> blockStatement))
               <|> try blockStatement
               <|> try commandStatement
               <|> try comment
 
 
-structuredStatement
-  :: forall a.
-     String
-  -> (a -> Statement -> Statement)
-  -> Parser String a
-  -> Parser String Statement
-structuredStatement keyword constructor expression = do
+keyword :: String -> Parser String String
+keyword word = skipSpaces *> string word
+
+
+parens :: forall a. Parser String a -> Parser String a
+parens expression = do
   skipSpaces
-  void $ string keyword
-  skipSpaces
-  void $ string "("
-  skipSpaces
-  count <- expression
-  skipSpaces
-  void $ string ")"
-  skipSpaces
-  subStatement <- blockStatement
-  pure $ constructor count subStatement
+  between (string "(") (string ")") expression
 
 
 blockStatement :: Parser String Statement
