@@ -12,7 +12,7 @@ WORLDS = {
         'numCols': 2,
         'start': {'row': 1, 'col': 1},
         'startDir': 'Down',
-        'goal': {'row': 1, 'col': 2},
+        'goals': [{'row': 1, 'col': 2}],
         'grid': [
             ['_', '_']
         ],
@@ -39,7 +39,7 @@ during your time spent programming.\n\
         'numCols': 5,
         'start': {'row': 4, 'col': 2},
         'startDir': 'Down',
-        'goal': {'row': 2, 'col': 4},
+        'goals': [{'row': 2, 'col': 4}],
         'grid': [
             ['_', '_', '_', '_', '_'],
             ['_', '_', '_', '_', '_'],
@@ -75,7 +75,7 @@ instructions that will lead codebot to the goal.\
         'numCols': 11,
         'start': {'row': 1, 'col': 1},
         'startDir': 'Down',
-        'goal': {'row': 1, 'col': 11},
+        'goals': [{'row': 1, 'col': 11}],
         'grid': [
             ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
         ],
@@ -103,7 +103,7 @@ knowledge of loops to help codebot reach the goal.\
         'numCols': 5,
         'start': {'row': 3, 'col': 2},
         'startDir': 'Down',
-        'goal': {'row': 3, 'col': 4},
+        'goals': [{'row': 3, 'col': 4}],
         'grid': [
             ['_', '_', '_', '_', '_'],
             ['_', '_', 'W', 'W', '_'],
@@ -126,7 +126,7 @@ Use these tools to help codebot reach the goal.",
         'numCols': 14,
         'start': {'row': 3, 'col': 10},
         'startDir': 'Up',
-        'goal': {'row': 13, 'col': 4},
+        'goals': [{'row': 13, 'col': 4}, {'row': 3, 'col': 11}],
         'grid': [
             ['_', '_', '_', '_', '_', '_', 'W', '_', '_', '_', '_', '_', '_', '_'],
             ['_', '_', '_', 'W', '_', '_', 'W', '_', '_', 'W', '_', '_', '_', '_'],

@@ -73,7 +73,7 @@ export class Grid {
         rows: number,
         cols: number,
         sprites: Sprites,
-        goal: Coord2D,
+        goals: Coord2D[],
         player: Coord2D,
         facing: Direction,
         obstacles: Obstacle[][] = []
@@ -111,7 +111,7 @@ export class Grid {
             rows,
             cols,
             sprites,
-            goal,
+            goals,
             player,
             facing,
             grid,
@@ -120,7 +120,7 @@ export class Grid {
     }
 
     private constructor(readonly rows: number, readonly cols: number,
-        readonly sprites: Sprites, readonly goal: Coord2D,
+        readonly sprites: Sprites, readonly goals: Coord2D[],
         readonly playerLocation: Coord2D, readonly facing: Direction,
         private world: Obstacle[][], readonly hasFailed) {}
 
@@ -133,8 +133,7 @@ export class Grid {
     }
 
     public victory(): boolean {
-        return (this.playerLocation.row == this.goal.row &&
-            this.playerLocation.col == this.goal.col);
+        return this.goals.length == 0;
     }
 
     public static test(): number {
@@ -185,11 +184,15 @@ export class Grid {
             }
         }
 
+        var newGoals = this.goals.filter(function(goal) {
+            return !(newRow == goal.row && newCol == goal.col);
+        });
+
         return new Grid(
             this.rows,
             this.cols,
             this.sprites,
-            this.goal,
+            newGoals,
             new Coord2D(newRow, newCol),
             newDir,
             this.world,
@@ -218,17 +221,17 @@ export class Grid {
             }
         }
 
-        // Add goal sprite
-        grid[this.goal.row]
-            [this.goal.col]
-            .push(this.sprites.goal);
+        // Add goal sprites
+        for (var goal of this.goals) {
+            grid[goal.row]
+                [goal.col]
+                .push(this.sprites.goal);
+        }
 
         // Add player sprite
         grid[this.playerLocation.row]
             [this.playerLocation.col]
             .push(this.sprites.player[Direction[this.facing]]);
-
-        console.log(grid);
 
         return grid;
     }
