@@ -11,15 +11,7 @@ const sprites = {
         Right: 'Right'
     },
     goal: 'GOAL',
-    wall: {
-        full: 'F',
-        horizontal: 'H',
-        vertical: 'V',
-        topLeft: 'TL',
-        topRight: 'TR',
-        bottomLeft: 'BL',
-        bottomRight: 'BR'
-    }
+    wall: 'wall'
 };
 
 describe('Testing movement', () => {

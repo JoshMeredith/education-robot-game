@@ -59,7 +59,7 @@ function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
             return new Obstacle(Ground.Clear, [sprites.grass]);
         }
         case 'W': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
+            return new Obstacle(Ground.Wall, [sprites.wall]);
         }
     }
 }
@@ -93,14 +93,14 @@ export class Grid {
 
         // Replace the top and bottom, including corners, with walls
         for (var x = 0; x < cols + 2; x++) {
-            grid[     0][x] = new Obstacle(Ground.Wall, [sprites.wall.full]);
-            grid[rows+1][x] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+            grid[     0][x] = new Obstacle(Ground.Wall, [sprites.wall]);
+            grid[rows+1][x] = new Obstacle(Ground.Wall, [sprites.wall]);
         }
 
         // Replace the left and right, excluding corners, with walls
         for (var y = 1; y < rows + 1; y++) {
-            grid[y][     0] = new Obstacle(Ground.Wall, [sprites.wall.full]);
-            grid[y][cols+1] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+            grid[y][     0] = new Obstacle(Ground.Wall, [sprites.wall]);
+            grid[y][cols+1] = new Obstacle(Ground.Wall, [sprites.wall]);
         }
 
         return new Grid(
@@ -232,15 +232,7 @@ interface Sprites {
         Right: string
     },
     goal: string,
-    wall: {
-        full: string,
-        horizontal: string,
-        vertical: string,
-        topLeft: string,
-        topRight: string,
-        bottomLeft: string,
-        bottomRight: string
-    }
+    wall: string
 }
 
 }
