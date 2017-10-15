@@ -104,11 +104,11 @@ statement
   = defer $ \_ -> try (keyword "times" *>
                         (TimesStatement
                          <$> parens positiveInt
-                         <*> blockStatement))
+                         <*> block))
               <|> try (keyword "if" *>
                         (IfStatement
                          <$> parens predicate
-                         <*> blockStatement
+                         <*> block
                          <*> optionMaybe (try $ keyword "else" *> blockStatement)))
               <|> try blockStatement
               <|> try commandStatement
@@ -128,6 +128,12 @@ parens expression = do
   skipSpaces
   void $ string ")"
   pure ex
+
+
+block :: Parser String Statement
+block = do
+  st <- defer $ \_ -> statement
+  pure $ BlockStatement [st]
 
 
 blockStatement :: Parser String Statement
