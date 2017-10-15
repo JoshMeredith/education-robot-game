@@ -9,14 +9,14 @@ import Control.Lazy (defer)
 import Control.Monad.State (State, evalState, get)
 import Control.Monad.Trans.Class (lift)
 import Data.Argonaut.Core (jNull)
-import Data.Array (some, replicate, many, find)
+import Data.Array (some, replicate, many, sortBy, head)
 import Data.Either (Either(..))
 import Data.Foldable (fold, any)
 import Data.Int (fromString)
 import Data.Maybe (Maybe(..), fromMaybe)
+import Data.Ord (comparing)
 import Data.Show (show)
-import Data.String (fromCharArray, trim)
-import Data.String.CaseInsensitive (CaseInsensitiveString(..))
+import Data.String (fromCharArray, trim, toLower)
 import Data.Tuple (Tuple, fst)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
                , (<*>), void, pure, bind, discard, map)
@@ -36,6 +36,7 @@ import Types(
   Questions(..)
 )
 
+import Levenshtein(editDistance)
 
 -- Returns unsafe null to interact with javascript.
 parseAST
@@ -159,8 +160,11 @@ commandStatement = do
 
 fixCommand :: String -> Array String -> String
 fixCommand c env = do
-  env # find (\name -> CaseInsensitiveString name == CaseInsensitiveString c)
+  env # sortBy (comparing editDist)
+      # head
       # fromMaybe c
+  where
+    editDist x = editDistance (toLower x) (toLower c)
 
 
 predicate :: ParserT String (State (Array String)) Expression
