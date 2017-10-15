@@ -115,12 +115,16 @@
             // sprites.snow.ground   = "../static/assets/grass/grass2.png"
             // sprites.jungle.ground = "../static/assets/grass/grass2.png"
 
+            var goals = level.goals.map(function(goal){
+                return new World.Coord2D(goal.row, goal.col);
+            });
+
             var grid = World.Grid.init(
                            level.numRows,
                            level.numCols,
                            sprites[level.skin],
-                           level.goals,
-                           level.start,
+                           goals,
+                           new World.Coord2D(level.start.row, level.start.col),
                            World.Direction[ level.startDir ],
                            World.shorthandGrid(level.grid, sprites[level.skin])
                        );
