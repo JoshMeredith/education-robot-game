@@ -11,12 +11,13 @@ const sprites = {
         Right: 'Right'
     },
     goal: 'GOAL',
-    wall: 'wall'
+    wall: 'wall',
+    lava: 'lava'
 };
 
 describe('Testing movement', () => {
     it('TurnLeft maintains position and changes facing', () => {
-        let w = World.Grid.init(8, 8, sprites, new World.Coord2D(2, 3),
+        let w = World.Grid.init(8, 8, sprites, [new World.Coord2D(2, 3)],
             new World.Coord2D(3, 4), World.Direction.Up);
         let directions = [World.Direction.Up,
             World.Direction.Left,
@@ -31,7 +32,7 @@ describe('Testing movement', () => {
     });
 
     it('TurnRight maintains position and changes facing', () => {
-        let w = World.Grid.init(8, 8, sprites, new World.Coord2D(2, 3),
+        let w = World.Grid.init(8, 8, sprites, [new World.Coord2D(2, 3)],
             new World.Coord2D(5, 6), World.Direction.Up);
         let directions = [World.Direction.Up,
             World.Direction.Right,
@@ -56,7 +57,7 @@ describe('Testing movement', () => {
             new World.Coord2D(2, 5),
             new World.Coord2D(3, 6)];
         for (let i in facingDir) {
-            let w = World.Grid.init(8, 8, sprites, new World.Coord2D(2, 3),
+            let w = World.Grid.init(8, 8, sprites, [new World.Coord2D(2, 3)],
                 new World.Coord2D(2, 6), facingDir[i]);
             let newGrid = w.step(World.PlayerAction.WalkForward);
             expect(newGrid.facing).to.equal(facingDir[i]);
@@ -67,14 +68,14 @@ describe('Testing movement', () => {
 
 describe('Victory and failure conditions', () => {
     it("Haven't won or lost at start (in general)", () => {
-        let w = World.Grid.init(8, 8, sprites, new World.Coord2D(2, 3),
+        let w = World.Grid.init(8, 8, sprites, [new World.Coord2D(2, 3)],
             new World.Coord2D(5, 6), World.Direction.Up);
         expect(w.victory()).to.be.false;
         expect(w.failed()).to.be.false;
     });
 
     it("Win when moving onto goal square", () => {
-        let w = World.Grid.init(8, 8, sprites, new World.Coord2D(4, 6),
+        let w = World.Grid.init(8, 8, sprites, [new World.Coord2D(4, 6)],
             new World.Coord2D(5, 6), World.Direction.Up);
         expect(w.victory()).to.be.false;
         let newGrid = w.step(World.PlayerAction.WalkForward);
@@ -91,7 +92,7 @@ describe('Victory and failure conditions', () => {
             new World.Coord2D(2, 1),
             new World.Coord2D(7, 6)];
         for (let i in facingDir) {
-            let w = World.Grid.init(8, 8, sprites, new World.Coord2D(2, 3),
+            let w = World.Grid.init(8, 8, sprites, [new World.Coord2D(2, 3)],
                 initialPos[i], facingDir[i]);
             expect(w.failed()).to.be.false;
             let newGrid = w.step(World.PlayerAction.WalkForward);
@@ -105,7 +106,7 @@ describe('Grid rendering', () => {
         let numRows = 8;
         let numCols = 9;
         let w = World.Grid.init(numRows, numCols, sprites,
-            new World.Coord2D(2, 3),
+            [new World.Coord2D(2, 3)],
             new World.Coord2D(3, 4), World.Direction.Up);
         let render = w.render();
         for (let row of render) {
@@ -116,7 +117,7 @@ describe('Grid rendering', () => {
     });
 
     it('Goal only at corresponding location', () => {
-        let w = World.Grid.init(8, 9, sprites, new World.Coord2D(2, 3),
+        let w = World.Grid.init(8, 9, sprites, [new World.Coord2D(2, 3)],
             new World.Coord2D(3, 4), World.Direction.Up);
         let render = w.render();
         expect(render[2][3]).to.contain('GOAL');
@@ -132,7 +133,7 @@ describe('Grid rendering', () => {
         let dirSprites = ['Up', 'Left', 'Down', 'Right'];
 
         for (let i in directions) {
-            let w = World.Grid.init(8, 9, sprites, new World.Coord2D(2, 3),
+            let w = World.Grid.init(8, 9, sprites, [new World.Coord2D(2, 3)],
                 new World.Coord2D(3, 4), directions[i]);
             let render = w.render();
             expect(render[3][4]).to.contain(dirSprites[i]);

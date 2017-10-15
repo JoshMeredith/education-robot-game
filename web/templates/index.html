@@ -64,7 +64,7 @@
                     </div>
 
                     <div v-else-if="gameOver && !victory" class="lossStatus" v-cloak>
-                        <p>Oh no! Codebot didn't reach the goal. <br>Click the reset button to try again.</p>
+                        <p>Oh no! Codebot didn't collect all of the goals. <br>Click the reset button to try again.</p>
                     </div>
 
                     <!-- Grid Rendering -->
@@ -97,7 +97,8 @@
                         Right: "../static/assets/playerSprite/right.png"
                     },
                     goal: "../static/assets/goal.png",
-                    wall: "../static/assets/wall/fullWall.png"
+                    wall: "../static/assets/wall/fullWall.png",
+                    lava: "../static/assets/lava.png"
                 }
             };
 
@@ -118,8 +119,8 @@
                            level.numRows,
                            level.numCols,
                            sprites[level.skin],
-                           new World.Coord2D( level.goal.row, level.goal.col ),
-                           new World.Coord2D( level.start.row, level.start.col ),
+                           level.goals,
+                           level.start,
                            World.Direction[ level.startDir ],
                            World.shorthandGrid(level.grid, sprites[level.skin])
                        );

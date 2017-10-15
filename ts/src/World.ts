@@ -20,7 +20,8 @@ export enum RobotPredicate {
 
 export enum Ground {
     Clear,
-    Wall
+    Wall,
+    Lava
 }
 
 export class Obstacle {
@@ -61,6 +62,9 @@ function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
         case 'W': {
             return new Obstacle(Ground.Wall, [sprites.ground, sprites.wall]);
         }
+        case 'L': {
+            return new Obstacle(Ground.Lava, [sprites.lava])
+        }
     }
 }
 
@@ -69,7 +73,7 @@ export class Grid {
         rows: number,
         cols: number,
         sprites: Sprites,
-        goal: Coord2D,
+        goals: Coord2D[],
         player: Coord2D,
         facing: Direction,
         obstacles: Obstacle[][] = []
@@ -107,7 +111,7 @@ export class Grid {
             rows,
             cols,
             sprites,
-            goal,
+            goals,
             player,
             facing,
             grid,
@@ -116,7 +120,7 @@ export class Grid {
     }
 
     private constructor(readonly rows: number, readonly cols: number,
-        readonly sprites: Sprites, readonly goal: Coord2D,
+        readonly sprites: Sprites, readonly goals: Coord2D[],
         readonly playerLocation: Coord2D, readonly facing: Direction,
         private world: Obstacle[][], readonly hasFailed) {}
 
@@ -129,8 +133,7 @@ export class Grid {
     }
 
     public victory(): boolean {
-        return (this.playerLocation.row == this.goal.row &&
-            this.playerLocation.col == this.goal.col);
+        return this.goals.length == 0;
     }
 
     public static test(): number {
@@ -170,16 +173,26 @@ export class Grid {
                     case (Ground.Wall): { // Do nothing.
                         break;
                     }
+                    case (Ground.Lava): {
+                        newRow = tempLoc.row;
+                        newCol = tempLoc.col;
+                        newFailure = true;
+                        break;
+                    }
                 }
                 break;
             }
         }
 
+        var newGoals = this.goals.filter(function(goal) {
+            return !(newRow == goal.row && newCol == goal.col);
+        });
+
         return new Grid(
             this.rows,
             this.cols,
             this.sprites,
-            this.goal,
+            newGoals,
             new Coord2D(newRow, newCol),
             newDir,
             this.world,
@@ -204,14 +217,16 @@ export class Grid {
         for (var y = 0; y < this.rows + 2; y++) {
             grid[y] = [];
             for (var x = 0; x < this.cols + 2; x++) {
-                grid[y][x] = this.world[y][x].sprites;
+                grid[y][x] = [...this.world[y][x].sprites];
             }
         }
 
-        // Add goal sprite
-        grid[this.goal.row]
-            [this.goal.col]
-            .push(this.sprites.goal);
+        // Add goal sprites
+        for (var goal of this.goals) {
+            grid[goal.row]
+                [goal.col]
+                .push(this.sprites.goal);
+        }
 
         // Add player sprite
         grid[this.playerLocation.row]
@@ -232,7 +247,8 @@ interface Sprites {
         Right: string
     },
     goal: string,
-    wall: string
+    wall: string,
+    lava: string
 }
 
 }
