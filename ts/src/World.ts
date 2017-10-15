@@ -59,7 +59,7 @@ function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
             return new Obstacle(Ground.Clear, [sprites.ground]);
         }
         case 'W': {
-            return new Obstacle(Ground.Wall, [sprites.wall]);
+            return new Obstacle(Ground.Wall, [sprites.ground, sprites.wall]);
         }
     }
 }
@@ -80,7 +80,7 @@ export class Grid {
         for (var y = 0; y < rows + 2; y++) {
             grid[y] = [];
             for (var x = 0; x < cols + 2; x++) {
-                grid[y][x] = new Obstacle(Ground.Clear, [sprites.ground]);
+                grid[y][x] = obstacleFromShorthand('_', sprites);
             }
         }
 
@@ -93,14 +93,14 @@ export class Grid {
 
         // Replace the top and bottom, including corners, with walls
         for (var x = 0; x < cols + 2; x++) {
-            grid[     0][x] = new Obstacle(Ground.Wall, [sprites.wall]);
-            grid[rows+1][x] = new Obstacle(Ground.Wall, [sprites.wall]);
+            grid[     0][x] = obstacleFromShorthand('W', sprites);
+            grid[rows+1][x] = obstacleFromShorthand('W', sprites);
         }
 
         // Replace the left and right, excluding corners, with walls
         for (var y = 1; y < rows + 1; y++) {
-            grid[y][     0] = new Obstacle(Ground.Wall, [sprites.wall]);
-            grid[y][cols+1] = new Obstacle(Ground.Wall, [sprites.wall]);
+            grid[y][     0] = obstacleFromShorthand('W', sprites);
+            grid[y][cols+1] = obstacleFromShorthand('W', sprites);
         }
 
         return new Grid(
