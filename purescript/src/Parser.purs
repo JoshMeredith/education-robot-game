@@ -22,7 +22,7 @@ import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
                , (<*>), void, pure, bind, discard, map)
 import Text.Parsing.Parser (ParserT, fail, runParserT)
 import Text.Parsing.Parser.Combinators (try, between, optionMaybe, optional)
-import Text.Parsing.Parser.String (string, skipSpaces, eof, satisfy)
+import Text.Parsing.Parser.String (string, skipSpaces, eof, satisfy, char)
 import Text.Parsing.Parser.Token (letter, digit)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -153,22 +153,24 @@ commandStatement = do
   command <- some letter
   skipSpaces
   optional $ string ";"
-  command' <- fixCommand $ fromCharArray command
+  command' <- fixCommand (fromCharArray command) <$> lift get
   pure $ CommandStatement command'
 
 
-fixCommand :: String -> ParserT String (State (Array String)) String
-fixCommand c = do
-  env <- lift get
+fixCommand :: String -> Array String -> String
+fixCommand c env = do
   env # find (\name -> CaseInsensitiveString name == CaseInsensitiveString c)
       # fromMaybe c
-      # pure
 
 
 predicate :: ParserT String (State (Array String)) Expression
-predicate = try (string "true"          *> pure (BoolExp  true        ))
-        <|> try (string "false"         *> pure (BoolExp  false       ))
-        <|>     (string "clearInFront?" *> pure (Question ClearInFront))
+predicate = do
+  expression <- fromCharArray <$> some (letter <|> char '?')
+  case fixCommand expression ["true", "false", "clearInFront?"] of
+    "true"          -> pure $ BoolExp  true        
+    "false"         -> pure $ BoolExp  false       
+    "clearInFront?" -> pure $ Question ClearInFront
+    _               -> fail $ expression <> " is not a predicate"
 
 
 positiveInt :: ParserT String (State (Array String)) Int
