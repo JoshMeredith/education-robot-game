@@ -122,7 +122,12 @@ keyword word = skipSpaces *> string word
 parens :: forall a. Parser String a -> Parser String a
 parens expression = do
   skipSpaces
-  between (string "(") (string ")") expression
+  void $ string "("
+  skipSpaces
+  ex <- expression
+  skipSpaces
+  void $ string ")"
+  pure ex
 
 
 blockStatement :: Parser String Statement
