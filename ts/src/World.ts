@@ -20,7 +20,8 @@ export enum RobotPredicate {
 
 export enum Ground {
     Clear,
-    Wall
+    Wall,
+    Lava
 }
 
 export class Obstacle {
@@ -60,6 +61,9 @@ function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
         }
         case 'W': {
             return new Obstacle(Ground.Wall, [sprites.ground, sprites.wall]);
+        }
+        case 'L': {
+            return new Obstacle(Ground.Lava, [sprites.lava])
         }
     }
 }
@@ -170,6 +174,12 @@ export class Grid {
                     case (Ground.Wall): { // Do nothing.
                         break;
                     }
+                    case (Ground.Lava): {
+                        newRow = tempLoc.row;
+                        newCol = tempLoc.col;
+                        newFailure = true;
+                        break;
+                    }
                 }
                 break;
             }
@@ -204,7 +214,7 @@ export class Grid {
         for (var y = 0; y < this.rows + 2; y++) {
             grid[y] = [];
             for (var x = 0; x < this.cols + 2; x++) {
-                grid[y][x] = this.world[y][x].sprites;
+                grid[y][x] = [...this.world[y][x].sprites];
             }
         }
 
@@ -217,6 +227,8 @@ export class Grid {
         grid[this.playerLocation.row]
             [this.playerLocation.col]
             .push(this.sprites.player[Direction[this.facing]]);
+
+        console.log(grid);
 
         return grid;
     }
@@ -232,7 +244,8 @@ interface Sprites {
         Right: string
     },
     goal: string,
-    wall: string
+    wall: string,
+    lava: string
 }
 
 }

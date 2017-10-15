@@ -11,7 +11,8 @@ const sprites = {
         Right: 'Right'
     },
     goal: 'GOAL',
-    wall: 'wall'
+    wall: 'wall',
+    lava: 'lava'
 };
 
 describe('Testing movement', () => {
