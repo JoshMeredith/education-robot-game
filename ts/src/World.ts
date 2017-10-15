@@ -56,25 +56,10 @@ export function shorthandGrid(grid: string[][], sprites: Sprites): Obstacle[][] 
 function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
     switch (sh) {
         case '_': {
-            return new Obstacle(Ground.Clear, [sprites.grass]);
+            return new Obstacle(Ground.Clear, [sprites.ground]);
         }
-        case 'V': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'H': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'TL': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'TR': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'BL': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'BR': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
+        case 'W': {
+            return new Obstacle(Ground.Wall, [sprites.ground, sprites.wall]);
         }
     }
 }
@@ -95,7 +80,7 @@ export class Grid {
         for (var y = 0; y < rows + 2; y++) {
             grid[y] = [];
             for (var x = 0; x < cols + 2; x++) {
-                grid[y][x] = new Obstacle(Ground.Clear, [sprites.grass]);
+                grid[y][x] = obstacleFromShorthand('_', sprites);
             }
         }
 
@@ -108,14 +93,14 @@ export class Grid {
 
         // Replace the top and bottom, including corners, with walls
         for (var x = 0; x < cols + 2; x++) {
-            grid[     0][x] = new Obstacle(Ground.Wall, [sprites.wall.full]);
-            grid[rows+1][x] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+            grid[     0][x] = obstacleFromShorthand('W', sprites);
+            grid[rows+1][x] = obstacleFromShorthand('W', sprites);
         }
 
         // Replace the left and right, excluding corners, with walls
         for (var y = 1; y < rows + 1; y++) {
-            grid[y][     0] = new Obstacle(Ground.Wall, [sprites.wall.full]);
-            grid[y][cols+1] = new Obstacle(Ground.Wall, [sprites.wall.full]);
+            grid[y][     0] = obstacleFromShorthand('W', sprites);
+            grid[y][cols+1] = obstacleFromShorthand('W', sprites);
         }
 
         return new Grid(
@@ -219,7 +204,7 @@ export class Grid {
         for (var y = 0; y < this.rows + 2; y++) {
             grid[y] = [];
             for (var x = 0; x < this.cols + 2; x++) {
-                grid[y][x] = [this.sprites.ground, ...this.world[y][x].sprites];
+                grid[y][x] = this.world[y][x].sprites;
             }
         }
 
@@ -237,9 +222,9 @@ export class Grid {
     }
 }
 
+
 interface Sprites {
     ground: string,
-    grass: string,
     player: {
         Up: string,
         Down: string,
@@ -247,15 +232,7 @@ interface Sprites {
         Right: string
     },
     goal: string,
-    wall: {
-        full: string,
-        horizontal: string,
-        vertical: string,
-        topLeft: string,
-        topRight: string,
-        bottomLeft: string,
-        bottomRight: string
-    }
+    wall: string
 }
 
 }
