@@ -109,7 +109,7 @@ statement
                         (IfStatement
                          <$> parens predicate
                          <*> block
-                         <*> optionMaybe (try $ keyword "else" *> blockStatement)))
+                         <*> optionMaybe (try $ keyword "else" *> block)))
               <|> try blockStatement
               <|> try commandStatement
               <|> try comment
