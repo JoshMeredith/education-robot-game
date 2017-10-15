@@ -14,7 +14,7 @@ import Data.Traversable (traverse_)
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested ((/\), over2, get1, get2)
 import Data.Unfoldable (replicateA)
-import Prelude ( Unit, bind, const, discard, pure, unit, when
+import Prelude ( Unit, bind, const, discard, pure, unit
                , (#), ($), (&&), (<<<), (==), (>>=), (||), (*>))
 import Run (run)
 import Run.Streaming (Resume(..), runYield, yield)
