@@ -170,10 +170,11 @@ fixCommand c env = do
 predicate :: ParserT String (State (Array String)) Expression
 predicate = do
   expression <- fromCharArray <$> some (letter <|> char '?')
-  case fixCommand expression ["true", "false", "clearInFront?"] of
+  case fixCommand expression ["true", "false", "clearInFront?", "clear"] of
     "true"          -> pure $ BoolExp  true        
     "false"         -> pure $ BoolExp  false       
     "clearInFront?" -> pure $ Question ClearInFront
+    "clear"         -> pure $ Question ClearInFront
     _               -> fail $ expression <> " is not a predicate"
 
 
