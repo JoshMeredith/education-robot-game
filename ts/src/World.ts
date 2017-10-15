@@ -58,22 +58,7 @@ function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
         case '_': {
             return new Obstacle(Ground.Clear, [sprites.grass]);
         }
-        case 'V': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'H': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'TL': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'TR': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'BL': {
-            return new Obstacle(Ground.Wall, [sprites.wall.full]);
-        }
-        case 'BR': {
+        case 'W': {
             return new Obstacle(Ground.Wall, [sprites.wall.full]);
         }
     }
