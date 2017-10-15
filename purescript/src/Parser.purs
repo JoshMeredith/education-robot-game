@@ -18,7 +18,7 @@ import Data.Tuple (Tuple)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
                , (<*>), void, pure, bind, discard, map)
 import Text.Parsing.Parser (Parser, fail, runParser)
-import Text.Parsing.Parser.Combinators (try, between, optionMaybe)
+import Text.Parsing.Parser.Combinators (try, between, optionMaybe, optional)
 import Text.Parsing.Parser.String (string, skipSpaces, eof, satisfy)
 import Text.Parsing.Parser.Token (letter, digit)
 import Unsafe.Coerce (unsafeCoerce)
@@ -136,7 +136,7 @@ commandStatement = do
   skipSpaces
   command <- some letter
   skipSpaces
-  void $ string ";"
+  optional $ string ";"
   pure $ CommandStatement (fromCharArray command)
 
 
