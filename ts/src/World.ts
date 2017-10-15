@@ -56,7 +56,7 @@ export function shorthandGrid(grid: string[][], sprites: Sprites): Obstacle[][] 
 function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
     switch (sh) {
         case '_': {
-            return new Obstacle(Ground.Clear, [sprites.grass]);
+            return new Obstacle(Ground.Clear, [sprites.ground]);
         }
         case 'W': {
             return new Obstacle(Ground.Wall, [sprites.wall]);
@@ -80,7 +80,7 @@ export class Grid {
         for (var y = 0; y < rows + 2; y++) {
             grid[y] = [];
             for (var x = 0; x < cols + 2; x++) {
-                grid[y][x] = new Obstacle(Ground.Clear, [sprites.grass]);
+                grid[y][x] = new Obstacle(Ground.Clear, [sprites.ground]);
             }
         }
 
@@ -204,7 +204,7 @@ export class Grid {
         for (var y = 0; y < this.rows + 2; y++) {
             grid[y] = [];
             for (var x = 0; x < this.cols + 2; x++) {
-                grid[y][x] = [this.sprites.ground, ...this.world[y][x].sprites];
+                grid[y][x] = this.world[y][x].sprites;
             }
         }
 
@@ -222,9 +222,9 @@ export class Grid {
     }
 }
 
+
 interface Sprites {
     ground: string,
-    grass: string,
     player: {
         Up: string,
         Down: string,
