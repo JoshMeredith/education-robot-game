@@ -155,15 +155,19 @@
                         this.stop();
                         //setup inputs
                         var code = this.codeBox;
-                        var ast = Parser.parseAST([], [], code).ast;
+
+                        //level command set goes in this array
+                        var defs = [
+                           PS.Interpreter.environment.moveLeft,
+                           PS.Interpreter.environment.moveRight,
+                           PS.Interpreter.environment.moveUp,
+                           PS.Interpreter.environment.moveDown
+                        ];
+
+                        var ast = Parser.parseAST([], defs, code).ast;
                         this.codeBox = Parser.prettyPrint(ast);
 
-                        var gen = Interpreter.runInterpreter(grid, ast,
-                            //level command set goes in this array
-                            [PS.Interpreter.environment.moveLeft,
-                            PS.Interpreter.environment.moveRight,
-                            PS.Interpreter.environment.moveUp,
-                            PS.Interpreter.environment.moveDown]);
+                        var gen = Interpreter.runInterpreter(grid, ast, defs);
 
                         var self = this;
 
