@@ -7,6 +7,7 @@ app = Flask(__name__, static_url_path='/static')
 WORLDS = {
     'level1': {
         'name': 'Level 1',
+        'skin': 'grass',
         'numRows': 1,
         'numCols': 2,
         'start': {'row': 1, 'col': 1},
@@ -33,6 +34,7 @@ during your time spent programming.\n\
     },
     'level2': {
         'name': 'Level 2',
+        'skin': 'grass',
         'numRows': 5,
         'numCols': 5,
         'start': {'row': 4, 'col': 2},
@@ -68,6 +70,7 @@ instructions that will lead codebot to the goal.\
     },
     'level3': {
         'name': 'Level 3',
+        'skin': 'grass',
         'numRows': 1,
         'numCols': 11,
         'start': {'row': 1, 'col': 1},
@@ -95,6 +98,7 @@ knowledge of loops to help codebot reach the goal.\
 
     'level4': {
         'name': 'Level 4',
+        'skin': 'grass',
         'numRows': 5,
         'numCols': 5,
         'start': {'row': 3, 'col': 2},
@@ -117,6 +121,7 @@ Use these tools to help codebot reach the goal.",
 
     'level5': {
         'name': 'Level 5',
+        'skin': 'grass',
         'numRows': 15,
         'numCols': 14,
         'start': {'row': 3, 'col': 10},
