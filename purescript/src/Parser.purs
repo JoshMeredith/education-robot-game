@@ -125,11 +125,11 @@ keyword word = skipSpaces *> string word
 parens :: forall a. ParserT String (State (Array String)) a -> ParserT String (State (Array String)) a
 parens expression = do
   skipSpaces
-  void $ string "("
+  optional $ string "("
   skipSpaces
   ex <- expression
   skipSpaces
-  void $ string ")"
+  optional $ string ")"
   pure ex
 
 
