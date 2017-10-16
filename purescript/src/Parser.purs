@@ -19,7 +19,7 @@ import Data.Show (show)
 import Data.String (fromCharArray, trim, toLower)
 import Data.Tuple (Tuple, fst)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
-               , (<*>), void, pure, bind, discard, map)
+               , (<*>), (>), void, pure, bind, discard, map)
 import Text.Parsing.Parser (ParserT, fail, runParserT)
 import Text.Parsing.Parser.Combinators (try, between, optionMaybe, optional)
 import Text.Parsing.Parser.String (string, skipSpaces, eof, satisfy, char)
@@ -120,7 +120,12 @@ statement
 
 
 keyword :: String -> ParserT String (State (Array String)) String
-keyword word = skipSpaces *> string word
+keyword word = do
+  skipSpaces
+  kw <- fromCharArray <$> some letter
+  if editDistance (toLower word) (toLower kw) > 2
+    then fail $ "Keyword `" <> word <> "` not found"
+    else pure word
 
 
 parens :: forall a. ParserT String (State (Array String)) a -> ParserT String (State (Array String)) a
