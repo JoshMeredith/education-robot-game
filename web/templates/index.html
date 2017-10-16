@@ -172,13 +172,13 @@
 
                         //level command set goes in this array
                         var defs = [
-                           // PS.Interpreter.environment.moveLeft,
-                           // PS.Interpreter.environment.moveRight,
-                           // PS.Interpreter.environment.moveUp,
-                           // PS.Interpreter.environment.moveDown,
+                            PS.Interpreter.environment.moveLeft,
+                            PS.Interpreter.environment.moveRight,
+                            PS.Interpreter.environment.moveUp,
+                            PS.Interpreter.environment.moveDown,
                             PS.Interpreter.environment.turnLeft,
                             PS.Interpreter.environment.turnRight,
-                            PS.Interpreter.environment.walkForward,
+                            PS.Interpreter.environment.walkForward
                         ];
 
                         var ast = Parser.parseAST([], defs, code).ast;
