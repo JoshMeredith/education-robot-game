@@ -149,7 +149,192 @@ Use these tools to help codebot reach the goal.",
 Give him some instructions to help him navigate the maze\n\
 and reach his goal.",
         'startCode': '//Write your code here!'
-    }
+    },
+
+    'level11': {
+        'name': 'Level 11',
+        'skin': 'stone',
+        'numRows': 5,
+        'numCols': 3,
+        'start': {'row': 5, 'col': 1},
+        'startDir': 'Up',
+        'goals': [{'row': 4, 'col': 1}, {'row': 2, 'col': 3}],
+        'grid': [
+            ['_', '_', '_'],
+            ['_', 'W', '_'],
+            ['_', '_', '_'],
+            ['_', 'W', '_'],
+            ['_', '_', '_'],
+        ],
+        'instructions':
+"""Codebot is growing up and has upgraded his instructions!
+
+Codebot no longer knows how to moveLeft, moveUp, moveDown or moveRight!
+Instead, you can use the turnLeft and turnRight instructions to get him to turn
+on the spot, and the walkForward instruction to get him to move one square in
+the direction he is facing.
+
+Give it a go!""",
+        'startCode': 
+"""// You can uncomment the instructions below to see what Codebot does with each
+// of these instructions!
+
+// turnLeft;
+// turnRight;
+// walkForward;
+
+// Now, comment or delete those lines, and write your code below, using only
+// these three instructions!
+
+// Your code here!""",
+    },
+
+    'level12': {
+        'name': 'Level 12',
+        'skin': 'stone',
+        'numRows': 7,
+        'numCols': 5,
+        'start': {'row': 1, 'col': 1},
+        'startDir': 'Down',
+        'goals': [{'row': 1, 'col': 5}, {'row': 7, 'col': 1}],
+        'grid': [
+            ['_', '_', '_', '_', '_'],
+            ['_', 'W', 'W', 'W', 'W'],
+            ['_', 'W', 'W', 'W', 'W'],
+            ['_', 'W', 'W', 'W', 'W'],
+            ['_', 'W', 'W', 'W', 'W'],
+            ['_', 'W', 'W', 'W', 'W'],
+            ['_', 'W', 'W', 'W', 'W'],
+        ],
+        'instructions':
+"""Oops! Codebot is a slow learner and has temporarily forgotten how to
+turnRight (just for this level!).
+
+Help him find his lost gears only using the turnLeft and walkForward
+instructions.""",
+        'startCode': """// Your code here!""",
+    },
+
+    'level13': {
+        'name': 'Level 13',
+        'skin': 'stone',
+        'numRows': 4,
+        'numCols': 5,
+        'start': {'row': 4, 'col': 4},
+        'startDir': 'Down',
+        'goals': [{'row': 4, 'col': 2}, {'row': 2, 'col': 2},
+            {'row': 2, 'col': 3}],
+        'grid': [
+            ['_', '_', '_', 'W', 'W'],
+            ['L', '_', '_', '_', '_'],
+            ['W', '_', '_', '_', '_'],
+            ['_', '_', 'L', '_', 'L'],
+        ],
+        'instructions':
+"""Codebot has also learned to detect if walking forwards is safe. If you type
+
+if (clearInFront?) {
+    // Some commands here!
+}
+
+those commands will only be run if Codebot can safely take a step forwards,
+right now.  Otherwise, nothing will happen.  Instead, if you typed
+
+if (clearInFront?) {
+    // Some commands here!
+} else {
+    // More commands here!
+}
+
+Codebot will do "Some commands" if walking forwards is safe (right now), or
+otherwise he will do "More commands" instead. We call this idea 'branching'.
+
+By combining branching with a times loop, we can write some neat, concise code
+for Codebot. Try uncommenting the code below to see what Codebot does! Can you
+explain why?
+""",
+        'startCode': 
+"""// Codebot has learned how to check if it's safe to walk forwards!
+// Try this code!
+// times (10) {
+//     if (clearInFront?) {
+//         walkForward;
+//     } else {
+//         turnLeft;
+//     }
+// }""",
+    },
+
+    'level14': {
+        'name': 'Level 14',
+        'skin': 'stone',
+        'numRows': 15,
+        'numCols': 15,
+        'start': {'row': 15, 'col': 1},
+        'startDir': 'Right',
+        'goals': [{'row': 1, 'col': 15}],
+        'grid': [
+            ['L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', '_', '_', '_', '_', '_'],
+            ['L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', '_', '_', '_', '_', '_', '_', '_'],
+            ['L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', '_', '_', '_', '_', 'L', 'L', 'L'],
+            ['L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', '_', '_', 'L', 'L', 'L', 'L', 'L'],
+            ['L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', '_', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', '_', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['L', 'L', 'L', 'L', 'L', 'L', '_', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['L', 'L', 'L', 'L', 'L', 'L', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['L', 'L', 'L', 'L', 'L', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['L', 'L', 'L', 'L', 'L', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['L', 'L', 'L', '_', '_', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['L', 'L', 'L', '_', '_', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['L', 'L', 'L', '_', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['_', '_', '_', '_', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
+            ['_', '_', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
+        ],
+        'instructions':
+"""Oh no! Codebot has found himself very far away from his gear, surrounded by
+walls and treacherous lava. Help him recover his gear.
+
+Hint: try and combine nested loops with branching to see if you can devise a
+short and clever solution.""",
+        'startCode':
+"""// Codebot needs your help!
+// Write some code below to help him find his missing gear!""",
+    },
+    
+    'level15': {
+        'name': 'Level 15',
+        'skin': 'stone',
+        'numRows': 15,
+        'numCols': 15,
+        'start': {'row': 10, 'col': 9},
+        'startDir': 'Down',
+        'goals': [{'col': 4, 'row': 1}, {'col': 1, 'row': 12}, {'col': 5, 'row': 9}, {'col': 8, 'row': 12}, {'col': 8, 'row': 15}, {'col': 13, 'row': 7}, {'col': 12, 'row': 15}, {'col': 14, 'row': 4}, {'col': 2, 'row': 13}, {'col': 6, 'row': 10}, {'col': 1, 'row': 6}, {'col': 7, 'row': 3}, {'col': 10, 'row': 12}, {'col': 1, 'row': 14}, {'col': 6, 'row': 15}, {'col': 3, 'row': 6}, {'col': 11, 'row': 2}, {'col': 15, 'row': 15}, {'col': 9, 'row': 13}, {'col': 13, 'row': 3}, {'col': 4, 'row': 7}, {'col': 11, 'row': 9}, {'col': 13, 'row': 13}, {'col': 11, 'row': 7}, {'col': 10, 'row': 4}, {'col': 1, 'row': 10}, {'col': 3, 'row': 4}, {'col': 8, 'row': 1}, {'col': 4, 'row': 5}, {'col': 10, 'row': 10}, {'col': 9, 'row': 2}, {'col': 15, 'row': 6}, {'col': 15, 'row': 9}, {'col': 8, 'row': 7}, {'col': 5, 'row': 11}, {'col': 14, 'row': 10}, {'col': 2, 'row': 1}, {'col': 10, 'row': 15}, {'col': 2, 'row': 5}, {'col': 15, 'row': 13}, {'col': 4, 'row': 10}, {'col': 9, 'row': 11}, {'col': 1, 'row': 8}, {'col': 10, 'row': 8}, {'col': 15, 'row': 3}, {'col': 1, 'row': 4}, {'col': 5, 'row': 6}],
+        'grid': [
+            ['L', '_', 'L', '_', 'L', '_', '_', '_', 'L', 'L', 'L', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', 'L', 'L', '_', 'L', '_', '_', 'L', 'L', '_'],
+            ['_', 'L', 'L', 'L', '_', 'L', '_', '_', '_', 'L', 'L', '_', '_', 'L', '_'],
+            ['_', 'L', '_', '_', '_', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L'],
+            ['L', '_', 'L', '_', 'L', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', 'L', '_', '_', 'L', 'L', 'L', 'L', '_', 'L', 'L', 'L', '_'],
+            ['L', '_', 'L', '_', 'L', '_', 'L', '_', '_', 'L', '_', 'L', '_', 'L', 'L'],
+            ['_', '_', 'L', '_', '_', '_', '_', 'L', '_', '_', 'L', 'L', '_', '_', '_'],
+            ['L', '_', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', '_', '_', 'L', '_'],
+            ['_', 'L', '_', '_', 'L', '_', '_', '_', '_', '_', 'L', '_', 'L', '_', 'L'],
+            ['_', '_', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', '_', '_', '_', '_'],
+            ['_', 'L', '_', 'L', '_', '_', '_', '_', 'L', '_', '_', 'L', 'L', 'L', '_'],
+            ['L', '_', '_', 'L', 'L', '_', 'L', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 'L'],
+            ['_', '_', '_', 'L', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', '_'],
+        ],
+        'instructions':
+"""Codebot went for a walk in the woods and accidentally left many gears behind!
+Help him retrace his steps and recover each gear. Watch out! Make sure you keep
+him away from that lava.
+
+Psst. He's in a panic, so he'd really like it if you could keep your code
+concise so he has less to remember ;).""",
+        'startCode': '// Your goes code here!',
+    },
 }
 
 @app.route('/<level>')
