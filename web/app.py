@@ -4,7 +4,7 @@ from flask import render_template
 app = Flask(__name__, static_url_path='/static')
 
 # FIXME: Hardcoded worlds.
-WORLDS = {
+LEVELS = {
     'level1': {
         'name': 'Level 1',
         'skin': 'grass',
@@ -488,12 +488,38 @@ concise so he has less to remember ;).""",
     },
 }
 
+WORLDS = {
+    'World 1': [
+        'level1',
+        'level2',
+        'level3',
+        'level4',
+        'level5',
+    ],
+    'World 2': [
+        'level6',
+        'level7',
+        'level8',
+        'level9',
+        'level10',
+    ],
+    'World 3': [
+        'level11',
+        'level12',
+        'level13',
+        'level14',
+        'level15',
+    ],
+}
+
 @app.route('/<level>')
-def hello_world(level):
-    return render_template('index.html', grid=WORLDS[level])
+def serve_level(level):
+    return render_template('index.html', grid=LEVELS[level])
 
 @app.route('/levels')
 @app.route('/')
-def hello_world_2():
-    return render_template('challenges.html',
-                           levels=[{'tag': k, 'name': WORLDS[k]["name"]} for k in sorted(list(WORLDS.keys()))])
+def level_selector():
+    levels = [
+        {'tag': k, 'name': LEVELS[k]["name"]}
+        for _, v in sorted(list(WORLDS.items())) for k in v]
+    return render_template('challenges.html', levels=levels)
