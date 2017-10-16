@@ -178,14 +178,14 @@ Give it a go!""",
         'startCode': 
 """// You can uncomment the instructions below to see what Codebot does with each
 // of these instructions!
-
+//
 // turnLeft;
 // turnRight;
 // walkForward;
-
+//
 // Now, comment or delete those lines, and write your code below, using only
 // these three instructions!
-
+//
 // Your code here!""",
     },
 
