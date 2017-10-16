@@ -16,7 +16,7 @@ WORLDS = {
         'grid': [
             ['_', '_']
         ],
-        'instructions': 
+        'instructions':
 'A comment is a line of code that codebot will ignore.\n\
 To write a comment we use // and then write some text.\n\
 \n\
@@ -27,7 +27,7 @@ during your time spent programming.\n\
 1. Describing what your code does\n\
 2. Toggling code on and off\n\
         ',
-        'startCode': 
+        'startCode':
 '//The next line moves the robot to the goal, uncomment it and hit RUN\n\
 //moveRight;\
         '
@@ -47,7 +47,7 @@ during your time spent programming.\n\
             ['_', '_', '_', '_', '_'],
             ['_', '_', '_', '_', '_']
         ],
-        'instructions': 
+        'instructions':
 'In the last level you might have noticed that the line of\n\
 code had a semicolon (;) at the end.\n\n\
 This lets codebot know that you have finished giving an\n\
@@ -57,7 +57,7 @@ This becomes important when you have many instructions to\n\
 give to codeBot. To complete this level uncomment the\n\
 instructions that will lead codebot to the goal.\
         ',
-        'startCode': 
+        'startCode':
 '//moveUp;\n\
 //moveDown;\n\
 //moveLeft;\n\
@@ -79,7 +79,7 @@ instructions that will lead codebot to the goal.\
         'grid': [
             ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
         ],
-        'instructions': 
+        'instructions':
 "It can get pretty tiresome repeatedly typing out the same\n\
 instructions for codebot over and over again. That\'s why we\n\
 have the times loop!\n\n\
@@ -111,7 +111,7 @@ knowledge of loops to help codebot reach the goal.\
             ['_', '_', 'W', 'W', '_'],
             ['_', '_', '_', '_', '_']
         ],
-        'instructions': 
+        'instructions':
 "Now we know how to move codebot around using the moveUp,\n\
 moveDown, moveLeft and moveRight instructions. We also know\n\
 how to use loops to make our code shorter. \n\n\
@@ -144,12 +144,124 @@ Use these tools to help codebot reach the goal.",
             ['_', '_', 'W', 'W', '_', 'W', 'W', 'W', 'W', 'W', '_', '_', '_', '_'],
             ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 'W', '_', '_']
         ],
-        'instructions': 
+        'instructions':
 "Oh no, codebot is really lost now!\n\n\
 Give him some instructions to help him navigate the maze\n\
 and reach his goal.",
         'startCode': '//Write your code here!'
-    }
+    },
+
+    'level6': {
+        'name': 'Level 6',
+        'skin': 'sand',
+        'numRows': 7,
+        'numCols': 7,
+        'start': {'row': 0, 'col': 3},
+        'startDir': 'Up',
+        'goals': [{'row': 0, 'col': 0}, {'row': 6, 'col': 6}],
+        'grid': [
+            ['_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_']
+        ],
+        'instructions':
+"In programming, it is generally important to recognize patterns and to look for \n\
+most effective soution, allowing you to keep your code short. As an example, the \n\
+maze on the right could be solved by collecting the top right gear, then the bottom \n\
+left one, then bottom right, then top left, but this would require a lot of steps.\n\
+Instead, you can solve this maze with four simple loops. See if you can figure out how.",
+        'startCode': '//Write your code here!'
+    },
+
+    'level7': {
+        'name': 'Level 7',
+        'skin': 'sand',
+        'numRows': 8,
+        'numCols': 9,
+        'start': {'row': 7, 'col': 0},
+        'startDir': 'Up',
+        'goals': {'row': 0, 'col': 9},
+        'grid': [
+            ['_', '_', '_', 'W', '_', '_', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
+            ['_', 'W', '_', '_', '_', 'W', '_', '_', '_']
+        ],
+        'instructions':
+"A useful thing you can do is 'nest' loops inside each other. \n\
+Here is an example:\n\
+times (3) {\n\
+    times(2) {\n\
+        moveUp;\n\
+    }\n\
+    times(3) {\n\
+        moveRight;\n\
+    }\n\
+}\n\
+The outer loop will run three times, each time, it will make codeBot moveUp twice,\n\
+then make him move right three times before repeating. Use something similar to solve\n\
+this maze.",
+        'startCode': '//Write your code here!'
+    },
+
+    'level8': {
+        'name': 'Level 8',
+        'skin': 'sand',
+        'numRows': 9,
+        'numCols': 9,
+        'start': {'row': 0, 'col': 0},
+        'startDir': 'Up',
+        'goals': {'row': 5, 'col': 5},
+        'grid': [
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', 'W', 'W', 'W', 'W', 'W', 'W', 'W', '_'],
+            ['_', 'W', '_', '_', '_', '_', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', 'W', 'W', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', '_', '_', '_', 'W', '_'],
+            ['_', 'W', '_', 'W', 'W', 'W', 'W', 'W', '_'],
+            ['_', 'W', '_', '_', '_', '_', '_', '_', '_']
+        ],
+        'instructions':
+"Try ",
+        'startCode': '//Write your code here!'
+    },
+
+    'level9': {
+        'name': 'Level 9',
+        'skin': 'sand',
+        'numRows': 12,
+        'numCols': 12,
+        'start': {'row': 0, 'col': 3},
+        'startDir': 'Up',
+        'goals': [{'row': 0, 'col': 0}, {'row': 6, 'col': 6}],
+        'grid': [
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
+        ],
+        'instructions':
+"A final example.",
+        'startCode': '//Write your code here!'
+    },
 }
 
 @app.route('/<level>')
