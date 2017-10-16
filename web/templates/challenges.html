@@ -33,7 +33,7 @@
 
         <section id="main">
                 <div id="challengesList">
-                    <div v-for="world in worlds">
+                    <div class="world-challenges" v-for="world in worlds">
                       <a v-for="level in world" v-bind:href="'/' + level.tag">
                           <img v-bind:src="'../static/assets/' + level.skin + '/ground.png'" />
                         <div class="text-wrapper"><h3>{% raw %}{{ level.name }}{% endraw %}</h3></div></a>
