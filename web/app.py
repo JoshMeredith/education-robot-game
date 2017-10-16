@@ -156,9 +156,9 @@ and reach his goal.",
         'skin': 'sand',
         'numRows': 7,
         'numCols': 7,
-        'start': {'row': 0, 'col': 3},
-        'startDir': 'Up',
-        'goals': [{'row': 0, 'col': 0}, {'row': 6, 'col': 6}],
+        'start': {'row': 1, 'col': 4},
+        'startDir': 'Down',
+        'goals': [{'row': 1, 'col': 1}, {'row': 1, 'col': 7}, {'row': 7, 'col': 1}, {'row': 7, 'col': 7}],
         'grid': [
             ['_', '_', '_', '_', '_', '_', '_'],
             ['_', '_', '_', '_', '_', '_', '_'],
@@ -169,11 +169,12 @@ and reach his goal.",
             ['_', '_', '_', '_', '_', '_', '_']
         ],
         'instructions':
-"In programming, it is generally important to recognize patterns and to look for \n\
-most effective soution, allowing you to keep your code short. As an example, the \n\
-maze on the right could be solved by collecting the top right gear, then the bottom \n\
-left one, then bottom right, then top left, but this would require a lot of steps.\n\
-Instead, you can solve this maze with four simple loops. See if you can figure out how.",
+"In programming, it is generally important to recognize patterns and to look for the \n\
+most effective soutions, allowing you to keep your code short. \n\n\
+As an example, the maze on the right could be solved by collecting the top right gear, \n\
+then the bottom left one, then bottom right, then top left, but this would require a \n\
+lot of steps. Instead, you can solve this maze with four simple loops. \n\n\
+See if you can figure out how.",
         'startCode': '//Write your code here!'
     },
 
@@ -182,9 +183,9 @@ Instead, you can solve this maze with four simple loops. See if you can figure o
         'skin': 'sand',
         'numRows': 8,
         'numCols': 9,
-        'start': {'row': 7, 'col': 0},
+        'start': {'row': 8, 'col': 1},
         'startDir': 'Up',
-        'goals': {'row': 0, 'col': 9},
+        'goals': [{'row': 1, 'col': 9}],
         'grid': [
             ['_', '_', '_', 'W', '_', '_', '_', 'W', '_'],
             ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
@@ -208,18 +209,54 @@ times (3) {\n\
 }\n\
 The outer loop will run three times, each time, it will make codeBot moveUp twice,\n\
 then make him move right three times before repeating. Use something similar to solve\n\
-this maze.",
+this maze. (Hint: Pay attention to what you need to repeat, in this case it looks like \n\
+you need to move up a certain number of times, then right, then down, then right again, \n\
+and repeat this as many times as necessary until you reach the goal)",
         'startCode': '//Write your code here!'
     },
 
     'level8': {
         'name': 'Level 8',
         'skin': 'sand',
+        'numRows': 15,
+        'numCols': 15,
+        'start': {'row': 1, 'col': 15},
+        'startDir': 'Up',
+        'goals': [{'row': 15, 'col': 1}],
+        'grid': [
+            ['_', 'L', '_', '_', '_', 'L', '_', '_', '_', 'L', '_', '_', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
+            ['_', '_', '_', 'L', '_', '_', '_', 'L', '_', '_', '_', 'L', '_', '_', '_'],
+        ],
+        'instructions':
+"Here's an example similar to the last one but longer, just to show you how important\n\
+loops can be. Also be careful, the walls have been replaced with lava so codeBot will get\n\
+hurt if you're not careful. (Hint: The grid is 15 by 15, so you will have to step up and \n\
+down 15 times every time you moveUp or moveDown)",
+        'startCode': '//Write your code here!'
+    },
+
+
+    'level9': {
+        'name': 'Level 9',
+        'skin': 'sand',
         'numRows': 9,
         'numCols': 9,
-        'start': {'row': 0, 'col': 0},
+        'start': {'row': 9, 'col': 1},
         'startDir': 'Up',
-        'goals': {'row': 5, 'col': 5},
+        'goals': [{'row': 5, 'col': 5}],
         'grid': [
             ['_', '_', '_', '_', '_', '_', '_', '_', '_'],
             ['_', 'W', 'W', 'W', 'W', 'W', 'W', 'W', '_'],
@@ -232,34 +269,76 @@ this maze.",
             ['_', 'W', '_', '_', '_', '_', '_', '_', '_']
         ],
         'instructions':
-"Try ",
+"This is similar to the previous situation, but you have to figure the pattern out\n\
+on your own this time! Note that it is ok for you to tell codeBot to move in a direction\n\
+where there is a wall if it keeps your code short. For example, a useful loop might be to \n\
+just get codeBot to move in sets up, right, down, and left 10 times each. He may awkwardly\n\
+face the wall for a while, but eventually he'll turn and walk in the right direction.",
         'startCode': '//Write your code here!'
     },
 
-    'level9': {
-        'name': 'Level 9',
+    'level10': {
+        'name': 'Level 10',
         'skin': 'sand',
-        'numRows': 12,
-        'numCols': 12,
-        'start': {'row': 0, 'col': 3},
-        'startDir': 'Up',
-        'goals': [{'row': 0, 'col': 0}, {'row': 6, 'col': 6}],
+        'numRows': 5,
+        'numCols': 5,
+        'start': {'row': 1, 'col': 1},
+        'startDir': 'Down',
+        'goals': [{'row': 1, 'col': 2}, {'row': 1, 'col': 3}, {'row': 1, 'col': 4}, {'row': 1, 'col': 5},
+                  {'row': 2, 'col': 1}, {'row': 2, 'col': 2}, {'row': 2, 'col': 3}, {'row': 2, 'col': 4}, {'row': 2, 'col': 5},
+                  {'row': 3, 'col': 1}, {'row': 3, 'col': 2}, {'row': 3, 'col': 3}, {'row': 3, 'col': 4}, {'row': 3, 'col': 5},
+                  {'row': 4, 'col': 1}, {'row': 4, 'col': 2}, {'row': 4, 'col': 3}, {'row': 4, 'col': 4}, {'row': 4, 'col': 5},
+                  {'row': 5, 'col': 1}, {'row': 5, 'col': 2}, {'row': 5, 'col': 3}, {'row': 5, 'col': 4}, {'row': 5, 'col': 5}],
         'grid': [
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
-            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
+            ['_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_']
         ],
         'instructions':
-"A final example.",
+"In computer science, everyone likes money, so go collect as much of it as possible!",
+        'startCode': '//Write your code here!'
+    },
+
+    'level11': {
+        'name': 'Level 11',
+        'skin': 'sand',
+        'numRows': 25,
+        'numCols': 16,
+        'start': {'row': 1, 'col': 16},
+        'startDir': 'Up',
+        'goals': [{'row': 10, 'col': 3}],
+        'grid': [
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', 'W', 'W', '_', 'W', '_', 'W', 'W', '_', 'W', '_', 'W', '_', '_', '_', '_'],
+            ['_', 'W', '_', '_', '_', '_', 'W', '_', '_', 'W', 'W', '_', '_', '_', '_', '_'],
+            ['_', 'W', 'W', '_', 'W', '_', 'W', '_', '_', 'W', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', 'W', '_', 'W', '_', 'W', '_', '_', 'W', 'W', '_', '_', '_', '_', '_'],
+            ['_', 'W', 'W', '_', 'W', '_', 'W', 'W', '_', 'W', '_', 'W', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', 'W', 'W', 'W', '_', 'W', 'W', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', 'W', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', 'W', '_', 'W', '_', 'W', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', 'W', 'W', 'W', '_', 'W', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', 'W', 'W', 'W', '_', 'W', '_', 'W', '_', 'W', '_', 'W', 'W', '_', '_', '_'],
+            ['_', '_', 'W', '_', '_', 'W', '_', 'W', '_', '_', '_', 'W', '_', '_', '_', '_'],
+            ['_', '_', 'W', '_', '_', 'W', 'W', 'W', '_', 'W', '_', 'W', 'W', '_', '_', '_'],
+            ['_', '_', 'W', '_', '_', 'W', '_', 'W', '_', 'W', '_', '_', 'W', '_', '_', '_'],
+            ['_', '_', 'W', '_', '_', 'W', '_', 'W', '_', 'W', '_', 'W', 'W', '_', '_', '_'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
+            ['_', 'W', 'W', '_', 'W', '_', '_', '_', 'W', '_', '_', 'W', 'W', '_', 'W', 'W'],
+            ['_', 'W', '_', '_', 'W', '_', '_', 'W', '_', 'W', '_', 'W', '_', '_', 'W', '_'],
+            ['_', 'W', '_', '_', 'W', '_', '_', 'W', 'W', 'W', '_', 'W', 'W', '_', 'W', 'W'],
+            ['_', 'W', '_', '_', 'W', '_', '_', 'W', '_', 'W', '_', '_', 'W', '_', '_', 'W'],
+            ['_', 'W', 'W', '_', 'W', 'W', '_', 'W', '_', 'W', '_', 'W', 'W', '_', 'W', 'W'],
+            ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
+        ],
+        'instructions':
+"",
         'startCode': '//Write your code here!'
     },
 }
