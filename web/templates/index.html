@@ -64,7 +64,7 @@
                     </div>
 
                     <div v-else-if="gameOver && !victory" class="lossStatus" v-cloak>
-                        <p>Oh no! Codebot didn't reach the goal. <br>Click the reset button to try again.</p>
+                        <p>Oh no! Codebot didn't collect all of the goals. <br>Click the reset button to try again.</p>
                     </div>
 
                     <!-- Grid Rendering -->
@@ -87,34 +87,46 @@
         <!-- Vue object setup -->
         <script>
             // initialise
-            var sprites = {
-                ground: "../static/assets/grass/grass3.png",
-                grass: "../static/assets/grass/grass1.png",
-                player: {
-                    Up: "../static/assets/playerSprite/up.png",
-                    Down: "../static/assets/playerSprite/down.png",
-                    Left: "../static/assets/playerSprite/left.png",
-                    Right: "../static/assets/playerSprite/right.png"
-                },
-                goal: "../static/assets/goal.png",
-                wall: {
-                    full: "../static/assets/wall/fullWall.png",
-                    horizontal: "../static/assets/wall/horizontal.png",
-                    vertical: "../static/assets/wall/vertical.png",
-                    topLeft: "../static/assets/wall/corner_top_left.png",
-                    topRight: "../static/assets/wall/corner_top_right.png",
-                    bottomLeft: "../static/assets/wall/corner_bottom_left.png",
-                    bottomRight: "../static/assets/wall/corner_bottom_right.png"
+            var defaultSprites = function(){
+                return {
+                    ground: "../static/assets/grass/grass1.png",
+                    player: {
+                        Up: "../static/assets/playerSprite/up.png",
+                        Down: "../static/assets/playerSprite/down.png",
+                        Left: "../static/assets/playerSprite/left.png",
+                        Right: "../static/assets/playerSprite/right.png"
+                    },
+                    goal: "../static/assets/goal.png",
+                    wall: "../static/assets/wall/fullWall.png",
+                    lava: "../static/assets/lava.png"
                 }
             };
-            var grid = new World.Grid(
+
+            var sprites = {
+                grass : defaultSprites(),
+                sand  : defaultSprites(),
+                stone : defaultSprites(),
+                snow  : defaultSprites(),
+                jungle: defaultSprites()
+            }
+            // TODO:
+            // sprites.sand.ground   = "../static/assets/grass/grass2.png"
+            // sprites.stone.ground  = "../static/assets/grass/grass2.png"
+            // sprites.snow.ground   = "../static/assets/grass/grass2.png"
+            // sprites.jungle.ground = "../static/assets/grass/grass2.png"
+
+            var goals = level.goals.map(function(goal){
+                return new World.Coord2D(goal.row, goal.col);
+            });
+
+            var grid = World.Grid.init(
                            level.numRows,
                            level.numCols,
-                           sprites,
-                           new World.Coord2D( level.goal.row, level.goal.col ),
-                           new World.Coord2D( level.start.row, level.start.col ),
+                           sprites[level.skin],
+                           goals,
+                           new World.Coord2D(level.start.row, level.start.col),
                            World.Direction[ level.startDir ],
-                           World.shorthandGrid(level.grid, sprites)
+                           World.shorthandGrid(level.grid, sprites[level.skin])
                        );
 
             var game = new Vue({
@@ -147,16 +159,22 @@
                         this.stop();
                         //setup inputs
                         var code = this.codeBox;
-                        var ast = Parser.parseAST([], [], code).ast;
+
+                        //level command set goes in this array
+                        var defs = [
+                           // PS.Interpreter.environment.moveLeft,
+                           // PS.Interpreter.environment.moveRight,
+                           // PS.Interpreter.environment.moveUp,
+                           // PS.Interpreter.environment.moveDown,
+                            PS.Interpreter.environment.turnLeft,
+                            PS.Interpreter.environment.turnRight,
+                            PS.Interpreter.environment.walkForward,
+                        ];
+
+                        var ast = Parser.parseAST([], defs, code).ast;
                         this.codeBox = Parser.prettyPrint(ast);
 
-                        var gen = Interpreter.runInterpreter(grid, ast,
-                            //level command set goes in this array
-                            [PS.Interpreter.environment.moveLeft,
-                            PS.Interpreter.environment.moveRight,
-                            PS.Interpreter.environment.moveUp,
-                            PS.Interpreter.environment.moveDown]);
-
+                        var gen = Interpreter.runInterpreter(grid, ast, defs);
                         var self = this;
 
                         //iterate
