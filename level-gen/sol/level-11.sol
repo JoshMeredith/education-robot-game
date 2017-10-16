@@ -1,7 +1,7 @@
-times (100) {
-    if (clearInFront?) {
-        walkForward;
-    } else {
-        turnLeft;
-    }
-}
+walkForward;
+walkForward;
+turnRight;
+walkForward;
+walkForward;
+turnLeft;
+walkForward;
