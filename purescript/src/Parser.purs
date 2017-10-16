@@ -201,5 +201,5 @@ comment :: ParserT String (State (Array String)) Statement
 comment = do
   ownLine <- newlineWhiteSpace
   void $ string "//"
-  c <- some $ satisfy \c -> c /= '\n'
+  c <- many $ satisfy \c -> c /= '\n'
   pure $ Comment ownLine (fromCharArray c)
