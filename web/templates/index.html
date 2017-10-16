@@ -72,7 +72,7 @@
                         <tr v-for="row in levelMap">
                             <td v-for="col in row">
                                 <div style="position: relative;">
-                                    <img src="../static/assets/grass/grass3.png" id="cell">
+                                    <img src="../static/assets/grass/ground.png" id="cell">
                                     <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
                                 </div>
                             </td>
@@ -89,16 +89,16 @@
             // initialise
             var defaultSprites = function(){
                 return {
-                    ground: "../static/assets/grass/grass1.png",
+                    ground: "../static/assets/grass/ground.png",
                     player: {
-                        Up: "../static/assets/playerSprite/up.png",
-                        Down: "../static/assets/playerSprite/down.png",
-                        Left: "../static/assets/playerSprite/left.png",
-                        Right: "../static/assets/playerSprite/right.png"
+                        Up: "../static/assets/global/playerSprite/up.png",
+                        Down: "../static/assets/global/playerSprite/down.png",
+                        Left: "../static/assets/global/playerSprite/left.png",
+                        Right: "../static/assets/global/playerSprite/right.png"
                     },
-                    goal: "../static/assets/goal.png",
-                    wall: "../static/assets/wall/fullWall.png",
-                    lava: "../static/assets/lava.png"
+                    goal: "../static/assets/global/goal.png",
+                    wall: "../static/assets/grass/wall.png",
+                    lava: "../static/assets/grass/lava.png"
                 }
             };
 
@@ -109,11 +109,21 @@
                 snow  : defaultSprites(),
                 jungle: defaultSprites()
             }
-            // TODO:
-            // sprites.sand.ground   = "../static/assets/grass/grass2.png"
-            // sprites.stone.ground  = "../static/assets/grass/grass2.png"
-            // sprites.snow.ground   = "../static/assets/grass/grass2.png"
-            // sprites.jungle.ground = "../static/assets/grass/grass2.png"
+            
+            sprites.sand.ground   = "../static/assets/sand/ground.png"
+            sprites.sand.wall   = "../static/assets/sand/wall.png"
+            sprites.sand.lava   = "../static/assets/sand/lava.png"
+
+            sprites.stone.ground   = "../static/assets/stone/ground.png"
+            sprites.stone.wall   = "../static/assets/stone/wall.png"
+            sprites.stone.lava   = "../static/assets/stone/lava.png"
+
+            sprites.snow.ground   = "../static/assets/snow/ground.png"
+            sprites.snow.wall   = "../static/assets/snow/wall.png"
+            sprites.snow.lava   = "../static/assets/snow/lava.png"
+
+
+            //sprites.jungle.ground = "../static/assets/grass/grass2.png"
 
             var goals = level.goals.map(function(goal){
                 return new World.Coord2D(goal.row, goal.col);
