@@ -115,12 +115,16 @@
             // sprites.snow.ground   = "../static/assets/grass/grass2.png"
             // sprites.jungle.ground = "../static/assets/grass/grass2.png"
 
+            var goals = level.goals.map(function(goal){
+                return new World.Coord2D(goal.row, goal.col);
+            });
+
             var grid = World.Grid.init(
                            level.numRows,
                            level.numCols,
                            sprites[level.skin],
-                           level.goals,
-                           level.start,
+                           goals,
+                           new World.Coord2D(level.start.row, level.start.col),
                            World.Direction[ level.startDir ],
                            World.shorthandGrid(level.grid, sprites[level.skin])
                        );
@@ -155,15 +159,19 @@
                         this.stop();
                         //setup inputs
                         var code = this.codeBox;
-                        var ast = Parser.parseAST([], [], code).ast;
+
+                        //level command set goes in this array
+                        var defs = [
+                           PS.Interpreter.environment.moveLeft,
+                           PS.Interpreter.environment.moveRight,
+                           PS.Interpreter.environment.moveUp,
+                           PS.Interpreter.environment.moveDown
+                        ];
+
+                        var ast = Parser.parseAST([], defs, code).ast;
                         this.codeBox = Parser.prettyPrint(ast);
 
-                        var gen = Interpreter.runInterpreter(grid, ast,
-                            //level command set goes in this array
-                            [PS.Interpreter.environment.moveLeft,
-                            PS.Interpreter.environment.moveRight,
-                            PS.Interpreter.environment.moveUp,
-                            PS.Interpreter.environment.moveDown]);
+                        var gen = Interpreter.runInterpreter(grid, ast, defs);
 
                         var self = this;
 

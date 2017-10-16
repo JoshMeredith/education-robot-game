@@ -6,20 +6,23 @@ module Parser (
 
 import Control.Alt ((<|>))
 import Control.Lazy (defer)
+import Control.Monad.State (State, evalState, get)
+import Control.Monad.Trans.Class (lift)
 import Data.Argonaut.Core (jNull)
-import Data.Array (some, replicate, many)
+import Data.Array (some, replicate, many, sortBy, head)
 import Data.Either (Either(..))
 import Data.Foldable (fold, any)
 import Data.Int (fromString)
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), fromMaybe)
+import Data.Ord (comparing)
 import Data.Show (show)
-import Data.String (fromCharArray, trim)
-import Data.Tuple (Tuple)
+import Data.String (fromCharArray, trim, toLower)
+import Data.Tuple (Tuple, fst)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
                , (<*>), void, pure, bind, discard, map)
-import Text.Parsing.Parser (Parser, fail, runParser)
-import Text.Parsing.Parser.Combinators (try, between, optionMaybe)
-import Text.Parsing.Parser.String (string, skipSpaces, eof, satisfy)
+import Text.Parsing.Parser (ParserT, fail, runParserT)
+import Text.Parsing.Parser.Combinators (try, between, optionMaybe, optional)
+import Text.Parsing.Parser.String (string, skipSpaces, eof, satisfy, char)
 import Text.Parsing.Parser.Token (letter, digit)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -33,6 +36,7 @@ import Types(
   Questions(..)
 )
 
+import Levenshtein(editDistance)
 
 -- Returns unsafe null to interact with javascript.
 parseAST
@@ -41,7 +45,7 @@ parseAST
   -> String
   -> {ast :: AST, messages :: Array String, names :: Array String}
 parseAST lang defs code =
-  case runParser code ast of
+  case evalState (runParserT code ast) (map fst defs) of
     Left  _ -> {ast: unsafeCoerce jNull, messages: [], names: []}
     Right a -> {ast: a                 , messages: [], names: []}
 
@@ -89,64 +93,92 @@ prettyPrint (AST a) = a # map (go 0) # fold # trim
     showExp (Question ClearInFront) = "clearInFront?"
 
 
-ast :: Parser String AST
+ast :: ParserT String (State (Array String)) AST
 ast =
   AST <$> statements <* eof
 
 
-statements :: Parser String (Array Statement)
+statements :: ParserT String (State (Array String)) (Array Statement)
 statements
   = many (defer $ \_ -> statement) <* skipSpaces
 
 
-statement :: Parser String Statement
+statement :: ParserT String (State (Array String)) Statement
 statement
   = defer $ \_ -> try (keyword "times" *>
                         (TimesStatement
                          <$> parens positiveInt
-                         <*> blockStatement))
+                         <*> block))
               <|> try (keyword "if" *>
                         (IfStatement
                          <$> parens predicate
-                         <*> blockStatement
-                         <*> optionMaybe (try $ keyword "else" *> blockStatement)))
+                         <*> block
+                         <*> optionMaybe (try $ keyword "else" *> block)))
               <|> try blockStatement
               <|> try commandStatement
               <|> try comment
 
 
-keyword :: String -> Parser String String
+keyword :: String -> ParserT String (State (Array String)) String
 keyword word = skipSpaces *> string word
 
 
-parens :: forall a. Parser String a -> Parser String a
+parens :: forall a. ParserT String (State (Array String)) a -> ParserT String (State (Array String)) a
 parens expression = do
   skipSpaces
-  between (string "(") (string ")") expression
+  optional $ string "("
+  skipSpaces
+  ex <- expression
+  skipSpaces
+  optional $ string ")"
+  pure ex
 
 
-blockStatement :: Parser String Statement
+block :: ParserT String (State (Array String)) Statement
+block = do
+  st <- defer $ \_ -> statement
+  pure $ case st of
+    (BlockStatement _) -> st
+    _                  -> BlockStatement [st]
+
+
+blockStatement :: ParserT String (State (Array String)) Statement
 blockStatement
   =  skipSpaces
   *> (BlockStatement <$> between (string "{") (string "}") (defer $ \_ -> statements))
 
 
-commandStatement :: Parser String Statement
+commandStatement :: ParserT String (State (Array String)) Statement
 commandStatement = do
   skipSpaces
   command <- some letter
   skipSpaces
-  void $ string ";"
-  pure $ CommandStatement (fromCharArray command)
+  optional $ string ";"
+  command' <- fixCommand (fromCharArray command) <$> lift get
+  pure $ CommandStatement command'
 
 
-predicate :: Parser String Expression
-predicate = try (string "true"          *> pure (BoolExp  true        ))
-        <|> try (string "false"         *> pure (BoolExp  false       ))
-        <|>     (string "clearInFront?" *> pure (Question ClearInFront))
+fixCommand :: String -> Array String -> String
+fixCommand c env = do
+  env # sortBy (comparing editDist)
+      # head
+      # fromMaybe c
+  where
+    editDist x = editDistance (toLower x) (toLower c)
 
 
-positiveInt :: Parser String Int
+predicate :: ParserT String (State (Array String)) Expression
+predicate = do
+  expression <- fromCharArray <$> some (letter <|> char '?')
+  case fixCommand expression ["true", "false", "clearInFront?", "clear"] of
+    "true"          -> pure $ BoolExp  true        
+    "false"         -> pure $ BoolExp  false       
+    "clearInFront?" -> pure $ Question ClearInFront
+    "clear"         -> pure $ Question ClearInFront
+    _               -> fail $ expression <> " is not a predicate"
+
+
+positiveInt :: ParserT String (State (Array String)) Int
 positiveInt = do
   numbers <- fromCharArray <$> some digit
   case fromString numbers of
@@ -154,13 +186,13 @@ positiveInt = do
     Nothing -> fail $ "Could not parse a positive int from: " <> numbers
 
 
-newlineWhiteSpace :: Parser String Boolean
+newlineWhiteSpace :: ParserT String (State (Array String)) Boolean
 newlineWhiteSpace = do
   ws <- many $ satisfy \c -> c == '\n' || c == '\r' || c == ' ' || c == '\t'
   pure $ any (\c -> c == '\n' || c == '\r') ws
 
 
-comment :: Parser String Statement
+comment :: ParserT String (State (Array String)) Statement
 comment = do
   ownLine <- newlineWhiteSpace
   void $ string "//"
