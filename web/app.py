@@ -519,7 +519,8 @@ def serve_level(level):
 @app.route('/levels')
 @app.route('/')
 def level_selector():
-    levels = [
-        {'tag': k, 'name': LEVELS[k]["name"]}
-        for _, v in sorted(list(WORLDS.items())) for k in v]
-    return render_template('challenges.html', levels=levels)
+    world_levels = [
+        [ {'tag': k, 'name': LEVELS[k]["name"], 'skin': LEVELS[k]["skin"]}
+            for k in v ]
+            for _, v in sorted(list(WORLDS.items())) ]
+    return render_template('challenges.html', worlds=world_levels)
