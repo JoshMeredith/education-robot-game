@@ -13,6 +13,10 @@ exports.moves = {
     walkForward: World.PlayerAction.WalkForward
 }
 
+exports.predicates = {
+    clearInFront: World.RobotPredicate.ClearInFront
+}
+
 exports.facing = function(world) {
     return world.playerFacing();
 }
@@ -20,5 +24,11 @@ exports.facing = function(world) {
 exports.step = function(move) {
     return function(world) {
         return world.step(move);
+    }
+}
+
+exports.inspect = function(predicate) {
+    return function(world) {
+        return world.inspect(predicate);
     }
 }

@@ -9,7 +9,7 @@ namespace Parser {
       , names: Array<String>
       }
     {
-        return PS.Parser.parseAST(null)(null)(code);
+        return PS.Parser.parseAST(features)(environment)(code);
     }
 
     export function prettyPrint(a: PS.Types.AST): string {

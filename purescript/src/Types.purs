@@ -7,12 +7,15 @@ module Types (
     World,
     Move,
     Direction,
-    Interpreter
+    Interpreter,
+    RobotPredicate,
+    Questions(..)
 ) where
 
 
 import Data.Eq (class Eq, (==))
 import Data.Map (Map)
+import Data.Maybe (Maybe)
 import Data.Tuple.Nested (type (/\))
 import Prelude (Unit)
 import Run (Run)
@@ -21,9 +24,10 @@ import Run.State (STATE)
 import Unsafe.Coerce (unsafeCoerce)
 
 
-foreign import data World     :: Type
-foreign import data Move      :: Type
-foreign import data Direction :: Type
+foreign import data World          :: Type
+foreign import data Move           :: Type
+foreign import data Direction      :: Type
+foreign import data RobotPredicate :: Type
 
 
 data AST
@@ -33,13 +37,18 @@ data AST
 data Statement
    = CommandStatement String
    | TimesStatement Int        Statement
-   | IfStatement    Expression Statement
+   | IfStatement    Expression Statement (Maybe Statement)
    | BlockStatement (Array Statement)
    | Comment        Boolean String
 
 
 data Expression
    = BoolExp Boolean
+   | Question Questions
+
+
+data Questions
+   = ClearInFront
 
 
 data LanguageExtras
@@ -51,12 +60,11 @@ type Interpreter
    = Run ( yield :: YIELD World
          , state :: STATE (Map String Definition /\ World /\ Unit)
          )
-         Unit
 
 
 data Definition
    = Procedure (Array Statement)
-   | Axiom Interpreter
+   | Axiom (Interpreter Unit)
 
 
 instance eqMove :: Eq Move where
@@ -64,4 +72,8 @@ instance eqMove :: Eq Move where
 
 
 instance eqDirection :: Eq Direction where
+  eq x y = (unsafeCoerce x :: Int) == (unsafeCoerce y :: Int)
+
+
+instance eqRobotPredicate :: Eq RobotPredicate where
   eq x y = (unsafeCoerce x :: Int) == (unsafeCoerce y :: Int)

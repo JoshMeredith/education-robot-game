@@ -21,8 +21,7 @@
         <header>
             <div class="container">
                 <div id="branding">
-                    <a href="/"><img id="favicon" src="../static/assets/favicon.png" /> </a>
-                    <h2> Welcome to <span>Codebot!</span></h2>
+                    <a href="/"><img id="favicon" src="../static/assets/global/banner.png" /> </a>
                 </div>
                 <nav>
                     <ul>
@@ -43,7 +42,7 @@
 
                         <!-- TODO: Hardcoded, fix! -->
                         <p><strong>Instructions </strong> </p>
-                        <pre>{% raw %}{{instructions}}{% endraw %}</pre>
+                        <div v-html="instructions">{% raw %}{{instructions}}{% endraw %}</div>
                         <textarea v-model="codeBox" id="code_area" ></textarea>
                     </fieldset>
 
@@ -64,7 +63,7 @@
                     </div>
 
                     <div v-else-if="gameOver && !victory" class="lossStatus" v-cloak>
-                        <p>Oh no! Codebot didn't reach the goal. <br>Click the reset button to try again.</p>
+                        <p>Oh no! Codebot didn't collect all of the goals. <br>Click the reset button to try again.</p>
                     </div>
 
                     <!-- Grid Rendering -->
@@ -72,7 +71,7 @@
                         <tr v-for="row in levelMap">
                             <td v-for="col in row">
                                 <div style="position: relative;">
-                                    <img src="../static/assets/grass/grass3.png" id="cell">
+                                    <img src="../static/assets/grass/ground.png" id="cell">
                                     <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
                                 </div>
                             </td>
@@ -87,34 +86,56 @@
         <!-- Vue object setup -->
         <script>
             // initialise
-            var sprites = {
-                ground: "../static/assets/grass/grass3.png",
-                grass: "../static/assets/grass/grass1.png",
-                player: {
-                    Up: "../static/assets/playerSprite/up.png",
-                    Down: "../static/assets/playerSprite/down.png",
-                    Left: "../static/assets/playerSprite/left.png",
-                    Right: "../static/assets/playerSprite/right.png"
-                },
-                goal: "../static/assets/goal.png",
-                wall: {
-                    full: "../static/assets/wall/fullWall.png",
-                    horizontal: "../static/assets/wall/horizontal.png",
-                    vertical: "../static/assets/wall/vertical.png",
-                    topLeft: "../static/assets/wall/corner_top_left.png",
-                    topRight: "../static/assets/wall/corner_top_right.png",
-                    bottomLeft: "../static/assets/wall/corner_bottom_left.png",
-                    bottomRight: "../static/assets/wall/corner_bottom_right.png"
+            var defaultSprites = function(){
+                return {
+                    ground: "../static/assets/grass/ground.png",
+                    player: {
+                        Up: "../static/assets/global/playerSprite/up.png",
+                        Down: "../static/assets/global/playerSprite/down.png",
+                        Left: "../static/assets/global/playerSprite/left.png",
+                        Right: "../static/assets/global/playerSprite/right.png"
+                    },
+                    goal: "../static/assets/global/goal.png",
+                    wall: "../static/assets/grass/wall.png",
+                    lava: "../static/assets/grass/lava.png"
                 }
             };
-            var grid = new World.Grid(
+
+            var sprites = {
+                grass : defaultSprites(),
+                sand  : defaultSprites(),
+                stone : defaultSprites(),
+                snow  : defaultSprites(),
+                jungle: defaultSprites()
+            }
+            
+            sprites.sand.ground   = "../static/assets/sand/ground.png"
+            sprites.sand.wall   = "../static/assets/sand/wall.png"
+            sprites.sand.lava   = "../static/assets/sand/lava.png"
+
+            sprites.stone.ground   = "../static/assets/stone/ground.png"
+            sprites.stone.wall   = "../static/assets/stone/wall.png"
+            sprites.stone.lava   = "../static/assets/stone/lava.png"
+
+            sprites.snow.ground   = "../static/assets/snow/ground.png"
+            sprites.snow.wall   = "../static/assets/snow/wall.png"
+            sprites.snow.lava   = "../static/assets/snow/lava.png"
+
+
+            //sprites.jungle.ground = "../static/assets/grass/grass2.png"
+
+            var goals = level.goals.map(function(goal){
+                return new World.Coord2D(goal.row, goal.col);
+            });
+
+            var grid = World.Grid.init(
                            level.numRows,
                            level.numCols,
-                           sprites,
-                           new World.Coord2D( level.goal.row, level.goal.col ),
-                           new World.Coord2D( level.start.row, level.start.col ),
+                           sprites[level.skin],
+                           goals,
+                           new World.Coord2D(level.start.row, level.start.col),
                            World.Direction[ level.startDir ],
-                           World.shorthandGrid(level.grid, sprites)
+                           World.shorthandGrid(level.grid, sprites[level.skin])
                        );
 
             var game = new Vue({
@@ -147,16 +168,22 @@
                         this.stop();
                         //setup inputs
                         var code = this.codeBox;
-                        var ast = Parser.parseAST([], [], code).ast;
-                        this.codeBox = Parser.prettyPrint(ast);
 
-                        var gen = Interpreter.runInterpreter(grid, ast,
-                            //level command set goes in this array
-                            [PS.Interpreter.environment.moveLeft,
+                        //level command set goes in this array
+                        var defs = [
+                            PS.Interpreter.environment.moveLeft,
                             PS.Interpreter.environment.moveRight,
                             PS.Interpreter.environment.moveUp,
-                            PS.Interpreter.environment.moveDown]);
+                            PS.Interpreter.environment.moveDown,
+                            PS.Interpreter.environment.turnLeft,
+                            PS.Interpreter.environment.turnRight,
+                            PS.Interpreter.environment.walkForward
+                        ];
 
+                        var ast = Parser.parseAST([], defs, code).ast;
+                        this.codeBox = Parser.prettyPrint(ast);
+
+                        var gen = Interpreter.runInterpreter(grid, ast, defs);
                         var self = this;
 
                         //iterate

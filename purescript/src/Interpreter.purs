@@ -14,7 +14,7 @@ import Data.Traversable (traverse_)
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested ((/\), over2, get1, get2)
 import Data.Unfoldable (replicateA)
-import Prelude ( Unit, bind, const, discard, pure, unit, when
+import Prelude ( Unit, bind, const, discard, pure, unit
                , (#), ($), (&&), (<<<), (==), (>>=), (||), (*>))
 import Run (run)
 import Run.Streaming (Resume(..), runYield, yield)
@@ -23,8 +23,8 @@ import Unsafe.Coerce (unsafeCoerce)
 
 
 import Types ( AST(..), Statement(..), World, Definition(..), Interpreter
-             , Expression(..), Direction, Move)
-import World (step, moves, directions, facing)
+             , Expression(..), Direction, Move, Questions(..))
+import World (step, moves, directions, facing, predicates, inspect)
 
 
 testNum :: Int
@@ -42,7 +42,7 @@ runInterpreter initial (AST ss) baseDefs =
     evalState (fromFoldable baseDefs /\ initial /\ unit) $
       go (BlockStatement ss)
   where
-    go :: Statement -> Interpreter
+    go :: Statement -> Interpreter Unit
     go (CommandStatement command) = do
       defs <- get <#> get1
       case defs # lookup command of
@@ -54,8 +54,13 @@ runInterpreter initial (AST ss) baseDefs =
       _ :: Array Unit <- replicateA n $ go child
       pure unit
 
-    go (IfStatement (BoolExp p) child) =
-      when p $ go child
+    go (IfStatement p ifs elses) = do
+      b <- evalPredicate p
+      case (b /\ elses) of
+        (true  /\  _       ) -> go ifs
+        (false /\ (Just es)) -> go es
+        (false /\  Nothing ) -> pure unit
+
 
     go (BlockStatement childStatements) =
       childStatements # traverse_ go
@@ -64,15 +69,23 @@ runInterpreter initial (AST ss) baseDefs =
       pure unit
 
 
-send :: World -> Interpreter
+send :: World -> Interpreter Unit
 send w = do
   yield w
   modify (over2 (const w))
 
 
-sendMove :: Move -> Interpreter
+sendMove :: Move -> Interpreter Unit
 sendMove m = do
   get <#> get2 <#> step m >>= send
+
+
+evalPredicate :: Expression -> Interpreter Boolean
+evalPredicate (BoolExp b) = pure b
+evalPredicate (Question q) = get <#> get2 <#> inspect (p q)
+  where
+    p ClearInFront = predicates.clearInFront
+    
 
 
 nextResume
@@ -117,12 +130,12 @@ environment = {
 }
 
 
-walk :: Direction -> Interpreter
+walk :: Direction -> Interpreter Unit
 walk dir = do
   adjustFacing
   sendMove moves.walkForward
   where
-    adjustFacing :: Interpreter
+    adjustFacing :: Interpreter Unit
     adjustFacing = do
       f <- get <#> get2 <#> facing
       case unit of
