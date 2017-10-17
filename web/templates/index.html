@@ -42,7 +42,7 @@
 
                         <!-- TODO: Hardcoded, fix! -->
                         <p><strong>Instructions </strong> </p>
-                        <pre>{% raw %}{{instructions}}{% endraw %}</pre>
+                        <div v-html="instructions">{% raw %}{{instructions}}{% endraw %}</div>
                         <textarea v-model="codeBox" id="code_area" ></textarea>
                     </fieldset>
 

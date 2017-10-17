@@ -17,20 +17,22 @@ LEVELS = {
             ['_', '_']
         ],
         'instructions':
-'A comment is a line of code that codebot will ignore.\n\
-To write a comment we use // and then write some text.\n\
-\n\
-//this is a comment\n\
-\n\
-Comments have 2 main uses that you will see over and over\n\
-during your time spent programming.\n\
-1. Describing what your code does\n\
-2. Toggling code on and off\n\
-        ',
+"""A comment is a line of code that codebot will ignore.
+To write a comment we use <tt> // and then write some text.</tt>
+
+<pre>
+//this is a comment
+</pre>
+
+Comments have 2 main uses that you will see over and over
+during your time spent programming.
+<ol>
+<li>Describing what your code does</li>
+<li>Toggling code on and off</li>
+</ol>""",
         'startCode':
-'//The next line moves the robot to the goal, uncomment it and hit RUN\n\
-//moveRight;\
-        '
+"""//The next line moves the robot to the goal, uncomment it and hit RUN
+//moveRight;"""
     },
     'level2': {
         'name': 'Level 2',
@@ -48,25 +50,23 @@ during your time spent programming.\n\
             ['_', '_', '_', '_', '_']
         ],
         'instructions':
-'In the last level you might have noticed that the line of\n\
-code had a semicolon (;) at the end.\n\n\
-This lets codebot know that you have finished giving an\n\
-instruction - kind of like how a full stop lets you know\n\
-when a sentence is finished.\n\n\
-This becomes important when you have many instructions to\n\
-give to codeBot. To complete this level uncomment the\n\
-instructions that will lead codebot to the goal.\
-        ',
+"""In the last level you might have noticed that the line of
+code had a semicolon (;) at the end.
+This lets codebot know that you have finished giving an
+instruction - kind of like how a full stop lets you know
+when a sentence is finished.
+This becomes important when you have many instructions to
+give to codeBot. To complete this level uncomment the
+instructions that will lead codebot to the goal.""",
         'startCode':
-'//moveUp;\n\
-//moveDown;\n\
-//moveLeft;\n\
-//moveRight;\n\
-//moveUp;\n\
-//moveDown;\n\
-//moveLeft;\n\
-//moveRight;\
-        '
+"""//moveUp;
+//moveDown;
+//moveLeft;
+//moveRight;
+//moveUp;
+//moveDown;
+//moveLeft;
+//moveRight;"""
     },
     'level3': {
         'name': 'Level 3',
@@ -80,19 +80,20 @@ instructions that will lead codebot to the goal.\
             ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
         ],
         'instructions':
-"It can get pretty tiresome repeatedly typing out the same\n\
-instructions for codebot over and over again. That\'s why we\n\
-have the times loop!\n\n\
-By using the times loop we can tell codebot to follow a set\n\
-of instructions any number of times. The following code will\n\
-tell codebot to dance 10 times:\n\
-times(10){\n\
-    dance;\n\
-}\n\n\
-Unfortunately codebot hasn\'t learnt how to dance yet.\n\
-He has learnt how to move right though! Use your newfound\n\
-knowledge of loops to help codebot reach the goal.\
-",
+"""It can get pretty tiresome repeatedly typing out the same
+instructions for codebot over and over again. That's why we
+have the times loop!
+By using the times loop we can tell codebot to follow a set
+of instructions any number of times. The following code will
+tell codebot to dance 10 times:
+<pre>
+times(10){
+    dance;
+}
+</pre>
+Unfortunately codebot hasn't learnt how to dance yet.
+He has learnt how to move right though! Use your newfound
+knowledge of loops to help codebot reach the goal.""",
         'startCode': '//Write your code here!'
     },
 
@@ -112,10 +113,10 @@ knowledge of loops to help codebot reach the goal.\
             ['_', '_', '_', '_', '_']
         ],
         'instructions':
-"Now we know how to move codebot around using the moveUp,\n\
-moveDown, moveLeft and moveRight instructions. We also know\n\
-how to use loops to make our code shorter. \n\n\
-Use these tools to help codebot reach the goal.",
+"""Now we know how to move Codebot around using the <tt>moveUp</tt>,
+<tt>moveDown</tt>, <tt>moveLeft</tt> and <tt>moveRight</tt> instructions. We also know
+how to use loops to make our code shorter. 
+Use these tools to help codebot reach the goal.""",
         'startCode': '//Write your code here!'
     },
 
@@ -145,9 +146,9 @@ Use these tools to help codebot reach the goal.",
             ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 'W', '_', '_']
         ],
         'instructions':
-"Oh no, codebot is really lost now!\n\n\
-Give him some instructions to help him navigate the maze\n\
-and reach his goal.",
+"""Oh no, codebot is really lost now!
+Give him some instructions to help him navigate the maze
+and reach his goal.""",
         'startCode': '//Write your code here!'
     },
 
@@ -169,12 +170,12 @@ and reach his goal.",
             ['_', '_', '_', '_', '_', '_', '_']
         ],
         'instructions':
-"In programming, it is generally important to recognize patterns and to look for the \n\
-most effective soutions, allowing you to keep your code short. \n\n\
-As an example, the maze on the right could be solved by collecting the top right gear, \n\
-then the bottom left one, then bottom right, then top left, but this would require a \n\
-lot of steps. Instead, you can solve this maze with four simple loops. \n\n\
-See if you can figure out how.",
+"""In programming, it is generally important to recognize patterns and to look for the 
+most effective soutions, allowing you to keep your code short. 
+As an example, the maze on the right could be solved by collecting the top right gear, 
+then the bottom left one, then bottom right, then top left, but this would require a 
+lot of steps. Instead, you can solve this maze with four simple loops. 
+See if you can figure out how.""",
         'startCode': '//Write your code here!'
     },
 
@@ -197,21 +198,26 @@ See if you can figure out how.",
             ['_', 'W', '_', '_', '_', 'W', '_', '_', '_']
         ],
         'instructions':
-"A useful thing you can do is 'nest' loops inside each other. \n\
-Here is an example:\n\
-times (3) {\n\
-    times(2) {\n\
-        moveUp;\n\
-    }\n\
-    times(3) {\n\
-        moveRight;\n\
-    }\n\
-}\n\
-The outer loop will run three times, each time, it will make codeBot moveUp twice,\n\
-then make him move right three times before repeating. Use something similar to solve\n\
-this maze. (Hint: Pay attention to what you need to repeat, in this case it looks like \n\
-you need to move up a certain number of times, then right, then down, then right again, \n\
-and repeat this as many times as necessary until you reach the goal)",
+"""A useful thing you can do is 'nest' loops inside each other. 
+Here is an example:
+<pre>times (3) {
+    times(2) {
+        moveUp;
+    }
+    times(3) {
+        moveRight;
+    }
+}
+</pre>
+The outer loop will run three times, each time, it will make Codebot <tt>moveUp</tt> twice,
+then make him move right three times before repeating. Use something similar to solve
+this maze.
+
+<p>
+Hint: Pay attention to what you need to repeat, in this case it looks like 
+you need to move up a certain number of times, then right, then down, then right again, 
+and repeat this as many times as necessary until you reach the goal
+</p>""",
         'startCode': '//Write your code here!'
     },
 
@@ -241,10 +247,14 @@ and repeat this as many times as necessary until you reach the goal)",
             ['_', '_', '_', 'L', '_', '_', '_', 'L', '_', '_', '_', 'L', '_', '_', '_'],
         ],
         'instructions':
-"Here's an example similar to the last one but longer, just to show you how important\n\
-loops can be. Also be careful, the walls have been replaced with lava so codeBot will get\n\
-hurt if you're not careful. (Hint: The grid is 15 by 15, so you will have to step up and \n\
-down 15 times every time you moveUp or moveDown)",
+"""Here's an example similar to the last one but longer, just to show you how important
+loops can be. Also be careful, the walls have been replaced with lava so Codebot will get
+hurt if you're not careful.
+
+<p>
+Hint: The grid is 15 by 15, so you will have to step up and 
+down 15 times every time you moveUp or moveDown
+</p>""",
         'startCode': '//Write your code here!'
     },
 
@@ -269,11 +279,15 @@ down 15 times every time you moveUp or moveDown)",
             ['_', 'W', '_', '_', '_', '_', '_', '_', '_']
         ],
         'instructions':
-"This is similar to the previous situation, but you have to figure the pattern out\n\
-on your own this time! Note that it is ok for you to tell codeBot to move in a direction\n\
-where there is a wall if it keeps your code short. For example, a useful loop might be to \n\
-just get codeBot to move in sets up, right, down, and left 10 times each. He may awkwardly\n\
-face the wall for a while, but eventually he'll turn and walk in the right direction.",
+"""This is similar to the previous situation, but you have to figure the pattern out
+on your own this time!
+
+<p>
+Note that it is OK for you to tell Codebot to move in a direction where there
+is a wall if it keeps your code short. For example, a useful loop might get
+codeBot to move up, right, down, and left 10 times each. He may awkwardly face
+the wall for a while, but eventually he'll turn and walk in the right
+direction.""",
         'startCode': '//Write your code here!'
     },
 
@@ -298,7 +312,7 @@ face the wall for a while, but eventually he'll turn and walk in the right direc
             ['_', '_', '_', '_', '_', '_']
         ],
         'instructions':
-"In computer science, everyone likes money, so go collect as much of it as possible!",
+"""In computer science, everyone likes money, so go collect as much of it as possible!""",
         'startCode': '//Write your code here!'
     },
 
@@ -320,9 +334,9 @@ face the wall for a while, but eventually he'll turn and walk in the right direc
         'instructions':
 """Codebot is growing up and has upgraded his instructions!
 
-Codebot no longer knows how to moveLeft, moveUp, moveDown or moveRight!
-Instead, you can use the turnLeft and turnRight instructions to get him to turn
-on the spot, and the walkForward instruction to get him to move one square in
+Codebot no longer knows how to <tt>moveLeft</tt>, <tt>moveUp</tt>, <tt>moveDown</tt> or <tt>moveRight</tt>!
+Instead, you can use the <tt>turnLeft</tt> and <tt>turnRight</tt> instructions to get him to turn
+on the spot, and the <tt>walkForward</tt> instruction to get him to move one square in
 the direction he is facing.
 
 Give it a go!""",
@@ -359,9 +373,9 @@ Give it a go!""",
         ],
         'instructions':
 """Oops! Codebot is a slow learner and has temporarily forgotten how to
-turnRight (just for this level!).
+<tt>turnRight</tt> (just for this level!).
 
-Help him find his lost gears only using the turnLeft and walkForward
+Help him find his lost gears only using the <tt>turnLeft</tt> and <tt>walkForward</tt>
 instructions.""",
         'startCode': """// Your code here!""",
     },
@@ -384,25 +398,31 @@ instructions.""",
         'instructions':
 """Codebot has also learned to detect if walking forwards is safe. If you type
 
+<pre>
 if (clearInFront?) {
     // Some commands here!
 }
+</pre>
 
 those commands will only be run if Codebot can safely take a step forwards,
 right now.  Otherwise, nothing will happen.  Instead, if you typed
 
+<pre>
 if (clearInFront?) {
     // Some commands here!
 } else {
     // More commands here!
 }
+</pre>
 
 Codebot will do "Some commands" if walking forwards is safe (right now), or
-otherwise he will do "More commands" instead. We call this idea 'branching'.
+otherwise he will do "More commands" instead. We call this idea <i>branching</i>.
 
+<p>
 By combining branching with a times loop, we can write some neat, concise code
 for Codebot. Try uncommenting the code below to see what Codebot does! Can you
 explain why?
+</p>
 """,
         'startCode': 
 """// Codebot has learned how to check if it's safe to walk forwards!
@@ -445,8 +465,10 @@ explain why?
 """Oh no! Codebot has found himself very far away from his gear, surrounded by
 walls and treacherous lava. Help him recover his gear.
 
+<p>
 Hint: try and combine nested loops with branching to see if you can devise a
-short and clever solution.""",
+short and clever solution.
+</p>""",
         'startCode':
 """// Codebot needs your help!
 // Write some code below to help him find his missing gear!""",
@@ -482,8 +504,10 @@ short and clever solution.""",
 Help him retrace his steps and recover each gear. Watch out! Make sure you keep
 him away from that lava.
 
+<p>
 Psst. He's in a panic, so he'd really like it if you could keep your code
-concise so he has less to remember ;).""",
+concise so he has less to remember ;).
+</p>""",
         'startCode': '// Your goes code here!',
     },
 }
