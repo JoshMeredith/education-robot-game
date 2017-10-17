@@ -63,7 +63,7 @@ function obstacleFromShorthand(sh: string, sprites: Sprites): Obstacle {
             return new Obstacle(Ground.Wall, [sprites.ground, sprites.wall]);
         }
         case 'L': {
-            return new Obstacle(Ground.Lava, [sprites.lava])
+            return new Obstacle(Ground.Lava, [sprites.ground, sprites.lava]);
         }
     }
 }
