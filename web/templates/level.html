@@ -1,0 +1,193 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ level.name }}{% endblock %}
+
+{% block head_scripts %}
+    <script src="/static/js/build.js"></script>
+
+    <script type="text/javascript">
+var level = {{ level | tojson | safe }};
+    </script>
+{% endblock %}
+
+{% block main %}
+    <!-- The code Box -->
+    <div class="codeContainer">
+        <form id="codeBox">
+            <fieldset>
+                <!-- Temporarily removing for spring release
+                    <legend> Level 0 </legend>
+
+                    <!-- TODO: Hardcoded, fix! -->
+                    <p><strong>Instructions </strong> </p>
+                    <div v-html="instructions">{% raw %}{{instructions}}{% endraw %}</div>
+                    <textarea v-model="codeBox" id="code_area" ></textarea>
+            </fieldset>
+
+            <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
+            <!-- <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" /> -->
+            <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
+            <!-- <input id="button_1" type="button" value="Next Challenge" onclick="nextChallenge" /> -->
+        </form>
+
+        <!-- The game display -->
+        <div  class="gridContainer">
+            <!-- Status Bar -->
+            <div v-if="!gameOver" class="defaultStatus">
+                <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
+            </div>
+            <div v-else-if="gameOver && victory" class="winStatus" v-cloak>
+                <p>Congratulations! <br>You beat the level.</p>
+            </div>
+
+            <div v-else-if="gameOver && !victory" class="lossStatus" v-cloak>
+                <p>Oh no! Codebot didn't collect all of the goals. <br>Click the reset button to try again.</p>
+            </div>
+
+            <!-- Grid Rendering -->
+            <table>
+                <tr v-for="row in levelMap">
+                    <td v-for="col in row">
+                        <div style="position: relative;">
+                            <img src="/static/assets/grass/ground.png" id="cell">
+                            <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block body_scripts %}
+    <!-- Vue object setup -->
+    <script>
+// initialise
+var defaultSprites = function(){
+    return {
+        ground: "/static/assets/grass/ground.png",
+        player: {
+            Up: "/static/assets/global/playerSprite/up.png",
+            Down: "/static/assets/global/playerSprite/down.png",
+            Left: "/static/assets/global/playerSprite/left.png",
+            Right: "/static/assets/global/playerSprite/right.png"
+        },
+        goal: "/static/assets/global/goal.png",
+        wall: "/static/assets/grass/wall.png",
+        lava: "/static/assets/grass/lava.png"
+    }
+};
+
+var sprites = {
+    grass : defaultSprites(),
+    sand  : defaultSprites(),
+    stone : defaultSprites(),
+    snow  : defaultSprites(),
+    jungle: defaultSprites()
+}
+
+sprites.sand.ground   = "/static/assets/sand/ground.png";
+sprites.sand.wall   = "/static/assets/sand/wall.png";
+sprites.sand.lava   = "/static/assets/sand/lava.png";
+
+sprites.stone.ground   = "/static/assets/stone/ground.png";
+sprites.stone.wall   = "/static/assets/stone/wall.png";
+sprites.stone.lava   = "/static/assets/stone/lava.png";
+
+sprites.snow.ground   = "/static/assets/snow/ground.png";
+sprites.snow.wall   = "/static/assets/snow/wall.png";
+sprites.snow.lava   = "/static/assets/snow/lava.png";
+
+
+//sprites.jungle.ground = "/static/assets/grass/grass2.png";
+
+var goals = level.goals.map(function(goal){
+    return new World.Coord2D(goal.row, goal.col);
+});
+
+var grid = World.Grid.init(
+    level.numRows,
+    level.numCols,
+    sprites[level.skin],
+    goals,
+    new World.Coord2D(level.start.row, level.start.col),
+    World.Direction[ level.startDir ],
+    World.shorthandGrid(level.grid, sprites[level.skin])
+);
+
+var game = new Vue({
+    el: "#main",
+    data: {
+        levelMap: grid.render(),
+        codeBox: level.startCode,
+        gameOver: false,
+        victory: false,
+        interval: null,
+        instructions: level.instructions,
+        startCode: level.startCode
+    },
+    methods: {
+        resetLevel: function() {
+            var self = this;
+            self.gameOver=false;
+            self.levelMap= grid.render();
+            self.victory=false;
+            self.stop();
+        },
+        stop: function() {
+            if (this.interval !== null) {
+                clearInterval(this.interval);
+                this.interval = null;
+            }
+        },
+
+        uiRunGame: function() {
+            this.stop();
+            //setup inputs
+            var code = this.codeBox;
+
+            //level command set goes in this array
+            var defs = [
+                PS.Interpreter.environment.moveLeft,
+                PS.Interpreter.environment.moveRight,
+                PS.Interpreter.environment.moveUp,
+                PS.Interpreter.environment.moveDown,
+                PS.Interpreter.environment.turnLeft,
+                PS.Interpreter.environment.turnRight,
+                PS.Interpreter.environment.walkForward
+            ];
+
+            var ast = Parser.parseAST([], defs, code).ast;
+            this.codeBox = Parser.prettyPrint(ast);
+
+            var gen = Interpreter.runInterpreter(grid, ast, defs);
+            var self = this;
+
+            //iterate
+            self.interval = setInterval( function() {
+                world = gen.next().value;
+
+                if (world === undefined) {
+                    self.gameOver=true;
+                    self.stop(); //break
+                }else{
+                    self.levelMap=world.render();
+
+                    if ( world.victory() || world.failed() ) {
+                        self.gameOver=true;
+                        if ( world.victory() ) { self.victory=true; }
+
+                        self.stop(); //break
+                    }
+                }
+            }, 500);
+
+        }
+    }
+});
+
+    </script>
+{% endblock %}
+
