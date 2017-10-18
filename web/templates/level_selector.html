@@ -14,7 +14,8 @@ var worlds = {{ worlds | tojson | safe }};
             <div class="world-challenges">
                 {% for level in world %}
                     <a href="{{ url_for('serve_level', level=level.tag) }}">
-                        <img src="{{ '/static/assets/' + level.skin + '/ground.png' }}" />
+                        <img src="{{ url_for('static',
+                        filename='assets/{skin}/ground.png'.format(skin=level.skin)) }}" />
                         <div class="text-wrapper">
                             <h3>{{ level.name }}</h3>
                         </div>

@@ -5,7 +5,7 @@
 {% block head_scripts %}
     <script src="https://unpkg.com/vue"></script>
 
-    <script src="/static/js/build.js"></script>
+    <script src="{{ url_for('static', filename='js/build.js') }}"></script>
 
     <script type="text/javascript">
 var level = {{ level | tojson | safe }};
@@ -51,7 +51,7 @@ var level = {{ level | tojson | safe }};
                 <tr v-for="row in levelMap">
                     <td v-for="col in row">
                         <div style="position: relative;">
-                            <img src="/static/assets/grass/ground.png" id="cell">
+                            <img src="{{ url_for('static', filename='assets/grass/ground.png') }}" id="cell">
                             <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
                         </div>
                     </td>
@@ -69,16 +69,16 @@ var level = {{ level | tojson | safe }};
 // initialise
 var defaultSprites = function(){
     return {
-        ground: "/static/assets/grass/ground.png",
+        ground: "{{ url_for('static', filename='assets/grass/ground.png') }}",
         player: {
-            Up: "/static/assets/global/playerSprite/up.png",
-            Down: "/static/assets/global/playerSprite/down.png",
-            Left: "/static/assets/global/playerSprite/left.png",
-            Right: "/static/assets/global/playerSprite/right.png"
+            Up: "{{ url_for('static', filename='assets/global/playerSprite/up.png') }}",
+            Down: "{{ url_for('static', filename='assets/global/playerSprite/down.png') }}",
+            Left: "{{ url_for('static', filename='assets/global/playerSprite/left.png') }}",
+            Right: "{{ url_for('static', filename='assets/global/playerSprite/right.png') }}"
         },
-        goal: "/static/assets/global/goal.png",
-        wall: "/static/assets/grass/wall.png",
-        lava: "/static/assets/grass/lava.png"
+        goal: "{{ url_for('static', filename='assets/global/goal.png') }}",
+        wall: "{{ url_for('static', filename='assets/grass/wall.png') }}",
+        lava: "{{ url_for('static', filename='assets/grass/lava.png') }}"
     }
 };
 
@@ -90,20 +90,20 @@ var sprites = {
     jungle: defaultSprites()
 }
 
-sprites.sand.ground   = "/static/assets/sand/ground.png";
-sprites.sand.wall   = "/static/assets/sand/wall.png";
-sprites.sand.lava   = "/static/assets/sand/lava.png";
+sprites.sand.ground   = "{{ url_for('static', filename='assets/sand/ground.png') }}";
+sprites.sand.wall   = "{{ url_for('static', filename='assets/sand/wall.png') }}";
+sprites.sand.lava   = "{{ url_for('static', filename='assets/sand/lava.png') }}";
 
-sprites.stone.ground   = "/static/assets/stone/ground.png";
-sprites.stone.wall   = "/static/assets/stone/wall.png";
-sprites.stone.lava   = "/static/assets/stone/lava.png";
+sprites.stone.ground   = "{{ url_for('static', filename='assets/stone/ground.png') }}";
+sprites.stone.wall   = "{{ url_for('static', filename='assets/stone/wall.png') }}";
+sprites.stone.lava   = "{{ url_for('static', filename='assets/stone/lava.png') }}";
 
-sprites.snow.ground   = "/static/assets/snow/ground.png";
-sprites.snow.wall   = "/static/assets/snow/wall.png";
-sprites.snow.lava   = "/static/assets/snow/lava.png";
+sprites.snow.ground   = "{{ url_for('static', filename='assets/snow/ground.png') }}";
+sprites.snow.wall   = "{{ url_for('static', filename='assets/snow/wall.png') }}";
+sprites.snow.lava   = "{{ url_for('static', filename='assets/snow/lava.png') }}";
 
 
-//sprites.jungle.ground = "/static/assets/grass/grass2.png";
+//sprites.jungle.ground = "{{ url_for('static', filename='assets/grass/grass2.png') }}";
 
 var goals = level.goals.map(function(goal){
     return new World.Coord2D(goal.row, goal.col);
