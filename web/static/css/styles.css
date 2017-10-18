@@ -100,9 +100,9 @@ form#codeBox fieldset {
   text-align: left;
 }
 
-#code_area{
+#code_area_wrapper{
     font-family: monospace;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 form#codeBox fieldset {

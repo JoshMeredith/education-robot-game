@@ -7,6 +7,8 @@
 
     <script src="{{ url_for('static', filename='js/build.js') }}"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.js"></script>
     <script type="text/javascript">
 var level = {{ level | tojson | safe }};
     </script>
@@ -19,7 +21,9 @@ var level = {{ level | tojson | safe }};
             <fieldset>
                 <p><strong>Instructions</strong></p>
                 <div>{{ level.instructions | safe }}</div>
-                <textarea v-model="codeBox" id="code_area" ></textarea>
+                <div id="code_area_wrapper">
+                    <textarea id="code_area"></textarea>
+                </div>
             </fieldset>
 
             <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
@@ -62,6 +66,7 @@ var level = {{ level | tojson | safe }};
 {% block body_scripts %}
     <!-- Vue object setup -->
     <script>
+
 // initialise
 var defaultSprites = function(){
     return {
@@ -119,11 +124,26 @@ var game = new Vue({
     el: "#main",
     data: {
         levelMap: grid.render(),
-        codeBox: level.startCode,
         gameOver: false,
         victory: false,
         interval: null,
-        startCode: level.startCode
+        startCode: level.startCode,
+        editor: null
+    },
+    computed: {
+        codeBox: {
+            get: function() {
+                return this.editor.getValue()
+            },
+            set: function(code) {
+                this.editor.setValue(code);
+            }
+        }
+    },
+    mounted: function () {
+        this.editor = CodeMirror.fromTextArea(document.getElementById("code_area"), {
+            lineNumbers: true
+        });
     },
     methods: {
         resetLevel: function() {
@@ -142,8 +162,6 @@ var game = new Vue({
 
         uiRunGame: function() {
             this.stop();
-            //setup inputs
-            var code = this.codeBox;
 
             //level command set goes in this array
             var defs = [
@@ -156,7 +174,7 @@ var game = new Vue({
                 PS.Interpreter.environment.walkForward
             ];
 
-            var ast = Parser.parseAST([], defs, code).ast;
+            var ast = Parser.parseAST([], defs, this.codeBox).ast;
             this.codeBox = Parser.prettyPrint(ast);
 
             var gen = Interpreter.runInterpreter(grid, ast, defs);
