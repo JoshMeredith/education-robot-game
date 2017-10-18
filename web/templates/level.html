@@ -143,7 +143,6 @@ var game = new Vue({
         gameOver: false,
         victory: false,
         interval: null,
-        startCode: level.startCode,
         editor: null
     },
     computed: {
@@ -162,6 +161,8 @@ var game = new Vue({
             theme: "monokai",
             mode: "codebot"
         });
+
+        this.codeBox = level.startCode;
     },
     methods: {
         resetLevel: function() {
