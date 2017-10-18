@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/theme/monokai.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/addon/mode/simple.min.js"></script>
     <script type="text/javascript">
 var level = {{ level | tojson | safe }};
     </script>
@@ -67,6 +68,20 @@ var level = {{ level | tojson | safe }};
 {% block body_scripts %}
     <!-- Vue object setup -->
     <script>
+
+CodeMirror.defineSimpleMode("codebot", {
+  start: [
+    {regex: /(times|if|else)/, token: "keyword"},
+    {regex: /(move(Left|Right|Up|Down)|walkForward|turn(Left|Right))/, token: "variable-2"},
+    // {regex: /[\(\)\{\}\;]/, token: "keyword"},
+    {regex: /(true|false|clearInFront\?)/, token: "string"},
+    {regex: /\d+/, token: "number"},
+    {regex: /\/\/.*/, token: "comment"}
+  ],
+  meta: {
+    lineComment: "//"
+  }
+});
 
 // initialise
 var defaultSprites = function(){
@@ -144,7 +159,8 @@ var game = new Vue({
     mounted: function () {
         this.editor = CodeMirror.fromTextArea(document.getElementById("code_area"), {
             lineNumbers: true,
-            theme: "monokai"
+            theme: "monokai",
+            mode: "codebot"
         });
     },
     methods: {
