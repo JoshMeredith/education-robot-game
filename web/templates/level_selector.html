@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}Challenges{% endblock %}
+
+{% block head_scripts %}
+    <script type="text/javascript">
+var worlds = {{ worlds | tojson | safe }};
+    </script>
+{% endblock %}
+
+{% block main %}
+    <div id="challengesList">
+        {% for world in worlds %}
+            <div class="world-challenges">
+                {% for level in world %}
+                    <a href="{{ url_for('serve_level', level=level.tag) }}">
+                        <img src="{{ url_for('static',
+                        filename='assets/{skin}/ground.png'.format(skin=level.skin)) }}" />
+                        <div class="text-wrapper">
+                            <h3>{{ level.name }}</h3>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
