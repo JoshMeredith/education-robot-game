@@ -7,8 +7,9 @@
 
     <script src="{{ url_for('static', filename='js/build.js') }}"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/theme/monokai.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.js"></script>
     <script type="text/javascript">
 var level = {{ level | tojson | safe }};
     </script>
@@ -142,7 +143,8 @@ var game = new Vue({
     },
     mounted: function () {
         this.editor = CodeMirror.fromTextArea(document.getElementById("code_area"), {
-            lineNumbers: true
+            lineNumbers: true,
+            theme: "monokai"
         });
     },
     methods: {
