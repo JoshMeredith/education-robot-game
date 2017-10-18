@@ -9,16 +9,16 @@ app = Flask(__name__, static_url_path='/static')
 def home():
     return render_template('index.html')
 
-@app.route('/<level>')
-@app.route('/<level>/')
+@app.route('/level/<level>')
+@app.route('/level/<level>/')
 def serve_level(level):
     return render_template('level.html', level=LEVELS[level])
 
-@app.route('/challenges')
-@app.route('/challenges/')
+@app.route('/levels')
+@app.route('/levels/')
 def level_selector():
     world_levels = [
         [ {'tag': k, 'name': LEVELS[k]["name"], 'skin': LEVELS[k]["skin"]}
             for k in v ]
             for _, v in sorted(list(WORLDS.items())) ]
-    return render_template('challenges.html', worlds=world_levels)
+    return render_template('level_selector.html', worlds=world_levels)

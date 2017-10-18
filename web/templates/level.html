@@ -3,6 +3,8 @@
 {% block title %}{{ level.name }}{% endblock %}
 
 {% block head_scripts %}
+    <script src="https://unpkg.com/vue"></script>
+
     <script src="/static/js/build.js"></script>
 
     <script type="text/javascript">
@@ -31,7 +33,7 @@ var level = {{ level | tojson | safe }};
         </form>
 
         <!-- The game display -->
-        <div  class="gridContainer">
+        <div class="gridContainer">
             <!-- Status Bar -->
             <div v-if="!gameOver" class="defaultStatus">
                 <p>Click the run button when you're ready <br>for Codebot to run your code.</p>

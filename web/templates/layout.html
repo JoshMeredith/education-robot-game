@@ -3,9 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
-        <script src="https://unpkg.com/vue"></script>
-
-        <link rel="stylesheet" href="/static/css/styles.css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
 
         <!-- TODO: favicon -->
         <title>Codebot | {% block title %}{% endblock %}</title>
@@ -19,13 +17,13 @@
             <div class="container">
                 <div id="branding">
                     <a href="{{ url_for('home') }}">
-                        <img id="favicon" src="/static/assets/global/banner.png"/>
+                        <img id="favicon" src="{{ url_for('static', filename='assets/global/banner.png') }}"/>
                     </a>
                 </div>
                 <nav>
                     <ul>
                         <li class="current">
-                            <a href="{{ url_for('level_selector') }}">Challenges</a>
+                            <a href="{{ url_for('level_selector') }}">Levels</a>
                         </li>
                     </ul>
                 </nav>
