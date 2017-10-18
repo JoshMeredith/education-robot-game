@@ -76,7 +76,9 @@ CodeMirror.defineSimpleMode("codebot", {
     // {regex: /[\(\)\{\}\;]/, token: "keyword"},
     {regex: /(true|false|clearInFront\?)/, token: "string"},
     {regex: /\d+/, token: "number"},
-    {regex: /\/\/.*/, token: "comment"}
+    {regex: /\/\/.*/, token: "comment"},
+    {regex: /[\{\[\(]/, indent: true},
+    {regex: /[\}\]\)]/, dedent: true}
   ],
   meta: {
     lineComment: "//"
@@ -159,7 +161,8 @@ var game = new Vue({
         this.editor = CodeMirror.fromTextArea(document.getElementById("code_area"), {
             lineNumbers: true,
             theme: "monokai",
-            mode: "codebot"
+            mode: "codebot",
+            indentUnit: 4
         });
 
         this.codeBox = level.startCode;
