@@ -17,13 +17,9 @@ var level = {{ level | tojson | safe }};
     <div class="codeContainer">
         <form id="codeBox">
             <fieldset>
-                <!-- Temporarily removing for spring release
-                    <legend> Level 0 </legend>
-
-                    <!-- TODO: Hardcoded, fix! -->
-                    <p><strong>Instructions </strong> </p>
-                    <div v-html="instructions">{% raw %}{{instructions}}{% endraw %}</div>
-                    <textarea v-model="codeBox" id="code_area" ></textarea>
+                <p><strong>Instructions</strong></p>
+                <div>{{ level.instructions | safe }}</div>
+                <textarea v-model="codeBox" id="code_area" ></textarea>
             </fieldset>
 
             <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
@@ -127,7 +123,6 @@ var game = new Vue({
         gameOver: false,
         victory: false,
         interval: null,
-        instructions: level.instructions,
         startCode: level.startCode
     },
     methods: {
