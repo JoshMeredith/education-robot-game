@@ -39,22 +39,24 @@ def signup():
 
     return render_template('signup.html', form=form)
 
-@app.route('/signin', methods=["GET", "POST"])
-def signin():
+@app.route('/login', methods=["GET", "POST"])
+def login():
     form = UsernamePasswordForm()
 
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first_or_404()
         if user.is_correct_password(form.password.data):
             login_user(user)
+            # TODO: redirect to profile page?
             return redirect(url_for('home'))
         else:
             # TODO(junkbot): Display errors?
-            return redirect(url_for('signin'))
+            return redirect(url_for('login'))
 
-    return render_template('signin.html', form=form)
+    return render_template('login.html', form=form)
 
-@app.route('/signout')
-def signout():
+@app.route('/logout')
+def logout():
     logout_user()
+    # TODO: redirect to profile page?
     return redirect(url_for('home'))

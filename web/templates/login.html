@@ -6,7 +6,7 @@
     Sign into Codebot!
     {# TODO(junkbot): Error handling #}
     {# TODO: Prettify the form, can use form.username(..., class="css_class") #}
-    <form method="POST" action="{{ url_for('signin') }}">
+    <form method="POST" action="{{ url_for('login') }}">
         {{ form.csrf_token }}
         {{ form.username.label }} {{ form.username(size=20) }}
         {{ form.password.label }} {{ form.password(size=20) }}

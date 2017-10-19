@@ -26,6 +26,15 @@
                     <li class="current">
                         <a href="{{ url_for('level_selector') }}">Levels</a>
                     </li>
+                    <li>
+                        {% if current_user.is_authenticated %}
+                            Hi {{ current_user.username }}! (<i>
+                                <a href="{{ url_for('logout') }}">Logout</a>
+                            </i>)
+                        {% else %}
+                            <a href="{{ url_for('login') }}">Login</a>
+                        {% endif %}
+                    </li>
                 </ul>
             </nav>
 
