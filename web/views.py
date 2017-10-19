@@ -1,9 +1,7 @@
-from flask import Flask
 from flask import render_template
 
-from levels import LEVELS, WORLDS
-
-app = Flask(__name__, static_url_path='/static')
+from web import app
+from web.levels import LEVELS, WORLDS
 
 @app.route('/')
 def home():
