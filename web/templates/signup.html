@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}Signup{% endblock %}
+
+{% block main %}
+    Sign up for Codebot!
+    {# TODO(junkbot): Error handling #}
+    {# TODO: Prettify the form, can use form.username(..., class="css_class") #}
+    <form method="POST" action="{{ url_for('signup') }}">
+        {{ form.csrf_token }}
+        {{ form.username.label }} {{ form.username(size=20) }}
+        {{ form.password.label }} {{ form.password(size=20) }}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
