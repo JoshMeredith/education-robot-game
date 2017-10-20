@@ -18,6 +18,7 @@ export namespace Interpreter {
       , moveUp      : Types.Environment
       , moveDown    : Types.Environment
       }
+    export function astCost(ast: Types.AST): number;
 }
 
 export namespace Parser {

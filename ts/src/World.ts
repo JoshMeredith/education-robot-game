@@ -136,10 +136,6 @@ export class Grid {
         return this.goals.length == 0;
     }
 
-    public static test(): number {
-        return PS.Interpreter.testNum;
-    }
-
     public step(move: PlayerAction): Grid {
         // Need to consider order of operations with this:
         // I think the ideal order is move all time varying obstacles one
