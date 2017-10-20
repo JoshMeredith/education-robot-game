@@ -92,15 +92,26 @@ def logout():
 @app.route('/update_score', methods=["POST"])
 @login_required
 def update_score():
-    level_id = request.form.get('level_id', type=int)
+    request_json = request.get_json(silent=True)
+    if not request_json:
+        # HTTP Error code 415.
+        return "Unsupported media type", 415
 
-    INFINITY = (1 << 30)
-    code_score = request.form.get('code_score', default=INFINITY, type=int)
-    execution_score = request.form.get('execution_score', default=INFINITY,
-            type=int)
+    level_id = int(request_json.get('level_id'))
 
     # Check that level exists.
     level = Level.query.filter_by(id=level_id).first_or_404()
+
+    INFINITY = (1 << 30)
+    try:
+        code_score = int(request_json['code_score'])
+    except (ValueError, KeyError) as e:
+        code_score = INFINITY
+
+    try:
+        execution_score = int(request_json['execution_score'])
+    except (ValueError, KeyError) as e:
+        execution_score = INFINITY
 
     # Check if a Progress entry exists.
     cur_score = Progress.query.filter_by(user_id=current_user.id,
