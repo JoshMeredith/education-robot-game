@@ -1,5 +1,4 @@
 module Interpreter (
-    testNum,
     runInterpreter,
     environment,
     nextResume,
@@ -16,8 +15,8 @@ import Data.Traversable (traverse_)
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested ((/\), over2, get1, get2)
 import Data.Unfoldable (replicateA)
-import Prelude ( Unit, bind, const, discard, pure, unit
-               , (#), ($), (&&), (<<<), (==), (>>=), (||), (*>))
+import Prelude ( Unit, bind, const, discard, pure, unit, map
+               , (#), ($), (&&), (<<<), (==), (>>=), (||), (*>), (+))
 import Run (run)
 import Run.Streaming (Resume(..), runYield, yield)
 import Run.State (get, modify, evalState)
@@ -30,14 +29,14 @@ import World (step, moves, directions, facing, predicates, inspect)
 
 
 astCost :: AST -> Int
-astCost (AST ss) = go (BlockStatement ss)
+astCost (AST statements) = go (BlockStatement statements)
   where
-    go :: AST -> Int
+    go :: Statement -> Int
     go (CommandStatement _)             = 1
     go (TimesStatement _ s)             = 1 + go s
     go (IfStatement _ ifs Nothing)      = 1 + go ifs
     go (IfStatement _ ifs (Just elses)) = 1 + go ifs + go elses
-    go (Comment _)                      = 0
+    go (Comment _ _)                    = 0
     go (BlockStatement ss)              = sum $ map go ss
 
 
