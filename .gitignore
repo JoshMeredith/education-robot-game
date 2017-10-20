@@ -9,3 +9,5 @@
 /web/static/js/build.js
 /node_modules/
 /package-lock.json
+/app.db
+/db_repository/
