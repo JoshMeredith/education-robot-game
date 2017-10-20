@@ -2,11 +2,13 @@ module Interpreter (
     testNum,
     runInterpreter,
     environment,
-    nextResume
+    nextResume,
+    astCost
 ) where
 
 
 import Data.Argonaut.Core (jNull)
+import Data.Foldable (sum)
 import Data.Functor ((<#>))
 import Data.Map (lookup, fromFoldable)
 import Data.Maybe (Maybe(..))
@@ -25,6 +27,18 @@ import Unsafe.Coerce (unsafeCoerce)
 import Types ( AST(..), Statement(..), World, Definition(..), Interpreter
              , Expression(..), Direction, Move, Questions(..))
 import World (step, moves, directions, facing, predicates, inspect)
+
+
+astCost :: AST -> Int
+astCost (AST ss) = go (BlockStatement ss)
+  where
+    go :: AST -> Int
+    go (CommandStatement _)             = 1
+    go (TimesStatement _ s)             = 1 + go s
+    go (IfStatement _ ifs Nothing)      = 1 + go ifs
+    go (IfStatement _ ifs (Just elses)) = 1 + go ifs + go elses
+    go (Comment _)                      = 0
+    go (BlockStatement ss)              = sum $ map go ss
 
 
 runInterpreter
