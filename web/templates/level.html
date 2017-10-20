@@ -145,7 +145,8 @@ var game = new Vue({
         gameOver: false,
         victory: false,
         interval: null,
-        editor: null
+        editor: null,
+        runCost: -1 // Start at -1 to offset the inital world state yield.
     },
     computed: {
         codeBox: {
@@ -170,10 +171,11 @@ var game = new Vue({
     methods: {
         resetLevel: function() {
             var self = this;
+            self.stop();
             self.gameOver=false;
             self.levelMap= grid.render();
             self.victory=false;
-            self.stop();
+            self.runCost = -1;
         },
         stop: function() {
             if (this.interval !== null) {
@@ -183,6 +185,7 @@ var game = new Vue({
         },
 
         uiRunGame: function() {
+            this.runCost = -1;
             this.stop();
 
             //level command set goes in this array
@@ -212,9 +215,13 @@ var game = new Vue({
                 }else{
                     self.levelMap=world.render();
 
+                    self.runCost++;
+
                     if ( world.victory() || world.failed() ) {
                         self.gameOver=true;
                         if ( world.victory() ) { self.victory=true; }
+
+                        console.log("Run cost: " + self.runCost);
 
                         self.stop(); //break
                     }
