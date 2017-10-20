@@ -97,10 +97,10 @@ def update_score():
         # HTTP Error code 415.
         return "Unsupported media type", 415
 
-    level_id = int(request_json.get('level_id'))
+    codename = request_json['codename']
 
     # Check that level exists.
-    level = Level.query.filter_by(id=level_id).first_or_404()
+    level = Level.query.filter_by(codename=codename).first_or_404()
 
     INFINITY = (1 << 30)
     try:
@@ -115,10 +115,10 @@ def update_score():
 
     # Check if a Progress entry exists.
     cur_score = Progress.query.filter_by(user_id=current_user.id,
-            level_id=level_id).first()
+            level_id=level.id).first()
     if not cur_score:
         cur_score = Progress(user_id=current_user.id,
-                level_id=level_id,
+                level_id=level.id,
                 code_score=code_score,
                 execution_score=execution_score)
         db.session.add(cur_score)
@@ -130,8 +130,8 @@ def update_score():
 
     return jsonify({
         'success': True,
-        'level': level.codename,
-        'level_id': level_id,
+        'level': codename,
+        'level_id': level.id,
         'code_score': cur_score.code_score,
         'execution_score': cur_score.execution_score
     })
