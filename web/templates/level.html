@@ -146,7 +146,7 @@ var game = new Vue({
         victory: false,
         interval: null,
         editor: null,
-        runCost: -1
+        runCost: -1 // Start at -1 to offset the inital world state yield.
     },
     computed: {
         codeBox: {
