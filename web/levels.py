@@ -36,10 +36,10 @@ LEVELS = {
         ],
         'instructions':
 """A comment is a line of code that codebot will ignore.
-To write a comment we use <tt> // and then write some text.</tt>
+To write a comment we use <tt> # and then write some text.</tt>
 
 <pre>
-//this is a comment
+#this is a comment
 </pre>
 
 Comments have 2 main uses that you will see over and over
@@ -49,8 +49,8 @@ during your time spent programming.
 <li>Toggling code on and off</li>
 </ol>""",
         'startCode':
-"""//The next line moves the robot to the goal, uncomment it and hit RUN
-//moveRight;"""
+"""#The next line moves the robot to the goal, uncomment it and hit RUN
+#moveRight;"""
     },
     'level2': {
         'name': 'Level 2',
@@ -77,14 +77,14 @@ This becomes important when you have many instructions to
 give to codeBot. To complete this level uncomment the
 instructions that will lead codebot to the goal.""",
         'startCode':
-"""//moveUp;
-//moveDown;
-//moveLeft;
-//moveRight;
-//moveUp;
-//moveDown;
-//moveLeft;
-//moveRight;"""
+"""#moveUp;
+#moveDown;
+#moveLeft;
+#moveRight;
+#moveUp;
+#moveDown;
+#moveLeft;
+#moveRight;"""
     },
     'level3': {
         'name': 'Level 3',
@@ -112,7 +112,7 @@ times(10){
 Unfortunately codebot hasn't learnt how to dance yet.
 He has learnt how to move right though! Use your newfound
 knowledge of loops to help codebot reach the goal.""",
-        'startCode': '//Write your code here!'
+        'startCode': '#Write your code here!'
     },
 
     'level4': {
@@ -135,7 +135,7 @@ knowledge of loops to help codebot reach the goal.""",
 <tt>moveDown</tt>, <tt>moveLeft</tt> and <tt>moveRight</tt> instructions. We also know
 how to use loops to make our code shorter. 
 Use these tools to help codebot reach the goal.""",
-        'startCode': '//Write your code here!'
+        'startCode': '#Write your code here!'
     },
 
     'level5': {
@@ -167,7 +167,7 @@ Use these tools to help codebot reach the goal.""",
 """Oh no, codebot is really lost now!
 Give him some instructions to help him navigate the maze
 and reach his goal.""",
-        'startCode': '//Write your code here!'
+        'startCode': '#Write your code here!'
     },
 
     'level6': {
@@ -194,7 +194,7 @@ As an example, the maze on the right could be solved by collecting the top right
 then the bottom left one, then bottom right, then top left, but this would require a 
 lot of steps. Instead, you can solve this maze with four simple loops. 
 See if you can figure out how.""",
-        'startCode': '//Write your code here!'
+        'startCode': '#Write your code here!'
     },
 
     'level7': {
@@ -236,7 +236,7 @@ Hint: Pay attention to what you need to repeat, in this case it looks like
 you need to move up a certain number of times, then right, then down, then right again, 
 and repeat this as many times as necessary until you reach the goal
 </p>""",
-        'startCode': '//Write your code here!'
+        'startCode': '#Write your code here!'
     },
 
     'level8': {
@@ -273,7 +273,7 @@ hurt if you're not careful.
 Hint: The grid is 15 by 15, so you will have to step up and 
 down 15 times every time you moveUp or moveDown
 </p>""",
-        'startCode': '//Write your code here!'
+        'startCode': '#Write your code here!'
     },
 
 
@@ -306,7 +306,7 @@ is a wall if it keeps your code short. For example, a useful loop might get
 codeBot to move up, right, down, and left 10 times each. He may awkwardly face
 the wall for a while, but eventually he'll turn and walk in the right
 direction.""",
-        'startCode': '//Write your code here!'
+        'startCode': '#Write your code here!'
     },
 
     'level10': {
@@ -331,7 +331,7 @@ direction.""",
         ],
         'instructions':
 """In computer science, everyone likes money, so go collect as much of it as possible!""",
-        'startCode': '//Write your code here!'
+        'startCode': '#Write your code here!'
     },
 
     'level11': {
@@ -359,17 +359,17 @@ the direction he is facing.
 
 Give it a go!""",
         'startCode': 
-"""// You can uncomment the instructions below to see what Codebot does with each
-// of these instructions!
-//
-// turnLeft;
-// turnRight;
-// walkForward;
-//
-// Now, comment or delete those lines, and write your code below, using only
-// these three instructions!
-//
-// Your code here!""",
+"""# You can uncomment the instructions below to see what Codebot does with each
+# of these instructions!
+#
+# turnLeft;
+# turnRight;
+# walkForward;
+#
+# Now, comment or delete those lines, and write your code below, using only
+# these three instructions!
+#
+# Your code here!""",
     },
 
     'level12': {
@@ -395,7 +395,7 @@ Give it a go!""",
 
 Help him find his lost gears only using the <tt>turnLeft</tt> and <tt>walkForward</tt>
 instructions.""",
-        'startCode': """// Your code here!""",
+        'startCode': """# Your code here!""",
     },
 
     'level13': {
@@ -418,7 +418,7 @@ instructions.""",
 
 <pre>
 if (clearInFront?) {
-    // Some commands here!
+    # Some commands here!
 }
 </pre>
 
@@ -427,9 +427,9 @@ right now.  Otherwise, nothing will happen.  Instead, if you typed
 
 <pre>
 if (clearInFront?) {
-    // Some commands here!
+    # Some commands here!
 } else {
-    // More commands here!
+    # More commands here!
 }
 </pre>
 
@@ -443,15 +443,15 @@ explain why?
 </p>
 """,
         'startCode': 
-"""// Codebot has learned how to check if it's safe to walk forwards!
-// Try this code!
-// times (10) {
-//     if (clearInFront?) {
-//         walkForward;
-//     } else {
-//         turnLeft;
-//     }
-// }""",
+"""# Codebot has learned how to check if it's safe to walk forwards!
+# Try this code!
+# times (10) {
+#     if (clearInFront?) {
+#         walkForward;
+#     } else {
+#         turnLeft;
+#     }
+# }""",
     },
 
     'level14': {
@@ -488,8 +488,8 @@ Hint: try and combine nested loops with branching to see if you can devise a
 short and clever solution.
 </p>""",
         'startCode':
-"""// Codebot needs your help!
-// Write some code below to help him find his missing gear!""",
+"""# Codebot needs your help!
+# Write some code below to help him find his missing gear!""",
     },
     
     'level15': {
@@ -526,6 +526,6 @@ him away from that lava.
 Psst. He's in a panic, so he'd really like it if you could keep your code
 concise so he has less to remember ;).
 </p>""",
-        'startCode': '// Your goes code here!',
+        'startCode': '# Your goes code here!',
     },
 }

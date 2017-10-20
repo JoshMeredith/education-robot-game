@@ -84,10 +84,10 @@ prettyPrint (AST a) = a # map (go 0) # fold # trim
       indentation n <> "{" <> multi n ss <> indentation n <> "}"
 
     go n (Comment true c) =
-      indentation n <> "//" <> c
+      indentation n <> "#" <> c
 
     go n (Comment false c) =
-      " //" <> c
+      " #" <> c
 
     showExp (BoolExp b) = show b
     showExp (Question ClearInFront) = "clearInFront?"
@@ -200,6 +200,6 @@ newlineWhiteSpace = do
 comment :: ParserT String (State (Array String)) Statement
 comment = do
   ownLine <- newlineWhiteSpace
-  void $ string "//"
+  void $ string "#"
   c <- many $ satisfy \c -> c /= '\n'
   pure $ Comment ownLine (fromCharArray c)
