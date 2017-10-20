@@ -35,3 +35,19 @@ class User(db.Model):
     @property
     def is_anonymous(self):
         return False
+
+class Level(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    codename = db.Column(db.String(64), unique=True, nullable=False)
+    title = db.Column(db.String(64), nullable=False)
+
+    def __repr__(self):
+        return '<Level %r: %r>' % (self.id, self.codename)
+
+class Progress(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    level_id = db.Column(db.Integer, db.ForeignKey('level.id'))
+
+    code_score = db.Column(db.Integer)
+    execution_score = db.Column(db.Integer)
