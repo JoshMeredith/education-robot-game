@@ -145,7 +145,8 @@ var game = new Vue({
         gameOver: false,
         victory: false,
         interval: null,
-        editor: null
+        editor: null,
+        runCost: -1
     },
     computed: {
         codeBox: {
@@ -173,7 +174,8 @@ var game = new Vue({
             self.stop();
             self.gameOver=false;
             self.levelMap= grid.render();
-            self.victory=false;            
+            self.victory=false;
+            self.runCost = -1;
         },
         stop: function() {
             if (this.interval !== null) {
@@ -212,9 +214,13 @@ var game = new Vue({
                 }else{
                     self.levelMap=world.render();
 
+                    self.runCost++;
+
                     if ( world.victory() || world.failed() ) {
                         self.gameOver=true;
                         if ( world.victory() ) { self.victory=true; }
+
+                        console.log("Run cost: " + self.runCost);
 
                         self.stop(); //break
                     }
