@@ -26,10 +26,15 @@ virtualenv codegame
 cd <repo_dir>/web
 pip3 install -r requirements.txt
 ```
+5. To initialise the database, ensure virtualenv is activated then run:
+```
+cd <repo_dir>
+./db_create.py
+```
 
 ## To run Flask
 
 1. Ensure virtualenv is activated.
-2. In `web/` directory `FLASK_APP=app.py FLASK_DEBUG=1 flask run`
+2. In `web/` directory `FLASK_APP=__init__.py FLASK_DEBUG=1 flask run`
 The debug flag is optional but is useful for testing / debugging.
 3. Open server pages in browser!

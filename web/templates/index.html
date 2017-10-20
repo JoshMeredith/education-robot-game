@@ -4,24 +4,32 @@
 
 {% block main %}
     <div class="container" >
-    	<div class="row">
-    		<div class="col-lg-3 "></div>
+        <div class="row">
+            <div class="col-lg-3 "></div>
             <div class="col-lg-3 col-sm-6">
-    			<img style="height:84vh;"
-                    src="{{ url_for('static', 
-                    filename='assets/global/codebot.svg') }}" />
-    		</div>
-    		<div class="col-lg-3 col-sm-6">
-    			<h1 class="text-center">CODEBOT</h1>
+                <img style="height:84vh;"
+                     src="{{ url_for('static', filename='assets/global/codebot.svg') }}" />
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <h1 class="text-center">CODEBOT</h1>
                 <h4 class="text-center">An Educational Coding Game</h4>
                 <div class="container text-center" style="width: 200px;">
-                    <button type="button" class="btn btn-block btn-danger">LOG IN</button>
-                    <button type="button" class="btn btn-block btn-danger">SIGN UP</button>
-                    <button type="button" class="btn btn-block btn-danger">PLAY AS GUEST</button>
+                    {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('login') }}">
+                            <button type="button" class="btn btn-block btn-danger">LOG IN</button>
+                        </a>
+                        <a href="{{ url_for('signup') }}">
+                            <button type="button" class="btn btn-block btn-danger">SIGN UP</button>
+                        </a>
+                        <button type="button" class="btn btn-block btn-danger">PLAY AS GUEST</button>
+                    {% else %}
+                        {# TODO: Content for the logged-in user. #}
+                        Click "Levels" above to start playing!
+                    {% endif %}
                 </div>
-            <div class="col-lg-3 "></div>
-    		</div>
-    	</div>
+                <div class="col-lg-3 "></div>
+            </div>
+        </div>
     </div>
     <div class="container" id="preview">
     </div>
