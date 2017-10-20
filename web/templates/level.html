@@ -4,62 +4,73 @@
 
 {% block head_scripts %}
     <script src="https://unpkg.com/vue"></script>
-
     <script src="{{ url_for('static', filename='js/build.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/theme/monokai.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/addon/mode/simple.min.js"></script>
     <script type="text/javascript">
-var level = {{ level | tojson | safe }};
+        var level = {{ level | tojson | safe }};
     </script>
 {% endblock %}
 
 {% block main %}
-    <!-- The code Box -->
     <div class="row container-fluid">
-        <div class="col-5">
+        <!-- left hand side -->
+        <div class="col-6">
             <form >
                 <fieldset>
-                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                      <div class="card">
-                        <div class="card-header" role="tab" id="headingOne">
-                          <h5 class="mb-0">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                              Instructions (click to toggle)
-                            </a>
-                          </h5>
-                        </div>
 
-                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                          <div class="card-block">
-                            {{ level.instructions | safe }}
-                          </div>
+                    <!-- instructions -->
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
+                                        Instructions (click to toggle)
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" 
+                            style="padding: 15px; padding-bottom: 0px;">
+                                <div class="card-block">
+                                    {{ level.instructions | safe }}
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
+
+                    <!-- code editor -->
                     <div id="code_area_wrapper">
                         <textarea id="code_area"></textarea>
                     </div>
-                </fieldset>
 
-                <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
-                <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
+                </fieldset>
+                <div class="text-center">
+                    <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
+                    <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
+                </div>
             </form>
         </div>
 
-
+        <!-- Right hand side -->
         <div class="col-6">
             <!-- Status Bar -->
-            <div v-if="!gameOver" class="defaultStatus">
+            <div v-if="!gameOver" class="defaultStatus text-center">
                 <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
             </div>
-            <div v-else-if="gameOver && victory" class="winStatus" v-cloak>
+            <div v-else-if="gameOver && victory" class="winStatus text-center" v-cloak>
                 <p>Congratulations! <br>You beat the level.</p>
             </div>
 
-            <div v-else-if="gameOver && !victory" class="lossStatus" v-cloak>
+            <div v-else-if="gameOver && !victory" class="lossStatus text-center" v-cloak>
                 <p>Oh no! Codebot didn't collect all of the goals. <br>Click the reset button to try again.</p>
             </div>
 
@@ -75,7 +86,6 @@ var level = {{ level | tojson | safe }};
                 </tr>
             </table>
         </div>
-        <div class="col-6">
     </div>
 {% endblock %}
 
@@ -215,6 +225,7 @@ var game = new Vue({
 
             var gen = Interpreter.runInterpreter(grid, ast, defs);
             var self = this;
+            self.gameOver=false;
 
             //iterate
             self.interval = setInterval( function() {
