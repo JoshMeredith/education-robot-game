@@ -29,7 +29,7 @@ pip3 install -r requirements.txt
 5. To initialise the database, ensure virtualenv is activated then run:
 ```
 cd <repo_dir>
-./create-db.py
+./db_create.py
 ```
 
 ## To run Flask
