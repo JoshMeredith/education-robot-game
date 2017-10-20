@@ -18,24 +18,39 @@ var level = {{ level | tojson | safe }};
 
 {% block main %}
     <!-- The code Box -->
-    <div class="codeContainer">
-        <form id="codeBox">
-            <fieldset>
-                <p><strong>Instructions</strong></p>
-                <div>{{ level.instructions | safe }}</div>
-                <div id="code_area_wrapper">
-                    <textarea id="code_area"></textarea>
-                </div>
-            </fieldset>
+    <div class="row container-fluid">
+        <div class="col-5">
+            <form >
+                <fieldset>
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                      <div class="card">
+                        <div class="card-header" role="tab" id="headingOne">
+                          <h5 class="mb-0">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                              Instructions (click to toggle)
+                            </a>
+                          </h5>
+                        </div>
 
-            <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
-            <!-- <input id="button_1" type="button" value="Step Through" onclick="stepThrough();" /> -->
-            <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
-            <!-- <input id="button_1" type="button" value="Next Challenge" onclick="nextChallenge" /> -->
-        </form>
+                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                          <div class="card-block">
+                            {{ level.instructions | safe }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="code_area_wrapper">
+                        <textarea id="code_area"></textarea>
+                    </div>
+                </fieldset>
 
-        <!-- The game display -->
-        <div class="gridContainer">
+                <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
+                <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
+            </form>
+        </div>
+
+
+        <div class="col-6">
             <!-- Status Bar -->
             <div v-if="!gameOver" class="defaultStatus">
                 <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
@@ -59,9 +74,8 @@ var level = {{ level | tojson | safe }};
                     </td>
                 </tr>
             </table>
-
         </div>
-
+        <div class="col-6">
     </div>
 {% endblock %}
 
@@ -76,12 +90,12 @@ CodeMirror.defineSimpleMode("codebot", {
     // {regex: /[\(\)\{\}\;]/, token: "keyword"},
     {regex: /(true|false|clearInFront\?)/, token: "string"},
     {regex: /\d+/, token: "number"},
-    {regex: /#.*/, token: "comment"},
+    {regex: /\/\/.*/, token: "comment"},
     {regex: /[\{\[\(]/, indent: true},
     {regex: /[\}\]\)]/, dedent: true}
   ],
   meta: {
-    lineComment: "#"
+    lineComment: "//"
   }
 });
 
