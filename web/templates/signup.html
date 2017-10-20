@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 
+{% from "form_helpers.html" import render_field %}
+
 {% block title %}Signup{% endblock %}
 
 {% block main %}
@@ -8,8 +10,10 @@
     {# TODO: Prettify the form, can use form.username(..., class="css_class") #}
     <form method="POST" action="{{ url_for('signup') }}">
         {{ form.csrf_token }}
-        {{ form.username.label }} {{ form.username(size=20) }}
-        {{ form.password.label }} {{ form.password(size=20) }}
+        <dl>
+            {{ render_field(form.username) }}
+            {{ render_field(form.password) }}
+        </dl>
         <input type="submit" value="Submit">
     </form>
 {% endblock %}
