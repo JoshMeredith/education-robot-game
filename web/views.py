@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 
 from flask_login import login_user, logout_user
 
@@ -29,13 +29,17 @@ def level_selector():
 def signup():
     form = UsernamePasswordForm()
     if form.validate_on_submit():
-        # TODO(junkbot): Check if user already exists.
-        # form.username.errors.append('Username already exists!')
+        exists = db.session.query(User.id).filter_by(username=form.username.data).scalar()
+        if exists:
+            form.username.errors.append('That username is already taken!')
+            return render_template('signup.html', form=form)
+
         user = User(username=form.username.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
-        # TODO(junkbot): Flash a confirmation message.
-        return redirect(url_for('home'))
+
+        flash('Successfully created an account! You can login now.')
+        return redirect(url_for('login'))
 
     return render_template('signup.html', form=form)
 
@@ -44,13 +48,15 @@ def login():
     form = UsernamePasswordForm()
 
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first_or_404()
-        if user.is_correct_password(form.password.data):
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.is_correct_password(form.password.data):
             login_user(user)
             # TODO: redirect to profile page?
+
+            flash('Welcome to Codebot!')
             return redirect(url_for('home'))
         else:
-            # TODO(junkbot): Display errors?
+            flash('Invalid username / password', 'error')
             return redirect(url_for('login'))
 
     return render_template('login.html', form=form)
@@ -58,5 +64,5 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    # TODO: redirect to profile page?
+    flash('Successfully logged you out.')
     return redirect(url_for('home'))
