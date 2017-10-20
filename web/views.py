@@ -100,7 +100,6 @@ def update_score():
             type=int)
 
     # Check that level exists.
-    # level = db.session.query(Level.id).filter_by(id=level_id).first_or_404()
     level = Level.query.filter_by(id=level_id).first_or_404()
 
     # Check if a Progress entry exists.
