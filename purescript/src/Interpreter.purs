@@ -27,10 +27,6 @@ import Types ( AST(..), Statement(..), World, Definition(..), Interpreter
 import World (step, moves, directions, facing, predicates, inspect)
 
 
-testNum :: Int
-testNum = 1
-
-
 runInterpreter
   :: World
   -> AST
