@@ -4,7 +4,39 @@
 
 {% block main %}
     <div class="container" >
-        <div class="row">
+        <div class="row text-center">
+            <div class="col">
+                <div style="height:2.5vh;"></div>
+                <h1  
+                    style="
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-size: 7.5vh; 
+                        color: #3a3937;">CODEBOT
+                </h1>
+                <h4 
+                    style="
+                        padding-left: 1%;
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-size: 2.7vh; 
+                        /*font-style: italic;*/
+                        color: #727272;">An Educational Coding Game
+                </h4>
+                <div style="height:2.5vh;"></div>
+                <a href="{{ url_for('level_selector') }}" class="btn btn-lg btn-success" role="button" style="width">
+                    PLAY NOW</a>
+                <div style="height:2.5vh;"></div>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+            <img style="height:55vh;"
+                src="{{ url_for('static', filename='assets/global/demo_grey.gif') }}" />
+            </div>
+        </div>
+
+
+
+        <!-- <div class="row">
             <div class="col-lg-3 "></div>
             <div class="col-lg-3">
                 <img style="height:84vh;"
@@ -12,8 +44,8 @@
             </div>
             <div class="col-lg-3">
                 <div style="height:20vh;"></div>
-                <!-- These are inline because for some reason it wasn't working
-                     via stylesheet. Will fix if there's enough time -->
+                <!- These are inline because for some reason it wasn't working
+                     via stylesheet. Will fix if there's enough time ->
                 <h1  
                     style="
                         font-family: Arial, Helvetica, sans-serif;
@@ -42,7 +74,7 @@
                 </div>
                 <div class="col-lg-3 "></div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="container" id="preview">
     </div>
