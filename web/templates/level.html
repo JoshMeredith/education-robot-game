@@ -28,7 +28,7 @@
                 <fieldset>
 
                     <!-- instructions -->
-                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div id="accordion" role="tablist" aria-multiselectable="true" style="padding-bottom:10px;">
                         <div class="card">
                             <div class="card-header" role="tab" id="headingOne">
                                 <h5 class="mb-0">
@@ -39,7 +39,7 @@
                             </div>
 
                             <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" 
-                            style="padding: 15px; padding-bottom: 0px;">
+                            style="padding: 15px;">
                                 <div class="card-block">
                                     {{ level.instructions | safe }}
                                 </div>
@@ -61,7 +61,7 @@
         </div>
 
         <!-- Right hand side -->
-        <div class="col-6">
+        <div class="col-5">
             <!-- Status Bar -->
             <div v-if="!gameOver" class="defaultStatus text-center">
                 <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
@@ -86,6 +86,13 @@
                 </tr>
             </table>
         </div>
+
+        <div class="col-1">
+            <h6 class="text-center"> LEVEL
+            SELECTOR</h6>
+
+        </div>
+
     </div>
 {% endblock %}
 
