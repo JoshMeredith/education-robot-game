@@ -2,12 +2,6 @@
 
 {% block title %}Levels{% endblock %}
 
-{% block head_scripts %}
-    <script type="text/javascript">
-var worlds = {{ worlds | tojson | safe }};
-    </script>
-{% endblock %}
-
 {% block main %}
     <div id="challengesList">
         {% for world in worlds %}
