@@ -197,31 +197,32 @@ var game = new Vue({
                 this.interval = null;
             }
         },
-        updateBestScore: function(type) {
-            return function(n, id) {
-                var req = new XMLHttpRequest();
-                req.open("POST", "/update_score");
-                req.setRequestHeader("Content-Type", "application/json");
-                req.setRequestHeader("level_id", id);
-                req.setRequestHeader(type, n);
-                req.send();
+        // We handle both updates in the one function so we only need to
+        // make one API call. Asynchronous, doesn't return.
+        updateBestScore: function(codeScore, executionScore) {
+            var req = new XMLHttpRequest();
 
-                var response = JSON.parse(req.responseText);
-                console.log(response);
+            req.open("POST", "/update_score");
+            req.setRequestHeader("Content-Type", "application/json");
 
-                if (req.status !== 200) {
-                    return null;
-                }
-
-                // The REST API returns 2^30 for uninitialised scores,
-                // so we should check the return value for high numbers
-                // and display `-` instead.
-                return {code_score: response.code_score
-                       ,execution_score: response.execution_score};
+            var data = {
+                'codename': level.codename,
+                'code_score': codeScore,
+                'execution_score': executionScore
             };
+
+            req.onreadystatechange = function() {
+                if (req.readystate === 4) {
+                    if (req.status !== 200) {
+                        console.log("Request failed with status " + req.status);
+                        return;
+                    }
+                    var response = JSON.parse(req.responseText);
+                    console.log(response);
+                }
+            };
+            req.send(JSON.stringify(data));
         },
-        updateBestCodeScore: updateBestScore("code_score"),
-        updateBestExecutionScore: updateBestScore("execution_score"),
         uiRunGame: function() {
             this.runCost = -1;
             this.stop();
@@ -257,7 +258,10 @@ var game = new Vue({
 
                     if ( world.victory() || world.failed() ) {
                         self.gameOver=true;
-                        if ( world.victory() ) { self.victory=true; }
+                        if ( world.victory() ) {
+                            self.victory=true;
+                            self.updateBestScore(undefined, self.runCost);
+                        }
 
                         console.log("Run cost: " + self.runCost);
 

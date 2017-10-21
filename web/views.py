@@ -20,7 +20,9 @@ def home():
 @app.route('/level/<level>')
 @app.route('/level/<level>/')
 def serve_level(level):
-    return render_template('level.html', level=LEVELS[level])
+    level_data = dict(LEVELS[level])
+    level_data['codename'] = level
+    return render_template('level.html', level=level_data)
 
 @app.route('/levels')
 @app.route('/levels/')
