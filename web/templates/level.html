@@ -212,9 +212,9 @@ var game = new Vue({
             };
 
             req.onreadystatechange = function() {
-                if (req.readystate === 4) {
+                if (req.readyState === 4) {
                     if (req.status !== 200) {
-                        console.log("Request failed with status " + req.status);
+                        // console.log("Request failed with status " + req.status);
                         return;
                     }
                     var response = JSON.parse(req.responseText);
@@ -241,6 +241,7 @@ var game = new Vue({
             var ast = Parser.parseAST([], defs, this.codeBox).ast;
             this.codeBox = Parser.prettyPrint(ast);
 
+            var astCost = Interpreter.astCost(ast);
             var gen = Interpreter.runInterpreter(grid, ast, defs);
             var self = this;
 
@@ -260,10 +261,11 @@ var game = new Vue({
                         self.gameOver=true;
                         if ( world.victory() ) {
                             self.victory=true;
-                            self.updateBestScore(undefined, self.runCost);
+                            self.updateBestScore(astCost, self.runCost);
                         }
 
                         console.log("Run cost: " + self.runCost);
+                        console.log("Ast cost: " + astCost);
 
                         self.stop(); //break
                     }
