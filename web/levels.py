@@ -41,16 +41,22 @@ LEVELS = {
             'execution_score': 2,
         },
         'instructions':
-"""Welcome to the first level of Codebot!
+"""
+<p>Welcome to the first level of Codebot!</p>
 
+<p>
 In each level, you will see Codebot on a grid. He's lost some gears and would
 like to move around and pick all of them up. He's not very clever and so he'd
 like you to help him! He wants you to tell him how to move around, by writing
 some instructions (which we sometimes call <i>code</i>) in his codebox below.
+Code is usually laid out in <i>lines</i>.
+</p>
 
+<p>
 Each level will start with some comments in the codebox. A comment is a line of
 code that starts with a hash (<tt>#</tt>). Codebot will ignore all the code that
 comes after a hash on a line, for example:
+</p>
 
 <p>
 <pre>
@@ -58,8 +64,10 @@ comes after a hash on a line, for example:
 </pre>
 </p>
 
+<p>
 Try following the instructions in the comments below to help Codebot find his
 first gear!
+</p>
 """,
         'startCode':
 """# Codebot knows how to move to the right!
@@ -87,16 +95,26 @@ first gear!
             'execution_score': 6,
         },
         'instructions':
-"""In the last level you might have noticed that the line of
-code had a semicolon (;) at the end.
-This lets Codebot know that you have finished giving an
-instruction - kind of like how a full stop lets you know
-when a sentence is finished.
-This becomes important when you have many instructions to
-give to Codebot. To complete this level uncomment the
-instructions that will lead Codebot to the goal.""",
+"""
+<p>
+In the previous level you might have noticed that the line of code had a
+semicolon (<tt>;</tt>) on the end. This lets Codebot know that you have finished
+giving him an instruction - kind of like how a full stop lets you know when a
+sentence is finished.
+</p>
+
+<p>
+Semicolons become important when you have many instructions to
+give to Codebot. 
+</p>
+""",
         'startCode':
-"""# moveUp;
+"""# Codebot also knows how to move up, down, left and right.
+# Uncomment all the lines below and click Run! to see Codebot
+# move about! After that, try changing these lines (possibly
+# removing a few) to guide Codebot to the gear.
+#
+# moveUp;
 # moveDown;
 # moveLeft;
 # moveRight;
@@ -121,20 +139,29 @@ instructions that will lead Codebot to the goal.""",
             'execution_score': 11,
         },
         'instructions':
-"""It can get pretty tiresome repeatedly typing out the same
-instructions for Codebot over and over again. That's why we
-have the times loop!
-By using the times loop we can tell Codebot to follow a set
-of instructions any number of times. The following code will
-tell Codebot to dance 10 times:
+"""
+<p>
+Sometimes we'll want Codebot to perform the same sequence of actions over and
+over again, some number of times. Instead of writing the same thing out each
+time, we can use the special <tt>times</tt> command to ask Codebot to follow a
+set of instructions any number of times. We call this a <i>loop</i>. The
+following code will tell Codebot to <tt>dance</tt> ten times:
+</p>
+
+<p>
 <pre>
-times(10){
+# We call this a "times" loop.
+times (10) {
     dance;
 }
 </pre>
-Unfortunately Codebot hasn't learnt how to dance yet.
-He has learnt how to move right though! Use your newfound
-knowledge of loops to help Codebot reach the goal.""",
+</p>
+
+<p>
+Unfortunately Codebot hasn't learnt how to <tt>dance</tt> yet.  However, he does
+know how to <tt>moveRight</tt> though! Use your newfound knowledge of loops to
+help Codebot reach the gear.
+</p>""",
         'startCode': '# Write your code here!'
     },
 
@@ -158,10 +185,23 @@ knowledge of loops to help Codebot reach the goal.""",
             'execution_score': 11,
         },
         'instructions':
-"""Now we know how to move Codebot around using the <tt>moveUp</tt>,
+"""
+<p>
+Now we know how to move Codebot around using the <tt>moveUp</tt>,
 <tt>moveDown</tt>, <tt>moveLeft</tt> and <tt>moveRight</tt> instructions. We also know
 how to use loops to make our code shorter. 
-Use these tools to help Codebot reach the goal.""",
+</p>
+
+<p>
+Try using these tools to help Codebot reach the goal. What happens if Codebot
+tries walking into a wall? How short can you make your code?
+</p>
+
+<p>
+If your code is short enough, you'll receive a blue badge for this level! You
+can always go back and re-do previous levels to earn more badges by using the
+level selector.
+</p>""",
         'startCode': '# Write your code here!'
     },
 
@@ -195,9 +235,22 @@ Use these tools to help Codebot reach the goal.""",
             'execution_score': 84,
         },
         'instructions':
-"""Oh no, Codebot is really lost now!
-Give him some instructions to help him navigate the maze
-and reach his goal.""",
+"""
+<p>
+Oh no, Codebot is really lost now!
+</p>
+
+<p>
+Give him some instructions to help him navigate the maze and pick up both gears.
+</p>
+
+<p>
+<i>Pssst</i>, let me let you in on a little secret! Codebot hates walking and
+likes finding gears quickly, so he'll give you a special red badge for this
+level if you help him finish it fast enough! Just like with the blue badge, you
+can always go back to previous levels to earn any badges you've missed.
+</p>
+""",
         'startCode': '# Write your code here!'
     },
 
