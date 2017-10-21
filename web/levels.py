@@ -41,7 +41,6 @@ LEVELS = {
             'execution_score': 2,
         },
         'instructions':
-"""
 <p>Welcome to the first level of Codebot!</p>
 
 <p>
