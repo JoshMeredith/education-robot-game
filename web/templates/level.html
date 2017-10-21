@@ -240,11 +240,9 @@ var game = new Vue({
                 this.codeBox = Parser.prettyPrint(ast);
             }
 
-            // Codemirror uses 0 indexing on lines for some reason:
-            var loc = {line: parsed.errorLocation.line - 1, ch: parsed.errorLocation.ch - 1};
-
-
             if (parsed.errorLocation !== null) {
+                // Codemirror uses 0 indexing on lines for some reason:
+                var loc = {line: parsed.errorLocation.line - 1, ch: parsed.errorLocation.ch - 1};
                 this.editor.getDoc().markText(loc, {line: loc.line, ch: loc.ch + 1},
                              {css: "text-decoration: underline; text-decoration-color: red;"});
             }
