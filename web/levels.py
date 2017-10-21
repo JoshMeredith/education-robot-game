@@ -45,11 +45,11 @@ LEVELS = {
 <p>Welcome to the first level of Codebot!</p>
 
 <p>
-In each level, you will see Codebot on a grid. He's lost some gears and would
-like to move around and pick all of them up. He's not very clever and so he'd
-like you to help him! He wants you to tell him how to move around, by writing
-some instructions (which we sometimes call <i>code</i>) in his codebox below.
-Code is usually laid out in <i>lines</i>.
+In each level, you will see Codebot on a grid. He loves collecting gears and
+would like to move around and pick all of them up. He's not very clever and so
+he'd like you to help him! He wants you to tell him how to move around, by
+writing some instructions (which we sometimes call <i>code</i>) in his codebox
+below.  Code is usually laid out in <i>lines</i>.
 </p>
 
 <p>
@@ -73,6 +73,10 @@ first gear!
 """# Codebot knows how to move to the right!
 # Uncomment the last line by removing the hash, then click Run!
 # to help him collect his first gear!
+#
+# You can also click reset at any time to reset the grid and
+# Codebot to where they were before.
+#
 # moveRight;""",
     },
     'level2': {
@@ -145,14 +149,21 @@ Sometimes we'll want Codebot to perform the same sequence of actions over and
 over again, some number of times. Instead of writing the same thing out each
 time, we can use the special <tt>times</tt> command to ask Codebot to follow a
 set of instructions any number of times. We call this a <i>loop</i>. The
-following code will tell Codebot to <tt>dance</tt> ten times:
+following code will tell Codebot to <tt>dance</tt> and <tt>moveRight</tt> ten
+times, in alternation.
 </p>
 
 <p>
 <pre>
 # We call this a "times" loop.
 times (10) {
+    # We often shift (indent) the code inside a loop
+    # so we can easily read and see which instructions
+    # are being repeated;
     dance;
+    # Everything between the { and the } (the curly
+    # braces) will be repeated 10 times, in order!
+    moveRight;
 }
 </pre>
 </p>
@@ -241,7 +252,8 @@ Oh no, Codebot is really lost now!
 </p>
 
 <p>
-Give him some instructions to help him navigate the maze and pick up both gears.
+Give him some instructions to help him navigate through the grid and pick up
+both gears.
 </p>
 
 <p>
@@ -276,12 +288,18 @@ can always go back to previous levels to earn any badges you've missed.
             'execution_score': 25,
         },
         'instructions':
-"""In programming, it is generally important to recognize patterns and to look for the 
-most effective soutions, allowing you to keep your code short. 
-As an example, the maze on the right could be solved by collecting the top right gear, 
-then the bottom left one, then bottom right, then top left, but this would require a 
-lot of steps. Instead, you can solve this maze with four simple loops. 
-See if you can figure out how.""",
+"""
+<p>
+Codebot has become very ambitious. He's heard that there are many more gears to
+be found in the desert than the grassy fields around his home... and he's
+dragged his new best friend (ahem, <i>you</i>) to help him find them.
+</p>
+
+<p>
+The same commands work here as before, so start by helping him pick up the four
+gears in the corners of this grid.
+</p>
+""",
         'startCode': '# Write your code here!'
     },
 
@@ -308,25 +326,43 @@ See if you can figure out how.""",
             'execution_score': 51,
         },
         'instructions':
-"""A useful thing you can do is 'nest' loops inside each other. 
+"""
+<p>
+Walking on sand is quite repetitive and so Codebot would like to give you a tip to
+help write concise code for him.
+</p>
+
+<p>
+He suggests that a cool thing you can do is 'nest' loops inside each other. 
 Here is an example:
-<pre>times (3) {
+
+<p>
+<pre>
+# Putting loops inside other loops is called "nesting".
+#
+# We call this the "outer" loop.
+times (3) {
+    # This is an "inner" loop.
     times(2) {
         moveUp;
     }
+    # This is another "inner" loop.
     times(3) {
         moveRight;
     }
 }
 </pre>
-The outer loop will run three times, each time, it will make Codebot <tt>moveUp</tt> twice,
-then make him move right three times before repeating. Use something similar to solve
-this maze.
+</p>
 
 <p>
-Hint: Pay attention to what you need to repeat, in this case it looks like 
-you need to move up a certain number of times, then right, then down, then right again, 
-and repeat this as many times as necessary until you reach the goal
+Codebot will run the outer loop three times. Each time, he will <tt>moveUp</tt>
+twice, then <tt>moveRight</tt> three times before repeating it all again. He'd
+like you to use something similar to help him find the gear in this grid.
+</p>
+
+<p>
+<i>Hint</i>: Think about what pattern you can repeat here, then think about how you can
+use loops to construct that pattern!
 </p>""",
         'startCode': '# Write your code here!'
     },
@@ -361,14 +397,17 @@ and repeat this as many times as necessary until you reach the goal
             'execution_score': 127,
         },
         'instructions':
-"""Here's an example similar to the last one but longer, just to show you how important
-loops can be. Also be careful, the walls have been replaced with catci so Codebot will get
-hurt if he walks into one!
+"""
+<p>
+Here's an example similar to the last one but a little longer, just to show you
+how important loops can be. But be careful of the poisonous cacti! Codebot will
+get hurt if he walks into one!
+</p>
 
 <p>
-Hint: The grid is 15 by 15, so you will have to step up and 
-down 14 times every time you moveUp or moveDown from one end of the grid to the
-other.
+<i>Hint</i>: The grid is 15 by 15, so you will have to step up and down 14 times
+every time you <tt>moveUp</tt> or <tt>moveDown</tt> from one end of the grid to
+the other.
 </p>""",
         'startCode': '# Write your code here!'
     },
@@ -398,15 +437,16 @@ other.
             'execution_score': 261,
         },
         'instructions':
-"""This is similar to the previous situation, but you have to figure the pattern out
-on your own this time!
+"""
+<p>
+Codebot's in a dizzy spiral! Help him reach the gear with some short code!
+</p>
 
 <p>
-Note that it is OK for you to tell Codebot to move in a direction where there
-is a wall if it keeps your code short. For example, a useful loop might get
-Codebot to move up, right, down, and left 10 times each. He may awkwardly face
-the wall for a while, but eventually he'll turn and walk in the right
-direction.""",
+<i>Hint</i>: remember what happens when you ask Codebot to walk into a wall? How
+might you use that to earn yourself a blue badge?
+</p>
+""",
         'startCode': '# Write your code here!'
     },
 
@@ -435,7 +475,12 @@ direction.""",
             'execution_score': 32,
         },
         'instructions':
-"""Codebot is surrounded by gears! Help him pick them all up.""",
+"""
+<p>
+Codebot is in his happy place - he's completely surrounded by gears! Help him
+pick them all up.
+</p>
+""",
         'startCode': '# Write your code here!'
     },
 
@@ -459,24 +504,34 @@ direction.""",
             'execution_score': 7,
         },
         'instructions':
-"""Codebot is growing up and has upgraded his instructions!
+"""
+<p>
+Codebot was enjoying himself walking around the desert when he didn't see where
+he was going (although he blames his assistant, i.e. <i>you</i>!) and fell into
+a cave! He hit his head so hard that he forgot all his instructions: he
+no longer knows how to <tt>moveLeft</tt>, <tt>moveUp</tt>, <tt>moveDown</tt> or
+even <tt>moveRight</tt>!
+</p>
 
-Codebot no longer knows how to <tt>moveLeft</tt>, <tt>moveUp</tt>, <tt>moveDown</tt> or <tt>moveRight</tt>!
-Instead, you can use the <tt>turnLeft</tt> and <tt>turnRight</tt> instructions to get him to turn
-on the spot, and the <tt>walkForward</tt> instruction to get him to move one square in
-the direction he is facing.
+<p>
+After dusting off his rusty arms, he slowly learned to move around once more,
+but this time with some new instructions: you can now use the <tt>turnLeft</tt>
+and <tt>turnRight</tt> instructions to get him to turn on the spot, and the
+<tt>walkForward</tt> instruction to get him to move one square in the direction
+he is facing.
+</p>
 
-Give it a go!""",
+Give it a go and help him pick up these two gears.""",
         'startCode': 
-"""# You can uncomment the instructions below to see what Codebot does with each
-# of these instructions!
+"""# You can uncomment the instructions below to see what Codebot
+# does with each of these instructions!
 #
 # turnLeft;
 # turnRight;
 # walkForward;
 #
-# Now, comment or delete those lines, and write your code below, using only
-# these three instructions!
+# Now, comment or delete those lines, and write your code below,
+# using only these three types of instructions!
 #
 # Your code here!""",
     },
@@ -503,11 +558,17 @@ Give it a go!""",
             'execution_score': 18,
         },
         'instructions':
-"""Oops! Codebot is a slow learner and has temporarily forgotten how to
+"""
+<p>
+Oops! Codebot fell down again and has temporarily forgotten how to
 <tt>turnRight</tt> (just for this level!).
+</p>
 
-Help him find his lost gears only using the <tt>turnLeft</tt> and <tt>walkForward</tt>
-instructions.""",
+<p>
+Help him find the two gears using only the <tt>turnLeft</tt> and
+<tt>walkForward</tt> instructions.
+</p>
+""",
         'startCode': """# Your code here!""",
     },
 
@@ -531,17 +592,25 @@ instructions.""",
             'execution_score': 10,
         },
         'instructions':
-"""Codebot has also learned to detect if walking forwards is safe. If you type
+"""
+<p>
+Codebot's learned a new skill! He can now detect if walking forwards is safe.
+For instance, if you type
 
+<p>
 <pre>
 if (clearInFront?) {
     # Some commands here!
 }
 </pre>
+</p>
 
+<p>
 those commands will only be run if Codebot can safely take a step forwards,
 right now.  Otherwise, nothing will happen.  Instead, if you typed
+</p>
 
+<p>
 <pre>
 if (clearInFront?) {
     # Some commands here!
@@ -549,14 +618,17 @@ if (clearInFront?) {
     # More commands here!
 }
 </pre>
-
-Codebot will do "Some commands" if walking forwards is safe (right now), or
-otherwise he will do "More commands" instead. We call this idea <i>branching</i>.
+</p>
 
 <p>
-By combining branching with a times loop, we can write some neat, concise code
-for Codebot. Try uncommenting the code below to see what Codebot does! Can you
-explain why?
+Codebot will do "Some commands" if walking forwards is safe (right now), or
+otherwise he will do "More commands" instead. We call this idea <i>branching</i>.
+</p>
+
+<p>
+By combining branching with a <tt>times</tt> loop, we can write some neat,
+concise code for Codebot. Try uncommenting the code below to see what Codebot
+does! Can you explain why?
 </p>
 """,
         'startCode': 
@@ -601,16 +673,20 @@ explain why?
             'execution_score': 35,
         },
         'instructions':
-"""Oh no! Codebot has found himself very far away from his gear, surrounded by
-walls and treacherous lava. Help him recover his gear.
+"""
+<p>
+Oh no! Codebot has found himself very far away from the gear, surrounded by
+walls and treacherous lava (if he walks in, he'll melt! Aaaaaaarrrrh).
+Help him get to gear and avoid the fiery staircase.
+</p>
 
 <p>
-Hint: try and combine nested loops with branching to see if you can devise a
-short and clever solution.
+<i>Hint</i>: try and combine nested loops with branching to see if you can
+devise a short and clever solution. By the way, Codebot thinks those badges look
+great on you!
 </p>""",
         'startCode':
-"""# Codebot needs your help!
-# Write some code below to help him find his missing gear!""",
+"""# Write some code below to help Codebot find his missing gear!""",
     },
     
     'level15': {
@@ -643,13 +719,19 @@ short and clever solution.
             'execution_score': 831,
         },
         'instructions':
-"""Codebot went for a walk in the woods and accidentally left many gears behind!
-Help him retrace his steps and recover each gear. Watch out! Make sure you keep
+"""
+<p>
+Codebot wandered deep into a cave and found many gears stashed away in every
+corner! Help him collect each gear. But watch out! Make sure you keep
 him away from that lava.
+</p>
 
 <p>
-Psst. He's in a panic, so he'd really like it if you could keep your code
-concise so he has less to remember ;).
+<i>Pssst</i>. I didn't tell you this but... he's getting a little <i>rusty</i>
+(if you know what I mean) and his memory isn't what it used to be. Sooo he'd
+really like it if you could keep your code short and concise so he has less to
+remember.  <i>I'll</i> give you a badge if you write some short code and don't
+tell him anything. <i>"Tell him what?"</i> you ask? Exaaaactly.
 </p>""",
         'startCode': '# Your goes code here!',
     },
