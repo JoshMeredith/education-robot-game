@@ -16,6 +16,10 @@ body {
     background-color: #d8d8d8;
 }
 
+.errorUnderline {
+    text-decoration: bold;
+}
+
 /* Global */
 .container {
     width: 90%;
