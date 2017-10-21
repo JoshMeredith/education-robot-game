@@ -22,13 +22,13 @@ def worldLevels():
     level_ids = {level.codename: level.id for level in Level.query.all()}
 
     # Extract info for world levels.
-    world_levels = [
-            [ {'id': level_ids[k],
-                'tag': k,
-                'name': LEVELS[k]["name"],
-                'skin': LEVELS[k]["skin"],
-                'badge_thresholds': LEVELS[k]["badge_thresholds"]} for k in v ]
-            for _, v in sorted(list(WORLDS.items())) ]
+    return [
+        [ {'id': level_ids[k],
+            'tag': k,
+            'name': LEVELS[k]["name"],
+            'skin': LEVELS[k]["skin"],
+            'badge_thresholds': LEVELS[k]["badge_thresholds"]} for k in v ]
+        for _, v in sorted(list(WORLDS.items())) ]
 
 # Find the user's progress for each level, if logged in.
 def levelProgress():
