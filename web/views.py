@@ -17,16 +17,8 @@ def startup():
 def home():
     return render_template('index.html')
 
-@app.route('/level/<level>')
-@app.route('/level/<level>/')
-def serve_level(level):
-    level_data = dict(LEVELS[level])
-    level_data['codename'] = level
-    return render_template('level.html', level=level_data)
-
-@app.route('/levels')
-@app.route('/levels/')
-def level_selector():
+# Extract info for world levels.
+def worldLevels():
     level_ids = {level.codename: level.id for level in Level.query.all()}
 
     # Extract info for world levels.
@@ -38,8 +30,10 @@ def level_selector():
                 'badge_thresholds': LEVELS[k]["badge_thresholds"]} for k in v ]
             for _, v in sorted(list(WORLDS.items())) ]
 
-    # Find the user's progress for each level, if logged in.
+# Find the user's progress for each level, if logged in.
+def levelProgress():
     level_progress = {}
+    level_ids = {level.codename: level.id for level in Level.query.all()}
 
     if current_user.is_authenticated:
         all_progress = Progress.query.filter_by(user_id=current_user.id).all()
@@ -49,8 +43,25 @@ def level_selector():
                 'execution_score': progress.execution_score,
             }
 
-    return render_template('level_selector.html', worlds=world_levels,
-            level_progress=level_progress)
+    return level_progress
+
+@app.route('/level/<level>')
+@app.route('/level/<level>/')
+def serve_level(level):
+    level_data = dict(LEVELS[level])
+    level_data['codename'] = level
+    return render_template('level.html',
+                           level=level_data,
+                           worlds=worldLevels(),
+                           level_progress=levelProgress())
+
+@app.route('/levels')
+@app.route('/levels/')
+def level_selector():
+
+    return render_template('level_selector.html',
+                           worlds=worldLevels(),
+                           level_progress=levelProgress())
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
