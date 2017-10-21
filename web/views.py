@@ -92,8 +92,10 @@ def logout():
     return redirect(url_for('home'))
 
 @app.route('/update_score', methods=["POST"])
-@login_required
 def update_score():
+    if not current_user.is_authenticated():
+        return jsonify({'success': False })
+
     request_json = request.get_json(silent=True)
     if not request_json:
         # HTTP Error code 415.
