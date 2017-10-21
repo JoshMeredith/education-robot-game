@@ -13,4 +13,7 @@ namespace Interpreter {
           res = curr.resume;
         }
     }
+    export function astCost(ast: PS.Types.AST): number {
+        return PS.Interpreter.astCost(ast);
+    }
 }

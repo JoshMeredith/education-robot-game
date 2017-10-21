@@ -1,3 +1,5 @@
+from web.models import Level
+
 WORLDS = {
     'World 1': [
         'level1',
@@ -529,3 +531,15 @@ concise so he has less to remember ;).
         'startCode': '# Your goes code here!',
     },
 }
+
+def update_levels(db):
+    to_create = []
+    for codename, level in LEVELS.items():
+        db_level = db.session.query(Level.id).filter_by(codename=codename).scalar()
+        if not db_level:
+            to_create.append(Level(codename=codename, title=level['name']))
+
+    for l in to_create:
+        db.session.add(l)
+    db.session.commit()
+    all_levels = Level.query.all()

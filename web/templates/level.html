@@ -97,6 +97,8 @@
 {% endblock %}
 
 {% block body_scripts %}
+    <script src="{{ url_for('static', filename='js/api_util.js') }}"></script>
+
     <!-- Vue object setup -->
     <script>
 
@@ -107,12 +109,13 @@ CodeMirror.defineSimpleMode("codebot", {
     // {regex: /[\(\)\{\}\;]/, token: "keyword"},
     {regex: /(true|false|clearInFront\?)/, token: "string"},
     {regex: /\d+/, token: "number"},
-    {regex: /\/\/.*/, token: "comment"},
-    {regex: /[\{\[\(]/, indent: true},
-    {regex: /[\}\]\)]/, dedent: true}
+    {regex: /#.*/, token: "comment"},
+    {regex: /[\{]/, indent: true},
+    {regex: /[\}]/, dedent: true}
   ],
   meta: {
-    lineComment: "//"
+    lineComment: "#",
+    electricChars: "}"
   }
 });
 
@@ -176,7 +179,8 @@ var game = new Vue({
         gameOver: false,
         victory: false,
         interval: null,
-        editor: null
+        editor: null,
+        runCost: -1 // Start at -1 to offset the inital world state yield.
     },
     computed: {
         codeBox: {
@@ -201,10 +205,11 @@ var game = new Vue({
     methods: {
         resetLevel: function() {
             var self = this;
+            self.stop();
             self.gameOver=false;
             self.levelMap= grid.render();
             self.victory=false;
-            self.stop();
+            self.runCost = -1;
         },
         stop: function() {
             if (this.interval !== null) {
@@ -212,8 +217,8 @@ var game = new Vue({
                 this.interval = null;
             }
         },
-
         uiRunGame: function() {
+            this.runCost = -1;
             this.stop();
 
             //level command set goes in this array
@@ -230,6 +235,7 @@ var game = new Vue({
             var ast = Parser.parseAST([], defs, this.codeBox).ast;
             this.codeBox = Parser.prettyPrint(ast);
 
+            var astCost = Interpreter.astCost(ast);
             var gen = Interpreter.runInterpreter(grid, ast, defs);
             var self = this;
             self.gameOver=false;
@@ -244,9 +250,18 @@ var game = new Vue({
                 }else{
                     self.levelMap=world.render();
 
+                    self.runCost++;
+
                     if ( world.victory() || world.failed() ) {
                         self.gameOver=true;
-                        if ( world.victory() ) { self.victory=true; }
+                        if ( world.victory() ) {
+                            self.victory=true;
+                            updateBestScore(level.codename, astCost,
+                                self.runCost);
+                        }
+
+                        // console.log("Run cost: " + self.runCost);
+                        // console.log("Ast cost: " + astCost);
 
                         self.stop(); //break
                     }
