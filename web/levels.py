@@ -41,7 +41,7 @@ LEVELS = {
             'execution_score': 2,
         },
         'instructions':
-<p>Welcome to the first level of Codebot!</p>
+"""<p>Welcome to the first level of Codebot!</p>
 
 <p>
 In each level, you will see Codebot on a grid. He loves collecting gears and
