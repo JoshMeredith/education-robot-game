@@ -38,7 +38,7 @@ LEVELS = {
         ],
         'instructions':
 """A comment is a line of code that codebot will ignore.
-To write a comment we use <tt> # and then write some text.</tt>
+To write a comment we use <tt> # </tt>and then write some text.
 
 <pre>
 #this is a comment
@@ -268,12 +268,12 @@ and repeat this as many times as necessary until you reach the goal
         ],
         'instructions':
 """Here's an example similar to the last one but longer, just to show you how important
-loops can be. Also be careful, the walls have been replaced with lava so Codebot will get
+loops can be. Also be careful, the walls have been replaced with cactuses so Codebot will get
 hurt if you're not careful.
 
 <p>
 Hint: The grid is 15 by 15, so you will have to step up and 
-down 15 times every time you moveUp or moveDown
+down 14 times every time you moveUp or moveDown
 </p>""",
         'startCode': '#Write your code here!'
     },
