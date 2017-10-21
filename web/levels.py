@@ -41,22 +41,31 @@ LEVELS = {
             'execution_score': 2,
         },
         'instructions':
-"""A comment is a line of code that codebot will ignore.
-To write a comment we use <tt> # and then write some text.</tt>
+"""Welcome to the first level of Codebot!
 
+In each level, you will see Codebot on a grid. He's lost some gears and would
+like to move around and pick all of them up. He's not very clever and so he'd
+like you to help him! He wants you to tell him how to move around, by writing
+some instructions (which we sometimes call <i>code</i>) in his codebox below.
+
+Each level will start with some comments in the codebox. A comment is a line of
+code that starts with a hash (<tt>#</tt>). Codebot will ignore all the code that
+comes after a hash on a line, for example:
+
+<p>
 <pre>
-#this is a comment
+# This is a comment
 </pre>
+</p>
 
-Comments have 2 main uses that you will see over and over
-during your time spent programming.
-<ol>
-<li>Describing what your code does</li>
-<li>Toggling code on and off</li>
-</ol>""",
+Try following the instructions in the comments below to help Codebot find his
+first gear!
+""",
         'startCode':
-"""#The next line moves the robot to the goal, uncomment it and hit RUN
-#moveRight;""",
+"""# Codebot knows how to move to the right!
+# Uncomment the last line by removing the hash, then click Run!
+# to help him collect his first gear!
+# moveRight;""",
     },
     'level2': {
         'name': 'Level 2',
@@ -80,21 +89,21 @@ during your time spent programming.
         'instructions':
 """In the last level you might have noticed that the line of
 code had a semicolon (;) at the end.
-This lets codebot know that you have finished giving an
+This lets Codebot know that you have finished giving an
 instruction - kind of like how a full stop lets you know
 when a sentence is finished.
 This becomes important when you have many instructions to
-give to codeBot. To complete this level uncomment the
-instructions that will lead codebot to the goal.""",
+give to Codebot. To complete this level uncomment the
+instructions that will lead Codebot to the goal.""",
         'startCode':
-"""#moveUp;
-#moveDown;
-#moveLeft;
-#moveRight;
-#moveUp;
-#moveDown;
-#moveLeft;
-#moveRight;"""
+"""# moveUp;
+# moveDown;
+# moveLeft;
+# moveRight;
+# moveUp;
+# moveDown;
+# moveLeft;
+# moveRight;"""
     },
     'level3': {
         'name': 'Level 3',
@@ -113,20 +122,20 @@ instructions that will lead codebot to the goal.""",
         },
         'instructions':
 """It can get pretty tiresome repeatedly typing out the same
-instructions for codebot over and over again. That's why we
+instructions for Codebot over and over again. That's why we
 have the times loop!
-By using the times loop we can tell codebot to follow a set
+By using the times loop we can tell Codebot to follow a set
 of instructions any number of times. The following code will
-tell codebot to dance 10 times:
+tell Codebot to dance 10 times:
 <pre>
 times(10){
     dance;
 }
 </pre>
-Unfortunately codebot hasn't learnt how to dance yet.
+Unfortunately Codebot hasn't learnt how to dance yet.
 He has learnt how to move right though! Use your newfound
-knowledge of loops to help codebot reach the goal.""",
-        'startCode': '#Write your code here!'
+knowledge of loops to help Codebot reach the goal.""",
+        'startCode': '# Write your code here!'
     },
 
     'level4': {
@@ -152,8 +161,8 @@ knowledge of loops to help codebot reach the goal.""",
 """Now we know how to move Codebot around using the <tt>moveUp</tt>,
 <tt>moveDown</tt>, <tt>moveLeft</tt> and <tt>moveRight</tt> instructions. We also know
 how to use loops to make our code shorter. 
-Use these tools to help codebot reach the goal.""",
-        'startCode': '#Write your code here!'
+Use these tools to help Codebot reach the goal.""",
+        'startCode': '# Write your code here!'
     },
 
     'level5': {
@@ -186,10 +195,10 @@ Use these tools to help codebot reach the goal.""",
             'execution_score': 84,
         },
         'instructions':
-"""Oh no, codebot is really lost now!
+"""Oh no, Codebot is really lost now!
 Give him some instructions to help him navigate the maze
 and reach his goal.""",
-        'startCode': '#Write your code here!'
+        'startCode': '# Write your code here!'
     },
 
     'level6': {
@@ -220,7 +229,7 @@ As an example, the maze on the right could be solved by collecting the top right
 then the bottom left one, then bottom right, then top left, but this would require a 
 lot of steps. Instead, you can solve this maze with four simple loops. 
 See if you can figure out how.""",
-        'startCode': '#Write your code here!'
+        'startCode': '# Write your code here!'
     },
 
     'level7': {
@@ -266,7 +275,7 @@ Hint: Pay attention to what you need to repeat, in this case it looks like
 you need to move up a certain number of times, then right, then down, then right again, 
 and repeat this as many times as necessary until you reach the goal
 </p>""",
-        'startCode': '#Write your code here!'
+        'startCode': '# Write your code here!'
     },
 
     'level8': {
@@ -300,14 +309,15 @@ and repeat this as many times as necessary until you reach the goal
         },
         'instructions':
 """Here's an example similar to the last one but longer, just to show you how important
-loops can be. Also be careful, the walls have been replaced with lava so Codebot will get
-hurt if you're not careful.
+loops can be. Also be careful, the walls have been replaced with catci so Codebot will get
+hurt if he walks into one!
 
 <p>
 Hint: The grid is 15 by 15, so you will have to step up and 
-down 15 times every time you moveUp or moveDown
+down 14 times every time you moveUp or moveDown from one end of the grid to the
+other.
 </p>""",
-        'startCode': '#Write your code here!'
+        'startCode': '# Write your code here!'
     },
 
 
@@ -341,10 +351,10 @@ on your own this time!
 <p>
 Note that it is OK for you to tell Codebot to move in a direction where there
 is a wall if it keeps your code short. For example, a useful loop might get
-codeBot to move up, right, down, and left 10 times each. He may awkwardly face
+Codebot to move up, right, down, and left 10 times each. He may awkwardly face
 the wall for a while, but eventually he'll turn and walk in the right
 direction.""",
-        'startCode': '#Write your code here!'
+        'startCode': '# Write your code here!'
     },
 
     'level10': {
@@ -372,8 +382,8 @@ direction.""",
             'execution_score': 32,
         },
         'instructions':
-"""In computer science, everyone likes money, so go collect as much of it as possible!""",
-        'startCode': '#Write your code here!'
+"""Codebot is surrounded by gears! Help him pick them all up.""",
+        'startCode': '# Write your code here!'
     },
 
     'level11': {
