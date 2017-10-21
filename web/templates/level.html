@@ -80,6 +80,8 @@ var level = {{ level | tojson | safe }};
 {% endblock %}
 
 {% block body_scripts %}
+    <script src="{{ url_for('static', filename='js/api_util.js') }}"></script>
+
     <!-- Vue object setup -->
     <script>
 
@@ -197,32 +199,6 @@ var game = new Vue({
                 this.interval = null;
             }
         },
-        // We handle both updates in the one function so we only need to
-        // make one API call. Asynchronous, doesn't return.
-        updateBestScore: function(codeScore, executionScore) {
-            var req = new XMLHttpRequest();
-
-            req.open("POST", "/update_score");
-            req.setRequestHeader("Content-Type", "application/json");
-
-            var data = {
-                'codename': level.codename,
-                'code_score': codeScore,
-                'execution_score': executionScore
-            };
-
-            req.onreadystatechange = function() {
-                if (req.readyState === 4) {
-                    if (req.status !== 200) {
-                        // console.log("Request failed with status " + req.status);
-                        return;
-                    }
-                    var response = JSON.parse(req.responseText);
-                    // console.log(response);
-                }
-            };
-            req.send(JSON.stringify(data));
-        },
         uiRunGame: function() {
             this.runCost = -1;
             this.stop();
@@ -261,7 +237,8 @@ var game = new Vue({
                         self.gameOver=true;
                         if ( world.victory() ) {
                             self.victory=true;
-                            self.updateBestScore(astCost, self.runCost);
+                            updateBestScore(level.codename, astCost,
+                                self.runCost);
                         }
 
                         // console.log("Run cost: " + self.runCost);
