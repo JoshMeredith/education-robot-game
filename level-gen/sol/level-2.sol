@@ -1,0 +1,4 @@
+moveRight;
+moveRight;
+moveUp;
+moveUp;
