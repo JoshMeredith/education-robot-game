@@ -105,11 +105,15 @@ def update_score():
     INFINITY = (1 << 30)
     try:
         code_score = int(request_json['code_score'])
+        if code_score <= 0:
+            raise ValueError
     except (ValueError, KeyError) as e:
         code_score = INFINITY
 
     try:
         execution_score = int(request_json['execution_score'])
+        if execution_score <= 0:
+            raise ValueError
     except (ValueError, KeyError) as e:
         execution_score = INFINITY
 
