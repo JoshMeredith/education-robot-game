@@ -93,11 +93,12 @@ CodeMirror.defineSimpleMode("codebot", {
     {regex: /(true|false|clearInFront\?)/, token: "string"},
     {regex: /\d+/, token: "number"},
     {regex: /#.*/, token: "comment"},
-    {regex: /[\{\[\(]/, indent: true},
-    {regex: /[\}\]\)]/, dedent: true}
+    {regex: /[\{]/, indent: true},
+    {regex: /[\}]/, dedent: true}
   ],
   meta: {
-    lineComment: "#"
+    lineComment: "#",
+    electricChars: "}"
   }
 });
 
