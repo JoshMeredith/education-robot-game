@@ -7,6 +7,7 @@ namespace Parser {
       { ast: PS.Types.AST | null
       , messages: Array<String>
       , names: Array<String>
+      , errorLocation: {line: number, ch: number} | null
       }
     {
         return PS.Parser.parseAST(features)(environment)(code);
