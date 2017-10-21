@@ -5,22 +5,24 @@
 {% block main %}
     <div id="challengesList">
         {% for world in worlds %}
-            <div class="world-challenges row">
+            <div class="row">
                 <center>
                     {% for level in world %}
-                        <a href="{{ url_for('serve_level', level=level.tag) }}" style="position: relative;">
-                            <img src="{{ url_for('static',
-                            filename='assets/{skin}/ground.png'.format(skin=level.skin)) }}" />
-                            <img src="{{ url_for('static',
-                            filename='assets/global/badges/unlock.png') }}" style="position: absolute; top: 0; left: 0;"/>
-                            <div class="text-wrapper">
-                                <h3>{{ level.name }}</h3>
-                                {% set progress = level_progress.get(level.id) %}
-                                {% set thresh = level['badge_thresholds'] %}
-                                {% if progress %}
-                                    <h3>({{ progress['code_score'] <= thresh['code_score'] }})</h3>
-                                    <h3>({{ progress['execution_score'] <= thresh['execution_score'] }})</h3>
-                                {% endif %}
+                        <a href="{{ url_for('serve_level', level=level.tag) }}">
+                            <div style="position: relative;">
+                                <img src="{{ url_for('static',
+                                filename='assets/{skin}/ground.png'.format(skin=level.skin)) }}" />
+                                <img src="{{ url_for('static',
+                                filename='assets/global/badges/unlock.png') }}" style="position: absolute; top: 0; left: 0;"/>
+                                <div style="position: absolute; top: 0; left: 0;">
+                                    <h3>{{ level.name }}</h3>
+                                    {% set progress = level_progress.get(level.id) %}
+                                    {% set thresh = level['badge_thresholds'] %}
+                                    {% if progress %}
+                                        <h3>({{ progress['code_score'] <= thresh['code_score'] }})</h3>
+                                        <h3>({{ progress['execution_score'] <= thresh['execution_score'] }})</h3>
+                                    {% endif %}
+                                </div>
                             </div>
                         </a>
                     {% endfor %}
