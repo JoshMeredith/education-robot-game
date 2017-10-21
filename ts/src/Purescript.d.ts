@@ -29,6 +29,7 @@ export namespace Parser {
       { ast: Types.AST | null
       , messages: Array<String>
       , names: Array<String>
+      , errorLocation: {line: number, ch: number} | null
       };
 
     export function prettyPrint(a: Types.AST): string;

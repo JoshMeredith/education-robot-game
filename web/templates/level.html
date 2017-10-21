@@ -232,8 +232,22 @@ var game = new Vue({
                 PS.Interpreter.environment.walkForward
             ];
 
-            var ast = Parser.parseAST([], defs, this.codeBox).ast;
-            this.codeBox = Parser.prettyPrint(ast);
+            var parsed = Parser.parseAST([], defs, this.codeBox);
+
+            var ast = parsed.ast;
+
+            if (ast !== null) {
+                this.codeBox = Parser.prettyPrint(ast);
+            }
+
+            // Codemirror uses 0 indexing on lines for some reason:
+            var loc = {line: parsed.errorLocation.line - 1, ch: parsed.errorLocation.ch - 1};
+
+
+            if (parsed.errorLocation !== null) {
+                this.editor.getDoc().markText(loc, {line: loc.line, ch: loc.ch + 1},
+                             {css: "text-decoration: underline; text-decoration-color: red;"});
+            }
 
             var astCost = Interpreter.astCost(ast);
             var gen = Interpreter.runInterpreter(grid, ast, defs);
