@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/theme/monokai.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/addon/mode/simple.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/addon/mode/simple.min.js"></script>
     <script type="text/javascript">
 var level = {{ level | tojson | safe }};
     </script>
@@ -93,11 +94,12 @@ CodeMirror.defineSimpleMode("codebot", {
     {regex: /(true|false|clearInFront\?)/, token: "string"},
     {regex: /\d+/, token: "number"},
     {regex: /#.*/, token: "comment"},
-    {regex: /[\{\[\(]/, indent: true},
-    {regex: /[\}\]\)]/, dedent: true}
+    {regex: /[\{]/, indent: true},
+    {regex: /[\}]/, dedent: true}
   ],
   meta: {
-    lineComment: "#"
+    lineComment: "#",
+    electricChars: "}"
   }
 });
 
