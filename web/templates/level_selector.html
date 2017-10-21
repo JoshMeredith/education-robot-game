@@ -13,8 +13,10 @@
                         <div class="text-wrapper">
                             <h3>{{ level.name }}</h3>
                             {% set progress = level_progress.get(level.id) %}
+                            {% set thresh = level['badge_thresholds'] %}
                             {% if progress %}
-                                <h3>{{ progress }}</h3>
+                                <h3>({{ progress['code_score'] <= thresh['code_score'] }})</h3>
+                                <h3>({{ progress['execution_score'] <= thresh['execution_score'] }})</h3>
                             {% endif %}
                         </div>
                     </a>

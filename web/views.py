@@ -21,12 +21,14 @@ def home():
 def worldLevels():
     level_ids = {level.codename: level.id for level in Level.query.all()}
 
-    return [
-        [ {'id': level_ids[k],
-        'tag': k,
-        'name': LEVELS[k]["name"],
-        'skin': LEVELS[k]["skin"]} for k in v ]
-        for _, v in sorted(list(WORLDS.items())) ]
+    # Extract info for world levels.
+    world_levels = [
+            [ {'id': level_ids[k],
+                'tag': k,
+                'name': LEVELS[k]["name"],
+                'skin': LEVELS[k]["skin"],
+                'badge_thresholds': LEVELS[k]["badge_thresholds"]} for k in v ]
+            for _, v in sorted(list(WORLDS.items())) ]
 
 # Find the user's progress for each level, if logged in.
 def levelProgress():
@@ -36,8 +38,10 @@ def levelProgress():
     if current_user.is_authenticated:
         all_progress = Progress.query.filter_by(user_id=current_user.id).all()
         for progress in all_progress:
-            level_progress[progress.level_id] = (progress.code_score,
-                    progress.execution_score)
+            level_progress[progress.level_id] = {
+                'code_score': progress.code_score,
+                'execution_score': progress.execution_score,
+            }
 
     return level_progress
 
