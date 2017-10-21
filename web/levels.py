@@ -36,6 +36,10 @@ LEVELS = {
         'grid': [
             ['_', '_']
         ],
+        'badge_thresholds': {
+            'code_score': 1,
+            'execution_score': 2,
+        },
         'instructions':
 """A comment is a line of code that codebot will ignore.
 To write a comment we use <tt> # and then write some text.</tt>
@@ -52,7 +56,7 @@ during your time spent programming.
 </ol>""",
         'startCode':
 """#The next line moves the robot to the goal, uncomment it and hit RUN
-#moveRight;"""
+#moveRight;""",
     },
     'level2': {
         'name': 'Level 2',
@@ -69,6 +73,10 @@ during your time spent programming.
             ['_', '_', '_', '_', '_'],
             ['_', '_', '_', '_', '_']
         ],
+        'badge_thresholds': {
+            'code_score': 4,
+            'execution_score': 6,
+        },
         'instructions':
 """In the last level you might have noticed that the line of
 code had a semicolon (;) at the end.
@@ -99,6 +107,10 @@ instructions that will lead codebot to the goal.""",
         'grid': [
             ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
         ],
+        'badge_thresholds': {
+            'code_score': 2,
+            'execution_score': 11,
+        },
         'instructions':
 """It can get pretty tiresome repeatedly typing out the same
 instructions for codebot over and over again. That's why we
@@ -132,6 +144,10 @@ knowledge of loops to help codebot reach the goal.""",
             ['_', '_', 'W', 'W', '_'],
             ['_', '_', '_', '_', '_']
         ],
+        'badge_thresholds': {
+            'code_score': 6,
+            'execution_score': 11,
+        },
         'instructions':
 """Now we know how to move Codebot around using the <tt>moveUp</tt>,
 <tt>moveDown</tt>, <tt>moveLeft</tt> and <tt>moveRight</tt> instructions. We also know
@@ -165,6 +181,10 @@ Use these tools to help codebot reach the goal.""",
             ['_', '_', 'W', 'W', '_', 'W', 'W', 'W', 'W', 'W', '_', '_', '_', '_'],
             ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 'W', '_', '_']
         ],
+        'badge_thresholds': {
+            'code_score': 20,
+            'execution_score': 84,
+        },
         'instructions':
 """Oh no, codebot is really lost now!
 Give him some instructions to help him navigate the maze
@@ -189,6 +209,10 @@ and reach his goal.""",
             ['_', '_', '_', '_', '_', '_', '_'],
             ['_', '_', '_', '_', '_', '_', '_']
         ],
+        'badge_thresholds': {
+            'code_score': 8,
+            'execution_score': 25,
+        },
         'instructions':
 """In programming, it is generally important to recognize patterns and to look for the 
 most effective soutions, allowing you to keep your code short. 
@@ -217,6 +241,10 @@ See if you can figure out how.""",
             ['_', 'W', '_', 'W', '_', 'W', '_', 'W', '_'],
             ['_', 'W', '_', '_', '_', 'W', '_', '_', '_']
         ],
+        'badge_thresholds': {
+            'code_score': 7,
+            'execution_score': 51,
+        },
         'instructions':
 """A useful thing you can do is 'nest' loops inside each other. 
 Here is an example:
@@ -266,6 +294,10 @@ and repeat this as many times as necessary until you reach the goal
             ['_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_'],
             ['_', '_', '_', 'L', '_', '_', '_', 'L', '_', '_', '_', 'L', '_', '_', '_'],
         ],
+        'badge_thresholds': {
+            'code_score': 9,
+            'execution_score': 127,
+        },
         'instructions':
 """Here's an example similar to the last one but longer, just to show you how important
 loops can be. Also be careful, the walls have been replaced with lava so Codebot will get
@@ -298,6 +330,10 @@ down 15 times every time you moveUp or moveDown
             ['_', 'W', '_', 'W', 'W', 'W', 'W', 'W', '_'],
             ['_', 'W', '_', '_', '_', '_', '_', '_', '_']
         ],
+        'badge_thresholds': {
+            'code_score': 7,
+            'execution_score': 261,
+        },
         'instructions':
 """This is similar to the previous situation, but you have to figure the pattern out
 on your own this time!
@@ -331,6 +367,10 @@ direction.""",
             ['_', '_', '_', '_', '_', '_'],
             ['_', '_', '_', '_', '_', '_']
         ],
+        'badge_thresholds': {
+            'code_score': 7,
+            'execution_score': 32,
+        },
         'instructions':
 """In computer science, everyone likes money, so go collect as much of it as possible!""",
         'startCode': '#Write your code here!'
@@ -351,6 +391,10 @@ direction.""",
             ['_', 'W', '_'],
             ['_', '_', '_'],
         ],
+        'badge_thresholds': {
+            'code_score': 5,
+            'execution_score': 7,
+        },
         'instructions':
 """Codebot is growing up and has upgraded his instructions!
 
@@ -391,6 +435,10 @@ Give it a go!""",
             ['_', 'W', 'W', 'W', 'W'],
             ['_', 'W', 'W', 'W', 'W'],
         ],
+        'badge_thresholds': {
+            'code_score': 5,
+            'execution_score': 18,
+        },
         'instructions':
 """Oops! Codebot is a slow learner and has temporarily forgotten how to
 <tt>turnRight</tt> (just for this level!).
@@ -415,6 +463,10 @@ instructions.""",
             ['W', '_', '_', '_', '_'],
             ['_', '_', 'L', '_', 'L'],
         ],
+        'badge_thresholds': {
+            'code_score': 4,
+            'execution_score': 10,
+        },
         'instructions':
 """Codebot has also learned to detect if walking forwards is safe. If you type
 
@@ -481,6 +533,10 @@ explain why?
             ['_', '_', '_', '_', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
             ['_', '_', '_', '_', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L', 'L'],
         ],
+        'badge_thresholds': {
+            'code_score': 9,
+            'execution_score': 35,
+        },
         'instructions':
 """Oh no! Codebot has found himself very far away from his gear, surrounded by
 walls and treacherous lava. Help him recover his gear.
@@ -519,6 +575,10 @@ short and clever solution.
             ['_', 'L', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 'L'],
             ['_', '_', '_', 'L', 'L', '_', 'L', '_', 'L', '_', 'L', '_', 'L', '_', '_'],
         ],
+        'badge_thresholds': {
+            'code_score': 15,
+            'execution_score': 831,
+        },
         'instructions':
 """Codebot went for a walk in the woods and accidentally left many gears behind!
 Help him retrace his steps and recover each gear. Watch out! Make sure you keep
