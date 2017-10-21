@@ -80,6 +80,8 @@ var level = {{ level | tojson | safe }};
 {% endblock %}
 
 {% block body_scripts %}
+    <script src="{{ url_for('static', filename='js/api_util.js') }}"></script>
+
     <!-- Vue object setup -->
     <script>
 
@@ -197,7 +199,6 @@ var game = new Vue({
                 this.interval = null;
             }
         },
-
         uiRunGame: function() {
             this.runCost = -1;
             this.stop();
@@ -216,6 +217,7 @@ var game = new Vue({
             var ast = Parser.parseAST([], defs, this.codeBox).ast;
             this.codeBox = Parser.prettyPrint(ast);
 
+            var astCost = Interpreter.astCost(ast);
             var gen = Interpreter.runInterpreter(grid, ast, defs);
             var self = this;
 
@@ -233,9 +235,14 @@ var game = new Vue({
 
                     if ( world.victory() || world.failed() ) {
                         self.gameOver=true;
-                        if ( world.victory() ) { self.victory=true; }
+                        if ( world.victory() ) {
+                            self.victory=true;
+                            updateBestScore(level.codename, astCost,
+                                self.runCost);
+                        }
 
-                        console.log("Run cost: " + self.runCost);
+                        // console.log("Run cost: " + self.runCost);
+                        // console.log("Ast cost: " + astCost);
 
                         self.stop(); //break
                     }

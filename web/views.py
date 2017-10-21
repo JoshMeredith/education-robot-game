@@ -20,7 +20,9 @@ def home():
 @app.route('/level/<level>')
 @app.route('/level/<level>/')
 def serve_level(level):
-    return render_template('level.html', level=LEVELS[level])
+    level_data = dict(LEVELS[level])
+    level_data['codename'] = level
+    return render_template('level.html', level=level_data)
 
 @app.route('/levels')
 @app.route('/levels/')
@@ -90,24 +92,41 @@ def logout():
     return redirect(url_for('home'))
 
 @app.route('/update_score', methods=["POST"])
-@login_required
 def update_score():
-    level_id = request.form.get('level_id', type=int)
+    if not current_user.is_authenticated:
+        return jsonify({'success': False })
 
-    INFINITY = (1 << 30)
-    code_score = request.form.get('code_score', default=INFINITY, type=int)
-    execution_score = request.form.get('execution_score', default=INFINITY,
-            type=int)
+    request_json = request.get_json(silent=True)
+    if not request_json:
+        # HTTP Error code 415.
+        return "Unsupported media type", 415
+
+    codename = request_json['codename']
 
     # Check that level exists.
-    level = Level.query.filter_by(id=level_id).first_or_404()
+    level = Level.query.filter_by(codename=codename).first_or_404()
+
+    INFINITY = (1 << 30)
+    try:
+        code_score = int(request_json['code_score'])
+        if code_score <= 0:
+            raise ValueError
+    except (ValueError, KeyError) as e:
+        code_score = INFINITY
+
+    try:
+        execution_score = int(request_json['execution_score'])
+        if execution_score <= 0:
+            raise ValueError
+    except (ValueError, KeyError) as e:
+        execution_score = INFINITY
 
     # Check if a Progress entry exists.
     cur_score = Progress.query.filter_by(user_id=current_user.id,
-            level_id=level_id).first()
+            level_id=level.id).first()
     if not cur_score:
         cur_score = Progress(user_id=current_user.id,
-                level_id=level_id,
+                level_id=level.id,
                 code_score=code_score,
                 execution_score=execution_score)
         db.session.add(cur_score)
@@ -119,8 +138,8 @@ def update_score():
 
     return jsonify({
         'success': True,
-        'level': level.codename,
-        'level_id': level_id,
+        'level': codename,
+        'level_id': level.id,
         'code_score': cur_score.code_score,
         'execution_score': cur_score.execution_score
     })
