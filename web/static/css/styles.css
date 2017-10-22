@@ -43,7 +43,7 @@ header {
     background: #3a3937;
     color: #ffffff;
     overflow: hidden;
-    height: 8vh;
+    height: 65px;
     border-bottom: #800000 2px solid;
 }
 
@@ -129,8 +129,31 @@ header a:hover {
     /*font-style: normal;*/
 }
 /** ------------------------------ INDEX ----------------------------------- **/
+.notifications {
+    position: fixed;
+    top: 80px;
+    width: 0;
+    right: 0;
+    bottom: 0;
+    overflow: visible;
+    z-index: 1;
+}
 
+#notifications .notification {
+    text-align: left;
+    margin-bottom: 0.572em;
+    font-size: 0.875em;
+    border-radius: 0.5em;
 
+    box-shadow: black 0.072em 0.072em 0.144em;
+}
+
+.notifications .notification {
+    width: 300px;
+    float: right;
+    margin-right: 20px;
+    clear: both;
+}
 
 /** --------------------------- CODE SECTION ------------------------------- **/
 form#codeBox {

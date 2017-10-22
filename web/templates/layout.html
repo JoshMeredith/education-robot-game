@@ -54,20 +54,17 @@
         </header>
 
         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="alert alert-danger alert-dismissable col-md-8">
-                        <a href="#" class="close" data-dismiss="alert"
-                                                  aria-label="close">&times;</a>
-                        <ul class="flashes">
-                            {% for message in messages %}
-                                <li>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            {% endif %}
+            <div id="notifications" class="notifications">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="notification alert alert-danger alert-dismissable">
+                            <a href="#" class="close" data-dismiss="alert"
+                                                      aria-label="close">&times;</a>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
         {% endwith %}
         <section id="main">
             {% block main %}
