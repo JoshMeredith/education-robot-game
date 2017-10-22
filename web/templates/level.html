@@ -76,8 +76,8 @@
 
             <!-- Grid Rendering -->
             <div>
-                <div v-for="row in levelMap" class="row" style="padding-bottom: 0.1vh;">
-                    <div v-for="col in row" class="col" style="padding-left: 0; padding-right: 0.1vh;">
+                <div v-for="row in levelMap" class="row" style="padding-bottom: 1px;">
+                    <div v-for="col in row" class="col" style="padding-left: 0; padding-right: 1px;">
                         <div style="position: relative;">
                             <img src="{{ url_for('static', filename='assets/grass/ground.png') }}" id="cell">
                             <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
