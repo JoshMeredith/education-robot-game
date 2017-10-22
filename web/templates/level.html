@@ -18,7 +18,7 @@
 {% block main %}
     <div class="row container-fluid" style="padding-top: 10px">
         <!-- left hand side -->
-        <div class="col-6">
+        <div class="col-7">
             <form >
                 <fieldset>
 
@@ -33,7 +33,7 @@
                                 </h5>
                             </div>
 
-                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" 
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne"
                             style="padding: 15px;">
                                 <div class="card-block">
                                     {{ level.instructions | safe }}
@@ -49,14 +49,16 @@
 
                 </fieldset>
                 <div class="text-center">
-                    <input id="button_1" type="button" value="Run!" v-on:click="uiRunGame" />
-                    <input id="button_1" type="button" value="Reset" v-on:click="resetLevel" />
+                    <button v-on:click="uiRunGame" class="btn btn-lg btn-success" type="button" style="width:200px">
+                    PLAY NOW</button>
+                    <button v-on:click="resetLevel" class="btn btn-lg btn-primary" type="button" style="width:200px; color: white;">
+                    RESET</button>
                 </div>
             </form>
         </div>
 
         <!-- Right hand side -->
-        <div class="col-5">
+        <div class="col-4">
             <!-- Status Bar -->
             <div v-if="!gameOver" class="defaultStatus text-center">
                 <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
@@ -70,31 +72,33 @@
             </div>
 
             <!-- Grid Rendering -->
-            <table>
-                <tr v-for="row in levelMap">
-                    <td v-for="col in row">
+            <div style="background-color: #303030; padding: 0; padding-top: 1px; padding-left: 1px;" >
+                <div v-for="row in levelMap" class="row" style="padding: 0; margin: 0; width: 100%">
+                    <div v-for="col in row" class="col" style="padding: 0; margin: 0; margin-right: 1px; margin-bottom: 1px;">
                         <div style="position: relative;">
                             <img src="{{ url_for('static', filename='assets/grass/ground.png') }}" id="cell">
                             <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
                         </div>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="col-1">
+        <div class="col-1" id="scrollable">
             <h6 class="text-center"> LEVEL
             SELECTOR</h6>
             {% for world in worlds %}
                 {% for level in world %}
-                <div style="width: 100%; margin-bottom: 5px;
-                            background-image: url({{ url_for('static',
-                                filename='assets/{skin}/ground.png'.format(skin=level.skin)) }});">
-                    <center>
-                        {{ level.name }} <br />
-                    icons
-                    </center>
-                </div>
+                <a href="{{ url_for('serve_level', level=level.tag) }}">
+                  <div style="width: 100%; margin-bottom: 5px; color: #000000;
+                              background-image: url({{ url_for('static',
+                                  filename='assets/{skin}/ground.png'.format(skin=level.skin)) }});">
+                      <center>
+                          {{ level.name }} <br />
+                      icons
+                      </center>
+                  </div>
+                </a>
                 {% endfor %}
             {% endfor %}
         </div>
@@ -292,4 +296,3 @@ var game = new Vue({
 
     </script>
 {% endblock %}
-
