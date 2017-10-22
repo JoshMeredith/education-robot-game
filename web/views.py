@@ -73,7 +73,7 @@ def signup_form(form):
     db.session.add(user)
     db.session.commit()
 
-    return redirect(url_for('login'))
+    return login_form(form)
 
 def login_form(form):
     user = User.query.filter_by(username=form.username.data).first()
