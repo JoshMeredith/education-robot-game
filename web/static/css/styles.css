@@ -47,6 +47,10 @@ header {
     border-bottom: #800000 2px solid;
 }
 
+.not-logged-in {
+    margin-top: 10px;
+}
+
 .inp {
   width: 10vw;
   height: 1.5vw;
@@ -285,7 +289,6 @@ table {
     padding-top: 5px;
     padding-bottom: 5px;
     width: 100%;
-    font-size: 0;
     margin: auto;
     text-align: center;
 }
