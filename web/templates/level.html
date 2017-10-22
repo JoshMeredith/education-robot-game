@@ -94,14 +94,16 @@
             SELECTOR</h6>
             {% for world in worlds %}
                 {% for level in world %}
-                <div style="width: 100%; margin-bottom: 5px;
-                            background-image: url({{ url_for('static',
-                                filename='assets/{skin}/ground.png'.format(skin=level.skin)) }});">
-                    <center>
-                        {{ level.name }} <br />
-                    icons
-                    </center>
-                </div>
+                <a href="{{ url_for('serve_level', level=level.tag) }}">
+                  <div style="width: 100%; margin-bottom: 5px; color: #000000;
+                              background-image: url({{ url_for('static',
+                                  filename='assets/{skin}/ground.png'.format(skin=level.skin)) }});">
+                      <center>
+                          {{ level.name }} <br />
+                      icons
+                      </center>
+                  </div>
+                </a>
                 {% endfor %}
             {% endfor %}
         </div>
