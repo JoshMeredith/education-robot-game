@@ -43,7 +43,7 @@ header {
     background: #3a3937;
     color: #ffffff;
     overflow: hidden;
-    height: 55px;
+    height: 65px;
     border-bottom: #800000 2px solid;
 }
 
@@ -84,16 +84,14 @@ header #branding span {
 }
 
 header #favicon {
-  vertical-align: middle;
-  height: 6vh;
+  height: 55px;
   float: left;
 }
 
 header nav {
     float: right;
-    margin-top: 1vw;
-    margin-right: 1vw;
-    margin-bottom: 1vw;
+    margin-top: 14px;
+    margin-right: 10px;
 }
 
 /*
@@ -104,18 +102,29 @@ header li {
 }
 */
 
-.rightbar li {
+/*.rightbar li {
     padding-left: 30px;
     padding-right: 30px;
     
-    padding: 0.5vw 0.2vw 0 0.2vw;
+    padding: 0 0.2vw 0 0.2vw;
+}*/
+
+.rightbar li {
+    padding-left: 5px;
+    font-size: 1em;
 }
+
+#welcome {
+    margin-top: 5px;
+    margin-right: 3px;
+}
+
 
 header a {
     color: #C0C0C0;
     text-decoration: none;
     /*text-transform: uppercase;*/
-    font-size: 1vw;
+    font-size: 1em;
 }
 
 header .current a {
@@ -129,8 +138,31 @@ header a:hover {
     /*font-style: normal;*/
 }
 /** ------------------------------ INDEX ----------------------------------- **/
+.notifications {
+    position: fixed;
+    top: 80px;
+    width: 0;
+    right: 0;
+    bottom: 0;
+    overflow: visible;
+    z-index: 1;
+}
 
+#notifications .notification {
+    text-align: left;
+    margin-bottom: 0.572em;
+    font-size: 0.875em;
+    border-radius: 0.5em;
 
+    box-shadow: black 0.072em 0.072em 0.144em;
+}
+
+.notifications .notification {
+    width: 300px;
+    float: right;
+    margin-right: 20px;
+    clear: both;
+}
 
 /** --------------------------- CODE SECTION ------------------------------- **/
 form#codeBox {
