@@ -179,6 +179,11 @@ form #button_2 {
   background-color: #00BFFF;
 }
 
+#scrollable {
+  height: 42vw;
+  overflow-y: scroll;
+}
+
 /** --------------------------- GRID SECTION ------------------------------- **/
 .gridContainer {
     float: right;
