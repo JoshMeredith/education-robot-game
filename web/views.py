@@ -15,7 +15,8 @@ def startup():
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    form = UsernamePasswordForm()
+    return render_template('index.html', form=form)
 
 @app.route('/level/<level>')
 @app.route('/level/<level>/')
