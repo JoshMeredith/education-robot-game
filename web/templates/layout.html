@@ -24,20 +24,19 @@
             </div>
 
             <nav>
-                <ul>
-                    <li><input id="inp" type="text" placeholder="Username"/></li>
-                    <li><input id="inp" type="password" placeholder="Password"/></li>
-
+                <div>
                     {% if current_user.is_authenticated %}
                         Hi {{ current_user.username }}! (<i>
-                            <li><a href="{{ url_for('logout') }}"><input type="submit" value="Logout" /></a></li>
+                            <a href="{{ url_for('logout') }}">Logout</a>
                         </i>)
                     {% else %}
-                        <li><a  href="{{ url_for('login') }}"><input id="button_h1" type="submit" value="Login" /></li>
+                        <input id="inp" type="text" placeholder="Username"/>
+                        <input id="inp" type="password" placeholder="Password"/>
+                        <a  href="{{ url_for('login') }}"><input id="button_h1" type="submit" value="Login" /></a>
+                        <input id="button_h1" type="submit" value="Register" />
                     {% endif %}
-                    <li><input id="button_h1" type="submit" value="Register" /></li>
-                    <li><a href="{{ url_for('level_selector') }}">Levels</a>
-                </ul>
+                    <a href="{{ url_for('level_selector') }}">Levels</a>
+                </div>
             </nav>
 
         </header>
