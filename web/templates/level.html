@@ -89,16 +89,16 @@
         </div>
 
         <div class="col-1" id="scrollable">
-            <h6 class="text-center"> LEVEL
+            <h6 class="text-center" style="font-size: 1vw;"> LEVEL
             SELECTOR</h6>
             {% for world in worlds %}
                 {% for level in world %}
-                <a href="{{ url_for('serve_level', level=level.tag) }}">
+                <a href="{{ url_for('serve_level', level=level.tag) }}" style="text-decoration: none;">
                     <div style="width: 100%; margin-bottom: 5px; border-radius: 0.65em; border: 1px solid #35424a;
                                 background-image: url({{ url_for('static',
                                     filename='assets/{skin}/ground.png'.format(skin=level.skin)) }});">
                         <center>
-                            <b>{{ level.name }}</b> <br />
+                            <b style="color:black;">{{ level.name }}</b> <br />
                             <div class="badges">
                                 {% set progress = level_progress.get(level.id) %}
                                 {% set thresh = level['badge_thresholds'] %}
