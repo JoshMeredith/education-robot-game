@@ -24,7 +24,7 @@
             </div>
 
             <nav>
-                <div>
+                <div class="navbar-header navbar-right">
                     {% if current_user.is_authenticated %}
                         Hi {{ current_user.username }}! (<i>
                             <a href="{{ url_for('logout') }}">Logout</a>
@@ -33,13 +33,17 @@
                         {% set header_form = UsernamePasswordForm() %}
                         <form method="POST" action="{{ url_for('user_form') }}">
                             {{ header_form.csrf_token }}
-                            {{ header_form.username(class="inp") }}
-                            {{ header_form.password(class="inp") }}
-                            {{ header_form.login(class="button_h1") }}
-                            {{ header_form.signup(class="button_h1") }}
+                            <ul class="nav rightbar">
+                                <li>{{ header_form.username(class="form-control-sm") }}</li>
+                                <li>{{ header_form.password(class="form-control-sm") }}</li>
+                                <li>{{ header_form.login(class="btn btn-sm btn-success") }}</li>
+                                <li>{{ header_form.signup(class="btn btn-sm btn-info") }}</li>
+                                <li>
+                                    <a class="btn btn-sm btn-primary" href="{{ url_for('level_selector') }}">Levels</a>
+                                </li>
+                            </ul>
                         </form>
                     {% endif %}
-                    <a href="{{ url_for('level_selector') }}">Levels</a>
                 </div>
             </nav>
 
