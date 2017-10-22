@@ -28,26 +28,30 @@
             </div>
 
             <nav>
-                <div class="navbar-header navbar-right">
+                <div class="nav rightbar">
                     {% if current_user.is_authenticated %}
-                        Hi {{ current_user.username }}! (<i>
-                            <a href="{{ url_for('logout') }}">Logout</a>
-                        </i>)
+                        <div>
+                            Hi {{ current_user.username }}! (<i>
+                                <a href="{{ url_for('logout') }}">Logout</a>
+                            </i>)
+                        </div>
                     {% else %}
+                        <div>
                         {% set header_form = UsernamePasswordForm() %}
                         <form method="POST" action="{{ url_for('user_form') }}">
                             {{ header_form.csrf_token }}
-                            <ul class="nav rightbar">
+                            <ul class="nav">
                                 <li>{{ header_form.username(class="form-control-sm") }}</li>
                                 <li>{{ header_form.password(class="form-control-sm") }}</li>
                                 <li>{{ header_form.login(class="btn btn-sm btn-success") }}</li>
                                 <li>{{ header_form.signup(class="btn btn-sm btn-info") }}</li>
                                 <li>
-                                    <a class="btn btn-sm btn-primary" href="{{ url_for('level_selector') }}">Levels</a>
                                 </li>
                             </ul>
                         </form>
+                        </div>
                     {% endif %}
+                    <a class="btn btn-sm btn-primary" href="{{ url_for('level_selector') }}">Levels</a>
                 </div>
             </nav>
 
