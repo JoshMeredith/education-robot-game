@@ -50,9 +50,7 @@ def level_selector():
     return render_template('level_selector.html', worlds=world_levels,
             level_progress=level_progress)
 
-@app.route('/signup', methods=["GET", "POST"])
-def signup():
-    form = UsernamePasswordForm()
+def signup_form(form):
     if form.validate_on_submit():
         exists = db.session.query(User.id).filter_by(username=form.username.data).scalar()
         if exists:
@@ -68,10 +66,7 @@ def signup():
 
     return render_template('signup.html', form=form)
 
-@app.route('/login', methods=["GET", "POST"])
-def login():
-    form = UsernamePasswordForm()
-
+def login_form(form):
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.is_correct_password(form.password.data):
@@ -85,6 +80,27 @@ def login():
             return redirect(url_for('login'))
 
     return render_template('login.html', form=form)
+
+@app.route('/login', methods=["GET","POST"])
+def login():
+    form = UsernamePasswordForm()
+    return login_form(form)
+
+@app.route('/signup', methods=["GET","POST"])
+def signup():
+    form = UsernamePasswordForm()
+    return signup_form(form)
+
+@app.route('/user_form', methods=["POST"])
+def user_form():
+    form = UsernamePasswordForm()
+
+    if form.validate_on_submit():
+        if form.login.data:
+            return login_form(form)
+        elif form.signup.data:
+            return signup_form(form)
+    return "Error", 404
 
 @app.route('/logout')
 def logout():

@@ -30,10 +30,13 @@
                             <a href="{{ url_for('logout') }}">Logout</a>
                         </i>)
                     {% else %}
-                        {{ form.username(class="inp") }}
-                        {{ form.password(class="inp") }}
-                        {{ form.login(class="button_h1") }}
-                        {{ form.signup(class="button_h1") }}
+                        <form method="POST" action="{{ url_for('user_form') }}">
+                            {{ form.csrf_token }}
+                            {{ form.username(class="inp") }}
+                            {{ form.password(class="inp") }}
+                            {{ form.login(class="button_h1") }}
+                            {{ form.signup(class="button_h1") }}
+                        </form>
                     {% endif %}
                     <a href="{{ url_for('level_selector') }}">Levels</a>
                 </div>
