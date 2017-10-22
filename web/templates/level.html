@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-    
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/theme/monokai.min.css" />
@@ -23,7 +23,7 @@
 {% block main %}
     <div class="row container-fluid" style="padding-top: 10px">
         <!-- left hand side -->
-        <div class="col-6">
+        <div class="col-7">
             <form >
                 <fieldset>
 
@@ -38,7 +38,7 @@
                                 </h5>
                             </div>
 
-                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" 
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne"
                             style="padding: 15px;">
                                 <div class="card-block">
                                     {{ level.instructions | safe }}
@@ -63,7 +63,7 @@
         </div>
 
         <!-- Right hand side -->
-        <div class="col-5">
+        <div class="col-4">
             <!-- Status Bar -->
             <div v-if="!gameOver" class="defaultStatus text-center">
                 <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
@@ -77,19 +77,19 @@
             </div>
 
             <!-- Grid Rendering -->
-            <table>
-                <tr v-for="row in levelMap">
-                    <td v-for="col in row">
+            <div style="background-color: #303030; padding: 0; padding-top: 1px; padding-left: 1px;" >
+                <div v-for="row in levelMap" class="row" style="padding: 0; margin: 0; width: 100%">
+                    <div v-for="col in row" class="col" style="padding: 0; margin: 0; margin-right: 1px; margin-bottom: 1px;">
                         <div style="position: relative;">
                             <img src="{{ url_for('static', filename='assets/grass/ground.png') }}" id="cell">
                             <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
                         </div>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="col-1">
+        <div class="col-1" id="scrollable">
             <h6 class="text-center"> LEVEL
             SELECTOR</h6>
             {% for world in worlds %}
@@ -299,4 +299,3 @@ var game = new Vue({
 
     </script>
 {% endblock %}
-

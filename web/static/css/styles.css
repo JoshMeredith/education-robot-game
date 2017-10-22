@@ -53,6 +53,11 @@ header {
   font-size: 20px;
 }
 
+.inputsm {
+    height: 2vw;
+    width: 10vw;
+}
+
 .button_h1 {
   width: 5vw;
   height: 1.5vw;
@@ -91,10 +96,19 @@ header nav {
     margin-bottom: 1vw;
 }
 
+/*
 header li {
     float: left;
     display: inline;
     padding: 0 1vw 0 1vw;
+}
+*/
+
+.rightbar li {
+    padding-left: 30px;
+    padding-right: 30px;
+    
+    padding: 0.5vw 0.2vw 0 0.2vw;
 }
 
 header a {
@@ -163,6 +177,11 @@ form #button_2 {
   height: 30px;
   width: 200px;
   background-color: #00BFFF;
+}
+
+#scrollable {
+  height: 42vw;
+  overflow-y: scroll;
 }
 
 /** --------------------------- GRID SECTION ------------------------------- **/
