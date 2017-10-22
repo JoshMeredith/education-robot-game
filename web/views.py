@@ -65,7 +65,8 @@ def level_selector():
 
 def signup_form(form):
     if form.validate_on_submit():
-        exists = db.session.query(User.id).filter_by(username=form.username.data).scalar()
+        exists = db.session.query(User.id).filter(
+                User.username.ilike(form.username.data)).scalar()
         if exists:
             form.username.errors.append('That username is already taken!')
             return render_template('signup.html', form=form)
