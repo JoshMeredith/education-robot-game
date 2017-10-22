@@ -1,0 +1,327 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ level.name }}{% endblock %}
+
+{% block head_scripts %}
+    <script src="https://unpkg.com/vue"></script>
+    <script src="{{ url_for('static', filename='js/build.js') }}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/theme/monokai.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/addon/mode/simple.min.js"></script>
+    <script type="text/javascript">
+        var level = {{ level | tojson | safe }};
+    </script>
+{% endblock %}
+
+{% block main %}
+    <div class="row container-fluid" style="padding-top: 10px">
+        <!-- left hand side -->
+        <div class="col-7">
+            <form>
+                <fieldset>
+
+                    <!-- instructions -->
+                    <div id="accordion" role="tablist" aria-multiselectable="true" style="padding-bottom:10px;">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
+                                        {{ level.name }} | Instructions (click to toggle)
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne"
+                            style="padding: 15px;">
+                                <div class="card-block">
+                                    {{ level.instructions | safe }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- code editor -->
+                    <div id="code_area_wrapper">
+                        <textarea id="code_area"></textarea>
+                    </div>
+
+                </fieldset>
+                <div class="text-center">
+                    <button v-on:click="uiRunGame" class="btn btn-lg btn-success" type="button" style="width:200px">
+                    PLAY</button>
+                    <button v-on:click="resetLevel" class="btn btn-lg btn-primary" type="button" style="width:200px; color: white;">
+                    RESET</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right hand side -->
+        <div class="col-4">
+            <!-- Status Bar -->
+            <div v-if="syntaxParsed && !gameOver" class=" text-center alert-info">
+                <p>Click the Play button when you're ready <br>for Codebot to run your code.</p>
+            </div>
+            <div v-else-if="!syntaxParsed" class="alert-danger text-center" v-cloak>
+                <p>Codebot couldn't understand your code. <br/> Double-check you
+                have semicolons between statements and curly braces around times
+                loops!</p>
+            </div>
+            <div v-else-if="syntaxParsed && gameOver && victory" class="alert-success text-center" v-cloak>
+                <p>Congratulations! <br>You helped Codebot finish the level.</p>
+            </div>
+            <div v-else-if="syntaxParsed && gameOver && !victory" class="alert-danger text-center" v-cloak>
+                <p>Oh no! Codebot didn't collect all of the goals. <br>Click the Reset button to try again.</p>
+            </div>
+
+            <!-- Grid Rendering -->
+            <div style="background-color: #303030; padding: 0; padding-top: 1px; padding-left: 1px; padding-right: 1px;" >
+                <div v-for="row in levelMap" class="row" style="padding: 0; margin: 0; width: 100%;">
+                    <div v-for="col in row" class="col" style="padding: 0; margin: 0; margin-right: 1px; margin-bottom: 1px;">
+                        <div style="position: relative;">
+                            <img src="{{ url_for('static', filename='assets/grass/ground.png') }}" id="cell">
+                            <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-1" id="scrollable">
+            <h6 class="text-center" style="font-size: 1vw;"> LEVEL
+            SELECTOR</h6>
+            {% for world in worlds %}
+                {% for level in world %}
+                <a href="{{ url_for('serve_level', level=level.tag) }}" style="text-decoration: none;">
+                    <div style="width: 100%; margin-bottom: 5px; border-radius: 0.65em; border: 1px solid #35424a; background-size: 100%;
+                                background-image: url({{ url_for('static',
+                                    filename='assets/{skin}/ground.png'.format(skin=level.skin)) }});">
+                        <center>
+                            <b style="color:black;">{{ level.name }}</b> <br />
+                            <div class="badges">
+                                {% set progress = level_progress.get(level.id) %}
+                                {% set thresh = level['badge_thresholds'] %}
+                                {% if progress %}
+                                    <img src="{{ url_for('static', filename='assets/global/badges/green_tick.png') }}" style="height: 25%; width: 25%; border: 0;">
+                                    {% if (progress['code_score'] <= thresh['code_score']) %}
+                                        <img src="{{ url_for('static', filename='assets/global/badges/blue_badge.png') }}" style="height: 25%; width: 25%; border: 0;">
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_badge.png') }}" style="height: 25%; width: 25%; border: 0">
+                                    {% endif %}
+                                    {% if (progress['execution_score'] <= thresh['execution_score']) %}
+                                        <img src="{{ url_for('static', filename='assets/global/badges/red_badge.png') }}" style="height: 25%; width: 25%; border: 0">
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_badge.png') }}" style="height: 25%; width: 25%; border: 0">
+                                    {% endif %}
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_tick.png') }}" style="height: 25%; width: 25%; border: 0;">
+                                    <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_badge.png') }}" style="height: 25%; width: 25%; border: 0">
+                                    <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_badge.png') }}" style="height: 25%; width: 25%; border: 0">
+                                {% endif %}
+                            </div>
+                        </center>
+                    </div>
+                </a>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block body_scripts %}
+    <script src="{{ url_for('static', filename='js/api_util.js') }}"></script>
+
+    <!-- Vue object setup -->
+    <script>
+
+CodeMirror.defineSimpleMode("codebot", {
+  start: [
+    {regex: /(times|if|else)/, token: "keyword"},
+    {regex: /(move(Left|Right|Up|Down)|walkForward|turn(Left|Right))/, token: "variable-2"},
+    // {regex: /[\(\)\{\}\;]/, token: "keyword"},
+    {regex: /(true|false|clearInFront\?)/, token: "string"},
+    {regex: /\d+/, token: "number"},
+    {regex: /#.*/, token: "comment"},
+    {regex: /[\{]/, indent: true},
+    {regex: /[\}]/, dedent: true}
+  ],
+  meta: {
+    lineComment: "#",
+    electricChars: "}"
+  }
+});
+
+// initialise
+var defaultSprites = function(){
+    return {
+        ground: "{{ url_for('static', filename='assets/grass/ground.png') }}",
+        player: {
+            Up: "{{ url_for('static', filename='assets/global/playerSprite/up.png') }}",
+            Down: "{{ url_for('static', filename='assets/global/playerSprite/down.png') }}",
+            Left: "{{ url_for('static', filename='assets/global/playerSprite/left.png') }}",
+            Right: "{{ url_for('static', filename='assets/global/playerSprite/right.png') }}"
+        },
+        goal: "{{ url_for('static', filename='assets/global/goal.png') }}",
+        wall: "{{ url_for('static', filename='assets/grass/wall.png') }}",
+        lava: "{{ url_for('static', filename='assets/grass/lava.png') }}"
+    }
+};
+
+var sprites = {
+    grass : defaultSprites(),
+    sand  : defaultSprites(),
+    stone : defaultSprites(),
+    snow  : defaultSprites(),
+    jungle: defaultSprites()
+}
+
+sprites.sand.ground   = "{{ url_for('static', filename='assets/sand/ground.png') }}";
+sprites.sand.wall   = "{{ url_for('static', filename='assets/sand/wall.png') }}";
+sprites.sand.lava   = "{{ url_for('static', filename='assets/sand/lava.png') }}";
+
+sprites.stone.ground   = "{{ url_for('static', filename='assets/stone/ground.png') }}";
+sprites.stone.wall   = "{{ url_for('static', filename='assets/stone/wall.png') }}";
+sprites.stone.lava   = "{{ url_for('static', filename='assets/stone/lava.png') }}";
+
+sprites.snow.ground   = "{{ url_for('static', filename='assets/snow/ground.png') }}";
+sprites.snow.wall   = "{{ url_for('static', filename='assets/snow/wall.png') }}";
+sprites.snow.lava   = "{{ url_for('static', filename='assets/snow/lava.png') }}";
+
+
+//sprites.jungle.ground = "{{ url_for('static', filename='assets/grass/grass2.png') }}";
+
+var goals = level.goals.map(function(goal){
+    return new World.Coord2D(goal.row, goal.col);
+});
+
+var grid = World.Grid.init(
+    level.numRows,
+    level.numCols,
+    sprites[level.skin],
+    goals,
+    new World.Coord2D(level.start.row, level.start.col),
+    World.Direction[ level.startDir ],
+    World.shorthandGrid(level.grid, sprites[level.skin])
+);
+
+var game = new Vue({
+    el: "#main",
+    data: {
+        levelMap: grid.render(),
+        syntaxParsed: true,
+        gameOver: false,
+        victory: false,
+        interval: null,
+        editor: null,
+        runCost: -1 // Start at -1 to offset the inital world state yield.
+    },
+    computed: {
+        codeBox: {
+            get: function() {
+                return this.editor.getValue()
+            },
+            set: function(code) {
+                this.editor.setValue(code);
+            }
+        }
+    },
+    mounted: function () {
+        this.editor = CodeMirror.fromTextArea(document.getElementById("code_area"), {
+            lineNumbers: true,
+            theme: "monokai",
+            mode: "codebot",
+            indentUnit: 4
+        });
+
+        this.codeBox = level.startCode;
+    },
+    methods: {
+        resetLevel: function() {
+            var self = this;
+            self.stop();
+            self.gameOver=false;
+            self.levelMap= grid.render();
+            self.victory=false;
+            self.runCost = -1;
+        },
+        stop: function() {
+            if (this.interval !== null) {
+                clearInterval(this.interval);
+                this.interval = null;
+            }
+        },
+        uiRunGame: function() {
+            this.runCost = -1;
+            this.stop();
+
+            //level command set goes in this array
+            var defs = [
+                PS.Interpreter.environment.moveLeft,
+                PS.Interpreter.environment.moveRight,
+                PS.Interpreter.environment.moveUp,
+                PS.Interpreter.environment.moveDown,
+                PS.Interpreter.environment.turnLeft,
+                PS.Interpreter.environment.turnRight,
+                PS.Interpreter.environment.walkForward
+            ];
+
+            var parsed = Parser.parseAST([], defs, this.codeBox);
+
+            var ast = parsed.ast;
+
+            if (ast === null) {
+                this.syntaxParsed = false;
+                return;
+            }
+
+            this.syntaxParsed = true;
+            this.codeBox = Parser.prettyPrint(ast);
+
+            if (parsed.errorLocation !== null) {
+                // Codemirror uses 0 indexing on lines for some reason:
+                var loc = {line: parsed.errorLocation.line - 1, ch: parsed.errorLocation.ch - 1};
+                this.editor.getDoc().markText(loc, {line: loc.line, ch: loc.ch + 1},
+                             {css: "text-decoration: underline; text-decoration-color: red;"});
+            }
+
+            var astCost = Interpreter.astCost(ast);
+            var gen = Interpreter.runInterpreter(grid, ast, defs);
+            var self = this;
+            self.gameOver=false;
+
+            //iterate
+            self.interval = setInterval( function() {
+                world = gen.next().value;
+
+                if (world === undefined) {
+                    self.gameOver=true;
+                    self.stop(); //break
+                }else{
+                    self.levelMap=world.render();
+
+                    self.runCost++;
+
+                    if ( world.victory() || world.failed() ) {
+                        self.gameOver=true;
+                        if ( world.victory() ) {
+                            self.victory=true;
+                            updateBestScore(level.codename, astCost,
+                                self.runCost);
+                        }
+
+                        // console.log("Run cost: " + self.runCost);
+                        // console.log("Ast cost: " + astCost);
+
+                        self.stop(); //break
+                    }
+                }
+            }, 500);
+
+        }
+    }
+});
+
+    </script>
+{% endblock %}

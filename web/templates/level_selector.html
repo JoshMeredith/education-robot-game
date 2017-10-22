@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Levels{% endblock %}
+
+{% block main %}
+    <div id="challengesList" class="container-fluid">
+        {% if not current_user.is_authenticated %}
+            <div class="row">
+                <div class="col-2"></div>
+                <div id="reg" class="alert alert-warning not-logged-in col-8">
+                    Login or register to earn badges and keep track of your progress!
+                </div>
+            </div>
+        {% endif %}
+        {% for world in worlds %}
+            <div class="row">
+                <center>
+                    {% for level in world %}
+                        <a href="{{ url_for('serve_level', level=level.tag) }}">
+                            <div style="position: relative;">
+                                <img src="{{ url_for('static',
+                                filename='assets/{skin}/ground.png'.format(skin=level.skin)) }}" />
+                                <div style="position: absolute; top: 0; left: 0;" class="badges">
+                                    {% set progress = level_progress.get(level.id) %}
+                                    {% set thresh = level['badge_thresholds'] %}
+                                    {% if progress %}
+                                        <img src="{{ url_for('static', filename='assets/global/badges/green_tick.png') }}" style="height: 45%; width: 45%; border: 0;"><br/>
+                                        {% if (progress['code_score'] <= thresh['code_score']) %}
+                                            <img src="{{ url_for('static', filename='assets/global/badges/blue_badge.png') }}" style="height: 45%; width: 45%; border: 0;">
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_badge.png') }}" style="height: 45%; width: 45%; border: 0">
+                                        {% endif %}
+                                        {% if (progress['execution_score'] <= thresh['execution_score']) %}
+                                            <img src="{{ url_for('static', filename='assets/global/badges/red_badge.png') }}" style="height: 45%; width: 45%; border: 0">
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_badge.png') }}" style="height: 45%; width: 45%; border: 0">
+                                        {% endif %}
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_tick.png') }}" style="height: 45%; width: 45%; border: 0;"><br/>
+                                        <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_badge.png') }}" style="height: 45%; width: 45%; border: 0">
+                                        <img src="{{ url_for('static', filename='assets/global/badges/greyed_out_badge.png') }}" style="height: 45%; width: 45%; border: 0">
+                                    {% endif %}
+                                </div>
+                                <h3 style="color:black;">{{ level.name }}</h3>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </center>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

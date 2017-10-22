@@ -1,12 +1,13 @@
 module Interpreter (
-    testNum,
     runInterpreter,
     environment,
-    nextResume
+    nextResume,
+    astCost
 ) where
 
 
 import Data.Argonaut.Core (jNull)
+import Data.Foldable (sum)
 import Data.Functor ((<#>))
 import Data.Map (lookup, fromFoldable)
 import Data.Maybe (Maybe(..))
@@ -14,8 +15,8 @@ import Data.Traversable (traverse_)
 import Data.Tuple (Tuple(..))
 import Data.Tuple.Nested ((/\), over2, get1, get2)
 import Data.Unfoldable (replicateA)
-import Prelude ( Unit, bind, const, discard, pure, unit
-               , (#), ($), (&&), (<<<), (==), (>>=), (||), (*>))
+import Prelude ( Unit, bind, const, discard, pure, unit, map
+               , (#), ($), (&&), (<<<), (==), (>>=), (||), (*>), (+))
 import Run (run)
 import Run.Streaming (Resume(..), runYield, yield)
 import Run.State (get, modify, evalState)
@@ -27,8 +28,16 @@ import Types ( AST(..), Statement(..), World, Definition(..), Interpreter
 import World (step, moves, directions, facing, predicates, inspect)
 
 
-testNum :: Int
-testNum = 1
+astCost :: AST -> Int
+astCost (AST statements) = go (BlockStatement statements)
+  where
+    go :: Statement -> Int
+    go (CommandStatement _)             = 1
+    go (TimesStatement _ s)             = 1 + go s
+    go (IfStatement _ ifs Nothing)      = 1 + go ifs
+    go (IfStatement _ ifs (Just elses)) = 1 + go ifs + go elses
+    go (Comment _ _)                    = 0
+    go (BlockStatement ss)              = sum $ map go ss
 
 
 runInterpreter

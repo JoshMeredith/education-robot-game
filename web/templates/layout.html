@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="shortcut icon" href="{{ url_for('static', filename='assets/global/favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+        <!-- TODO: favicon -->
+        <title>Codebot | {% block title %}{% endblock %}</title>
+    </head>
+
+    {% block head_scripts %}
+    {% endblock %}
+
+    <body style="background-color: #d8d8d8">
+        <header>
+            <div id="branding">
+                <a href="{{ url_for('home') }}">
+                    <img id="favicon" src="{{ url_for('static', filename='assets/global/banner_2.png') }}"/>
+                </a>
+            </div>
+
+            <nav>
+                <div class="nav rightbar">
+                    {% if current_user.is_authenticated %}
+                        <div>
+                            <ul class="nav">
+                                <li><div id="welcome">Hi {{ current_user.username }}!</div></li>
+                                <li>
+                                    <a class="btn btn-sm btn-warning" href="{{ url_for('logout') }}">Logout</a>
+                                </li>
+                                <li>
+                                </li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div>
+                        {% set header_form = UsernamePasswordForm() %}
+                        <form method="POST" action="{{ url_for('user_form') }}">
+                            {{ header_form.csrf_token }}
+                            <ul class="nav">
+                                <li>{{ header_form.username(class="form-control-sm") }}</li>
+                                <li>{{ header_form.password(class="form-control-sm") }}</li>
+                                <li>{{ header_form.login(class="btn btn-sm btn-success") }}</li>
+                                <li>{{ header_form.signup(class="btn btn-sm btn-info") }}</li>
+                                <li>
+                                </li>
+                            </ul>
+                        </form>
+                        </div>
+                    {% endif %}
+                    <a class="levels-btn btn btn-sm btn-primary" href="{{ url_for('level_selector') }}">Levels</a>
+                </div>
+            </nav>
+
+        </header>
+
+        {% with messages = get_flashed_messages() %}
+            <div id="notifications" class="notifications">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="notification alert alert-danger alert-dismissable">
+                            <a href="#" class="close" data-dismiss="alert"
+                                                      aria-label="close">&times;</a>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endwith %}
+        <section id="main">
+            {% block main %}
+            {% endblock %}
+        </section>
+
+        {% block body_scripts %}
+        {% endblock %}
+    </body>
+</html>

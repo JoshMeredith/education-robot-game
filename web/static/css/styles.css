@@ -1,3 +1,10 @@
+/* MAIN COLOURS*/
+  /*
+  Charcoal: #3a3937
+  Rust: #b14609
+  platinum: #d8d8d8
+  */
+
 [v-cloak] {display: none;}
 
 body {
@@ -6,7 +13,11 @@ body {
     line-height: 1.5;
     padding: 0;
     margin: 0;
-    background-color: #f4f4f4;
+    background-color: #d8d8d8;
+}
+
+.errorUnderline {
+    text-decoration: bold;
 }
 
 /* Global */
@@ -29,12 +40,32 @@ ul {
 
 /** --------------------------------- HEADER ------------------------------- **/
 header {
-    background: #35424a;
+    background: #3a3937;
     color: #ffffff;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    min-height: 40px;
-    border-bottom: #00BFFF 5px solid;
+    overflow: hidden;
+    height: 65px;
+    border-bottom: #800000 2px solid;
+}
+
+.not-logged-in {
+    margin-top: 10px;
+}
+
+.inp {
+  width: 10vw;
+  height: 1.5vw;
+  font-size: 20px;
+}
+
+.inputsm {
+    height: 2vw;
+    width: 10vw;
+}
+
+.button_h1 {
+  width: 5vw;
+  height: 1.5vw;
+  font-size: 1vw;
 }
 
 .current {
@@ -45,8 +76,11 @@ header #branding {
     float: left;
     vertical-align: middle;
     /* text-align: center; */
-    width: 45%;
+    width: 30%;
     margin-bottom: 0px;
+    padding-top: 0.3vw;
+    padding-left: 1vw;
+    padding-bottom: 0.3vw;
 }
 
 header #branding span {
@@ -54,37 +88,82 @@ header #branding span {
 }
 
 header #favicon {
-  vertical-align: middle;
-  height: 60px;
+  height: 55px;
   float: left;
 }
 
 header nav {
     float: right;
-    margin-top: 30px;
+    margin-top: 14px;
+    margin-right: 10px;
 }
 
+/*
 header li {
     float: left;
     display: inline;
-    padding: 0 40px 20px 40px;
+    padding: 0 1vw 0 1vw;
 }
+*/
+
+/*.rightbar li {
+    padding-left: 30px;
+    padding-right: 30px;
+}*/
+
+.rightbar li {
+    padding-left: 5px;
+    font-size: 1em;
+}
+
+#welcome {
+    margin-top: 5px;
+    margin-right: 3px;
+}
+
 
 header a {
     color: #C0C0C0;
     text-decoration: none;
-    text-transform: uppercase;
-    font-size: 16px;
+    /*text-transform: uppercase;*/
+    font-size: 1em;
 }
 
 header .current a {
-  color: #00BFFF;
+  color: #ddd;
   font-weight: bold;
 }
 
 header a:hover {
-    color:#cccccc;
-    font-weight: bold;
+    color: #cccccc;
+    /*font-weight: bold;*/
+    /*font-style: normal;*/
+}
+/** ------------------------------ INDEX ----------------------------------- **/
+.notifications {
+    position: fixed;
+    top: 80px;
+    width: 0;
+    right: 0;
+    bottom: 0;
+    overflow: visible;
+    z-index: 1;
+}
+
+#notifications .notification {
+    text-align: left;
+    margin-bottom: 0.572em;
+    font-size: 0.875em;
+    border-radius: 0.5em;
+
+    box-shadow: black 0.072em 0.072em 0.144em;
+}
+
+.notifications .notification {
+    width: 300px;
+    float: right;
+    margin-right: 20px;
+    clear: both;
 }
 
 /** --------------------------- CODE SECTION ------------------------------- **/
@@ -100,9 +179,9 @@ form#codeBox fieldset {
   text-align: left;
 }
 
-#code_area{
+#code_area_wrapper{
     font-family: monospace;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 form#codeBox fieldset {
@@ -124,7 +203,7 @@ form#codeBox textarea {
 }
 
 form #button_1 {
-  height: 30px;
+  height: 5vw;
   width: 200px;
 }
 
@@ -132,6 +211,16 @@ form #button_2 {
   height: 30px;
   width: 200px;
   background-color: #00BFFF;
+}
+
+#scrollable {
+  height: 89.3vh;
+  overflow-y: scroll;
+}
+
+#scrollable div:hover {
+    border-color: #00BFFF;
+    opacity: 0.7;
 }
 
 /** --------------------------- GRID SECTION ------------------------------- **/
@@ -151,20 +240,20 @@ form #button_2 {
 
 .defaultStatus {
   background-color: #c4c4c4;
-  border-radius: 10px; 
+  border-radius: 10px;
   font-family: monospace;
 
 }
 
 .winStatus {
     background-color: #abf7ab;
-    border-radius: 10px; 
+    border-radius: 10px;
     font-family: monospace;
 }
 
 .lossStatus {
     background-color: #ff816b;
-    border-radius: 10px; 
+    border-radius: 10px;
     font-family: monospace;
 }
 
@@ -196,11 +285,10 @@ table {
     background: url("../assets/calm.jpg");
     background-size: 100%;
     */
-    height: 803px;
+    height: 80vh;
     padding-top: 5px;
     padding-bottom: 5px;
     width: 100%;
-    font-size: 0;
     margin: auto;
     text-align: center;
 }
@@ -221,13 +309,13 @@ table {
 
 #challengesList a:hover {
     border-color: #00BFFF;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 #challengesList img { /* Edits to this are within (relative to) the border of each image it seems */
     border: 4px solid #35424a;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
     width: 100%;
     position: relative;
 }

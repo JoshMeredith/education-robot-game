@@ -20,8 +20,9 @@ import Data.String (fromCharArray, trim, toLower)
 import Data.Tuple (Tuple, fst)
 import Prelude ( (<$>), ($), (*>), (<*), (<>), (*), (+), (#), (/=), (==), (||)
                , (<*>), (>), void, pure, bind, discard, map)
-import Text.Parsing.Parser (ParserT, fail, runParserT)
+import Text.Parsing.Parser (ParserT, fail, runParserT, parseErrorPosition)
 import Text.Parsing.Parser.Combinators (try, between, optionMaybe, optional)
+import Text.Parsing.Parser.Pos (Position(..))
 import Text.Parsing.Parser.String (string, skipSpaces, eof, satisfy, char)
 import Text.Parsing.Parser.Token (letter, digit)
 import Unsafe.Coerce (unsafeCoerce)
@@ -43,11 +44,26 @@ parseAST
   :: Array LanguageExtras
   -> Array (Tuple String Definition)
   -> String
-  -> {ast :: AST, messages :: Array String, names :: Array String}
+  -> { ast           :: AST
+     , messages      :: Array String
+     , names         :: Array String
+     , errorLocation :: {line :: Int, ch :: Int}
+     }
 parseAST lang defs code =
   case evalState (runParserT code ast) (map fst defs) of
-    Left  _ -> {ast: unsafeCoerce jNull, messages: [], names: []}
-    Right a -> {ast: a                 , messages: [], names: []}
+    Left  p -> let
+                 Position pos = parseErrorPosition p
+               in
+                 { ast          : unsafeCoerce jNull
+                 , messages     : []
+                 , names        : []
+                 , errorLocation: {line: pos.line, ch: pos.column}
+                 }
+    Right a ->   { ast          : a
+                 , messages     : []
+                 , names        : []
+                 , errorLocation: unsafeCoerce jNull
+                 }
 
 
 prettyPrint :: AST -> String
@@ -84,10 +100,10 @@ prettyPrint (AST a) = a # map (go 0) # fold # trim
       indentation n <> "{" <> multi n ss <> indentation n <> "}"
 
     go n (Comment true c) =
-      indentation n <> "//" <> c
+      indentation n <> "#" <> c
 
     go n (Comment false c) =
-      " //" <> c
+      " #" <> c
 
     showExp (BoolExp b) = show b
     showExp (Question ClearInFront) = "clearInFront?"
@@ -200,6 +216,6 @@ newlineWhiteSpace = do
 comment :: ParserT String (State (Array String)) Statement
 comment = do
   ownLine <- newlineWhiteSpace
-  void $ string "//"
+  void $ string "#"
   c <- many $ satisfy \c -> c /= '\n'
   pure $ Comment ownLine (fromCharArray c)
