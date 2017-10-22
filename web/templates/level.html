@@ -76,8 +76,8 @@
             </div>
 
             <!-- Grid Rendering -->
-            <div style="background-color: #303030; padding: 0; padding-top: 1px; padding-left: 1px;" >
-                <div v-for="row in levelMap" class="row" style="padding: 0; margin: 0; width: 100%">
+            <div style="background-color: #303030; padding: 0; padding-top: 1px; padding-left: 1px; padding-right: 1px;" >
+                <div v-for="row in levelMap" class="row" style="padding: 0; margin: 0; width: 100%;">
                     <div v-for="col in row" class="col" style="padding: 0; margin: 0; margin-right: 1px; margin-bottom: 1px;">
                         <div style="position: relative;">
                             <img src="{{ url_for('static', filename='assets/grass/ground.png') }}" id="cell">
