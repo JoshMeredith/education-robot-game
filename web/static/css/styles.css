@@ -42,10 +42,21 @@ ul {
 header {
     background: #3a3937;
     color: #ffffff;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    overflow: hidden;
     height: 8vh;
-    /*border-bottom: #00BFFF 5px solid;*/
+    border-bottom: #800000 2px solid;
+}
+
+.inp {
+  width: 10vw;
+  height: 1.5vw;
+  font-size: 20px;
+}
+
+.button_h1 {
+  width: 5vw;
+  height: 1.5vw;
+  font-size: 1vw;
 }
 
 .current {
@@ -56,8 +67,11 @@ header #branding {
     float: left;
     vertical-align: middle;
     /* text-align: center; */
-    width: 45%;
+    width: 30%;
     margin-bottom: 0px;
+    padding-top: 0.3vw;
+    padding-left: 1vw;
+    padding-bottom: 0.3vw;
 }
 
 header #branding span {
@@ -72,20 +86,22 @@ header #favicon {
 
 header nav {
     float: right;
-    margin-top: 30px;
+    margin-top: 1vw;
+    margin-right: 1vw;
+    margin-bottom: 1vw;
 }
 
 header li {
     float: left;
     display: inline;
-    padding: 0 40px 20px 40px;
+    padding: 0 1vw 0 1vw;
 }
 
 header a {
     color: #C0C0C0;
     text-decoration: none;
-    text-transform: uppercase;
-    font-size: 16px;
+    /*text-transform: uppercase;*/
+    font-size: 1vw;
 }
 
 header .current a {
@@ -95,8 +111,8 @@ header .current a {
 
 header a:hover {
     color: #cccccc;
-    font-weight: bold;
-    font-style: normal;
+    /*font-weight: bold;*/
+    /*font-style: normal;*/
 }
 /** ------------------------------ INDEX ----------------------------------- **/
 
@@ -139,7 +155,7 @@ form#codeBox textarea {
 }
 
 form #button_1 {
-  height: 30px;
+  height: 5vw;
   width: 200px;
 }
 
@@ -166,20 +182,20 @@ form #button_2 {
 
 .defaultStatus {
   background-color: #c4c4c4;
-  border-radius: 10px; 
+  border-radius: 10px;
   font-family: monospace;
 
 }
 
 .winStatus {
     background-color: #abf7ab;
-    border-radius: 10px; 
+    border-radius: 10px;
     font-family: monospace;
 }
 
 .lossStatus {
     background-color: #ff816b;
-    border-radius: 10px; 
+    border-radius: 10px;
     font-family: monospace;
 }
 
