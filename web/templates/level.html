@@ -93,7 +93,7 @@
             {% for world in worlds %}
                 {% for level in world %}
                 <a href="{{ url_for('serve_level', level=level.tag) }}">
-                    <div style="width: 100%; margin-bottom: 5px; border-radius: 0.65em;
+                    <div style="width: 100%; margin-bottom: 5px; border-radius: 0.65em; border: 1px solid #35424a;
                                 background-image: url({{ url_for('static',
                                     filename='assets/{skin}/ground.png'.format(skin=level.skin)) }});">
                         <center>
