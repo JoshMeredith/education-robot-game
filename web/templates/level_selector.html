@@ -4,12 +4,14 @@
 
 {% block main %}
     <div id="challengesList" class="container-fluid">
-        <div class="row">
-            <div class="col-2"></div>
-            <div id="reg" class="alert alert-warning not-logged-in col-8">
-                Register to earn badges and keep track of your progress!
+        {% if not current_user.is_authenticated %}
+            <div class="row">
+                <div class="col-2"></div>
+                <div id="reg" class="alert alert-warning not-logged-in col-8">
+                    Login or register to earn badges and keep track of your progress!
+                </div>
             </div>
-        </div>
+        {% endif %}
         {% for world in worlds %}
             <div class="row">
                 <center>
