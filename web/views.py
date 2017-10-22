@@ -58,52 +58,30 @@ def serve_level(level):
 @app.route('/levels')
 @app.route('/levels/')
 def level_selector():
-
     return render_template('level_selector.html',
                            worlds=worldLevels(),
                            level_progress=levelProgress())
 
 def signup_form(form):
-    if form.validate_on_submit():
-        exists = db.session.query(User.id).filter(
-                User.username.ilike(form.username.data)).scalar()
-        if exists:
-            form.username.errors.append('That username is already taken!')
-            return render_template('signup.html', form=form)
+    exists = db.session.query(User.id).filter(
+            User.username.ilike(form.username.data)).scalar()
+    if exists:
+        flash('That username is already taken!')
+        return redirect(url_for('level_selector'))
 
-        user = User(username=form.username.data, password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
+    user = User(username=form.username.data, password=form.password.data)
+    db.session.add(user)
+    db.session.commit()
 
-        flash('Successfully created an account! You can login now.')
-        return redirect(url_for('login'))
-
-    return render_template('signup.html', form=form)
+    return redirect(url_for('login'))
 
 def login_form(form):
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user and user.is_correct_password(form.password.data):
-            login_user(user)
-            # TODO: redirect to profile page?
-
-            flash('Welcome to Codebot!')
-            return redirect(url_for('home'))
-        else:
-            flash('Invalid username / password', 'error')
-            return redirect(url_for('login'))
-
-    return render_template('login.html', form=form)
-
-@app.route('/login', methods=["GET","POST"])
-def login():
-    form = UsernamePasswordForm()
-    return login_form(form)
-
-@app.route('/signup', methods=["GET","POST"])
-def signup():
-    form = UsernamePasswordForm()
-    return signup_form(form)
+    user = User.query.filter_by(username=form.username.data).first()
+    if user and user.is_correct_password(form.password.data):
+        login_user(user)
+    else:
+        flash('Invalid username / password', 'error')
+    return redirect(url_for('level_selector'))
 
 @app.route('/user_form', methods=["POST"])
 def user_form():
@@ -114,13 +92,19 @@ def user_form():
             return login_form(form)
         elif form.signup.data:
             return signup_form(form)
+
+    if not form.validate():
+        if form and form.errors:
+            for fieldName, errorMessages in form.errors.items():
+                flash("You must provide a %s" % fieldName)
+        return redirect(url_for('level_selector'))
+
     return "Error", 404
 
 @app.route('/logout')
 def logout():
     logout_user()
-    flash('Successfully logged you out.')
-    return redirect(url_for('home'))
+    return redirect(url_for('level_selector'))
 
 @app.route('/update_score', methods=["POST"])
 def update_score():
