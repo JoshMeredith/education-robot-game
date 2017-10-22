@@ -50,7 +50,7 @@
                 </fieldset>
                 <div class="text-center">
                     <button v-on:click="uiRunGame" class="btn btn-lg btn-success" type="button" style="width:200px">
-                    PLAY NOW</button>
+                    PLAY</button>
                     <button v-on:click="resetLevel" class="btn btn-lg btn-primary" type="button" style="width:200px; color: white;">
                     RESET</button>
                 </div>
@@ -61,7 +61,7 @@
         <div class="col-4">
             <!-- Status Bar -->
             <div v-if="syntaxParsed && !gameOver" class=" text-center alert-info">
-                <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
+                <p>Click the Play button when you're ready <br>for Codebot to run your code.</p>
             </div>
             <div v-else-if="!syntaxParsed" class="alert-danger text-center" v-cloak>
                 <p>Codebot couldn't understand your code. <br/> Double-check you
@@ -69,10 +69,10 @@
                 loops!</p>
             </div>
             <div v-else-if="syntaxParsed && gameOver && victory" class="alert-success text-center" v-cloak>
-                <p>Congratulations! <br>You beat the level.</p>
+                <p>Congratulations! <br>You helped Codebot finish the level.</p>
             </div>
             <div v-else-if="syntaxParsed && gameOver && !victory" class="alert-danger text-center" v-cloak>
-                <p>Oh no! Codebot didn't collect all of the goals. <br>Click the reset button to try again.</p>
+                <p>Oh no! Codebot didn't collect all of the goals. <br>Click the Reset button to try again.</p>
             </div>
 
             <!-- Grid Rendering -->
