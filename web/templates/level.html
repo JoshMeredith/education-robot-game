@@ -23,7 +23,7 @@
 {% block main %}
     <div class="row container-fluid" style="padding-top: 10px">
         <!-- left hand side -->
-        <div class="col-6">
+        <div class="col-7">
             <form >
                 <fieldset>
 
@@ -61,7 +61,7 @@
         </div>
 
         <!-- Right hand side -->
-        <div class="col-5">
+        <div class="col-4">
             <!-- Status Bar -->
             <div v-if="!gameOver" class="defaultStatus text-center">
                 <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
@@ -75,16 +75,16 @@
             </div>
 
             <!-- Grid Rendering -->
-            <table>
-                <tr v-for="row in levelMap">
-                    <td v-for="col in row">
+            <div style="background-color: #303030; padding: 0; padding-top: 1px; padding-left: 1px;" >
+                <div v-for="row in levelMap" class="row" style="padding: 0; margin: 0; width: 100%">
+                    <div v-for="col in row" class="col" style="padding: 0; margin: 0; margin-right: 1px; margin-bottom: 1px;">
                         <div style="position: relative;">
                             <img src="{{ url_for('static', filename='assets/grass/ground.png') }}" id="cell">
                             <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
                         </div>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-1">
