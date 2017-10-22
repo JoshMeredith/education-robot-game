@@ -90,7 +90,18 @@
         <div class="col-1">
             <h6 class="text-center"> LEVEL
             SELECTOR</h6>
-
+            {% for world in worlds %}
+                {% for level in world %}
+                <div style="width: 100%; margin-bottom: 5px;
+                            background-image: url({{ url_for('static',
+                                filename='assets/{skin}/ground.png'.format(skin=level.skin)) }});">
+                    <center>
+                        {{ level.name }} <br />
+                    icons
+                    </center>
+                </div>
+                {% endfor %}
+            {% endfor %}
         </div>
 
     </div>

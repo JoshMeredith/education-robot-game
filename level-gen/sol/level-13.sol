@@ -1,7 +1,14 @@
 times (10) {
-    if (clearInFront?) {
-        walkForward;
-    } else {
-        turnLeft;
+    times (10) {
+    	if (clearInFront?) {
+    		walkForward;
+    	}
     }
+    turnLeft;
+    times (10) {
+    	if (clearInFront?) {
+    		walkForward;
+    	}
+    }
+    turnRight;
 }

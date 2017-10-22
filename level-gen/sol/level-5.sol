@@ -1,4 +1,4 @@
-// Write some code!
+# Write some code!
 moveRight;
 moveUp;
 times (3) {
@@ -7,31 +7,22 @@ times (3) {
 times (4) {
     moveDown;
 }
-times (3) {
+moveLeft;
+times (8) {
+    moveDown;
     moveRight;
 }
-times (2) {
-    moveLeft;
-}
-times (3) {
-    moveDown;
-}
-moveRight;
-times (5) {
-    moveDown;
-}
-times (4) {
-    moveLeft;
+times(3) {
+	moveLeft;
 }
 moveDown;
-times (13) {
-    moveLeft;
+times(10) {
+	moveLeft;
 }
-times (4) {
-    moveUp;
+times(4) {
+	moveUp;
 }
-moveRight;
-moveRight;
-moveDown;
-moveDown;
-moveRight;
+times(5) {
+	moveRight;
+	moveDown;
+}
