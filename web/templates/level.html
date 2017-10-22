@@ -60,14 +60,18 @@
         <!-- Right hand side -->
         <div class="col-4">
             <!-- Status Bar -->
-            <div v-if="!gameOver" class="defaultStatus text-center">
+            <div v-if="syntaxParsed && !gameOver" class=" text-center alert-info">
                 <p>Click the run button when you're ready <br>for Codebot to run your code.</p>
             </div>
-            <div v-else-if="gameOver && victory" class="winStatus text-center" v-cloak>
+            <div v-else-if="!syntaxParsed" class="alert-danger text-center" v-cloak>
+                <p>Codebot couldn't understand your code. <br/> Double-check you
+                have semicolons between statements and curly braces around times
+                loops!</p>
+            </div>
+            <div v-else-if="syntaxParsed && gameOver && victory" class="alert-success text-center" v-cloak>
                 <p>Congratulations! <br>You beat the level.</p>
             </div>
-
-            <div v-else-if="gameOver && !victory" class="lossStatus text-center" v-cloak>
+            <div v-else-if="syntaxParsed && gameOver && !victory" class="alert-danger text-center" v-cloak>
                 <p>Oh no! Codebot didn't collect all of the goals. <br>Click the reset button to try again.</p>
             </div>
 
@@ -206,6 +210,7 @@ var game = new Vue({
     el: "#main",
     data: {
         levelMap: grid.render(),
+        syntaxParsed: true,
         gameOver: false,
         victory: false,
         interval: null,
@@ -266,9 +271,13 @@ var game = new Vue({
 
             var ast = parsed.ast;
 
-            if (ast !== null) {
-                this.codeBox = Parser.prettyPrint(ast);
+            if (ast === null) {
+                this.syntaxParsed = false;
+                return;
             }
+
+            this.syntaxParsed = true;
+            this.codeBox = Parser.prettyPrint(ast);
 
             if (parsed.errorLocation !== null) {
                 // Codemirror uses 0 indexing on lines for some reason:
