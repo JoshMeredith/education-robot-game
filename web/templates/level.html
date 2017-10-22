@@ -75,16 +75,16 @@
             </div>
 
             <!-- Grid Rendering -->
-            <table>
-                <tr v-for="row in levelMap">
-                    <td v-for="col in row">
+            <div>
+                <div v-for="row in levelMap" class="row" style="padding-bottom: 0.1vh;">
+                    <div v-for="col in row" class="col" style="padding-left: 0; padding-right: 0.1vh;">
                         <div style="position: relative;">
                             <img src="{{ url_for('static', filename='assets/grass/ground.png') }}" id="cell">
                             <img v-for="sprite in col" v-bind:src="sprite" id="cell" style="position: absolute; top: 0; left: 0;"/>
                         </div>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-1">
